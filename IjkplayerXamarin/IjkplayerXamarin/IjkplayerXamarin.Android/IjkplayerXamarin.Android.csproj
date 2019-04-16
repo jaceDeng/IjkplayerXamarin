@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -58,6 +58,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MainActivity.cs" />
+    <Compile Include="MediaPlayerRender.cs" />
+    <Compile Include="Media\AndroidMediaController.cs" />
+    <Compile Include="Media\FileMediaDataSource.cs" />
+    <Compile Include="Media\IjkVideoView.cs" />
+    <Compile Include="Media\IMediaController.cs" />
+    <Compile Include="Media\IRenderView.cs" />
+    <Compile Include="Media\MeasureHelper.cs" />
+    <Compile Include="Media\MediaPlayerCompat.cs" />
+    <Compile Include="Media\SurfaceRenderView.cs" />
+    <Compile Include="Media\TextureRenderView.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -85,17 +95,21 @@
     <AndroidResource Include="Resources\mipmap-xxxhdpi\launcher_foreground.png" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Resources\drawable\" />
     <Folder Include="Resources\drawable-hdpi\" />
     <Folder Include="Resources\drawable-xhdpi\" />
     <Folder Include="Resources\drawable-xxhdpi\" />
     <Folder Include="Resources\drawable-xxxhdpi\" />
+    <Folder Include="Resources\drawable\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Ijkplayer.Droid\Ijkplayer.Droid.csproj">
+      <Project>{852c5fb3-6f25-4b5b-9ce5-110021ed70c2}</Project>
+      <Name>Ijkplayer.Droid</Name>
+    </ProjectReference>
     <ProjectReference Include="..\IjkplayerXamarin\IjkplayerXamarin.csproj">
       <Project>{5DD7BC67-6D6A-4570-B431-ABB784B2FB8A}</Project>
       <Name>IjkplayerXamarin</Name>
     </ProjectReference>
   </ItemGroup>
- <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>

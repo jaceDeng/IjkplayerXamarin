@@ -6,9 +6,7 @@
 
     <StackLayout>
         <!-- Place new controls here -->
-        <Label Text="Welcome to Xamarin.Forms!" 
-           HorizontalOptions="Center"
-           VerticalOptions="CenterAndExpand" />
+        <local:MediaPlayer  HeightRequest="300" VerticalOptions="Fill" HorizontalOptions="Fill"   VideoURI="http://vfx.mtime.cn/Video/2017/03/31/mp4/170331093811717750.mp4"></local:MediaPlayer>
     </StackLayout>
 
 </ContentPage>
