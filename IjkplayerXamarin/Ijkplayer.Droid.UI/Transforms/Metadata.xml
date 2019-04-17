@@ -1,0 +1,20 @@
+﻿<metadata>
+  <!--
+  This sample removes the class: android.support.v4.content.AsyncTaskLoader.LoadTask:
+  <remove-node path="/api/package[@name='android.support.v4.content']/class[@name='AsyncTaskLoader.LoadTask']" />
+  
+  This sample removes the method: android.support.v4.content.CursorLoader.loadInBackground:
+  <remove-node path="/api/package[@name='android.support.v4.content']/class[@name='CursorLoader']/method[@name='loadInBackground']" />
+  -->
+  <attr path="/api/package[@name='com.shuyu.gsyvideoplayer.listener']/interface[@name='GSYMediaPlayerListener']/method[@name='onVideoResume' and count(parameter)=1 and parameter[1][@type='boolean']]"
+        name="managedName"
+        >OnVideoResumeBoolean</attr>
+  <attr path="/api/package[@name='com.shuyu.gsyvideoplayer.video.base']/class[@name='GSYVideoView']/method[@name='isShowPauseCover' and count(parameter)=0]"
+        
+        name="propertyName"></attr>
+ 
+  <attr path="/api/package[@name='com.shuyu.gsyvideoplayer.video.base']/class[@name='GSYVideoView']/method[@name='onVideoResume' and count(parameter)=1 and parameter[1][@type='boolean']]"
+        name="managedName" >OnVideoResumeBoolean</attr>
+  <attr path="/api/package[@name='com.shuyu.gsyvideoplayer.render.view.listener']/interface[@name='GSYVideoGLRenderErrorListener']/method[@name='onError']/parameter[2]"
+      name="name"  >error</attr>
+</metadata>

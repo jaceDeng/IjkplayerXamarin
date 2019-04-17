@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<package>
+  <metadata>
+    <!--*-->
+    <id>Ijkplayer.Droid.UI</id>
+    <!--*-->
+    <version>0.8.8</version>
+    <title>Ijkplayer.Droid.UI</title>
+    <!--*-->
+    <authors>Shuyu Guo</authors>
+    <owners>Shuyu Guo</owners>
+    <!--
+    <licenseUrl></licenseUrl>
+    <projectUrl></projectUrl>
+    <iconUrl></iconUrl>
+-->
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <!--*-->
+    <description>https://github.com/CarGuo/GSYVideoPlayer xamarin android 绑定Ijkplayer </description>
+    <!--*-->
+    <releaseNotes> https://github.com/CarGuo/GSYVideoPlayer xamarin android 绑定Ijkplayer </releaseNotes>
+    <copyright>
+    </copyright>
+    <tags>
+    </tags>
+    <dependencies>
+      <dependency id="Ijkplayer.Droid" version="0.8.8" />
+    </dependencies>
+  </metadata>
+</package>

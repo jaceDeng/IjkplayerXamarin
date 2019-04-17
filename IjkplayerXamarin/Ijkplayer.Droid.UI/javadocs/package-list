@@ -1,0 +1,16 @@
+com.shuyu.gsyvideoplayer
+com.shuyu.gsyvideoplayer.builder
+com.shuyu.gsyvideoplayer.cache
+com.shuyu.gsyvideoplayer.listener
+com.shuyu.gsyvideoplayer.model
+com.shuyu.gsyvideoplayer.player
+com.shuyu.gsyvideoplayer.render
+com.shuyu.gsyvideoplayer.render.effect
+com.shuyu.gsyvideoplayer.render.glrender
+com.shuyu.gsyvideoplayer.render.view
+com.shuyu.gsyvideoplayer.render.view.listener
+com.shuyu.gsyvideoplayer.utils
+com.shuyu.gsyvideoplayer.video
+com.shuyu.gsyvideoplayer.video.base
+com.shuyu.gsyvideoplayer.view
+moe.codeest.enviews
