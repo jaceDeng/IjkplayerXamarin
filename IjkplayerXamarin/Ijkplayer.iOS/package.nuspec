@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<package>
+  <metadata>
+    <!--*-->
+    <id>Ijkplayer.iOS</id>
+    <!--*-->
+    <version>0.8.8</version>
+    <title>Ijkplayer.iOS</title>
+    <!--*-->
+    <authors>bilibili</authors>
+    <owners>bilibili</owners>
+    <!--
+    <licenseUrl></licenseUrl>
+    <projectUrl></projectUrl>
+    <iconUrl></iconUrl>
+-->
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <!--*-->
+    <description>Ijkplayer的Xamarin iOS绑定库 不是官方发布只是热心人绑定 Ijkplayer  </description>
+    <!--*-->
+    <releaseNotes>Ijkplayer的Xamarin iOS绑定库 不是官方发布只是热心人绑定 Ijkplayer  </releaseNotes>
+    <copyright>Copyright ©  2017</copyright>
+    <tags>
+    </tags>
+    <dependencies>
+      <!--
+      <dependency id="SampleDependency" version="1.0" />
+-->
+    </dependencies>
+  </metadata>
+</package>
