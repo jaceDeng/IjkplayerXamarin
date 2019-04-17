@@ -1,4 +1,4 @@
-﻿<?xml version="1.0"?>
+<?xml version="1.0"?>
 <package>
   <metadata>
     <!--*-->
@@ -9,7 +9,7 @@
     <!--*-->
     <authors>bilibili</authors>
     <owners>bilibili</owners>
-<!--
+    <!--
     <licenseUrl></licenseUrl>
     <projectUrl></projectUrl>
     <iconUrl></iconUrl>
@@ -19,8 +19,9 @@
     <description>Ijkplayer的Xamarin 安卓绑定库 不是官方发布只是热心人绑定 Ijkplayer Xamarin Android </description>
     <!--*-->
     <releaseNotes>Ijkplayer的Xamarin 安卓绑定库 不是官方发布只是热心人绑定 Ijkplayer Xamarin Android 目前是0.8.8 带了so x86架构 armv7 arm64 </releaseNotes>
-    <copyright>$copyright$</copyright>
-    <tags> </tags>
+    <copyright>Copyright ©  2018</copyright>
+    <tags>
+    </tags>
     <dependencies>
       <!--
       <dependency id="SampleDependency" version="1.0" />
