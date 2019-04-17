@@ -2,13 +2,13 @@
 <package>
   <metadata>
     <!--*-->
-    <id>$id$</id>
+    <id>Ijkplayer.Droid</id>
     <!--*-->
-    <version>$version$</version>
-    <title></title>
+    <version>0.8.8</version>
+    <title>Ijkplayer.Droid</title>
     <!--*-->
-    <authors>$author$</authors>
-    <owners>$author$</owners>
+    <authors>bilibili</authors>
+    <owners>bilibili</owners>
 <!--
     <licenseUrl></licenseUrl>
     <projectUrl></projectUrl>
@@ -16,9 +16,9 @@
 -->
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <!--*-->
-    <description>$description$</description>
+    <description>Ijkplayer的Xamarin 安卓绑定库 不是官方发布只是热心人绑定 Ijkplayer Xamarin Android </description>
     <!--*-->
-    <releaseNotes> </releaseNotes>
+    <releaseNotes>Ijkplayer的Xamarin 安卓绑定库 不是官方发布只是热心人绑定 Ijkplayer Xamarin Android 目前是0.8.8 带了so x86架构 armv7 arm64 </releaseNotes>
     <copyright>$copyright$</copyright>
     <tags> </tags>
     <dependencies>
