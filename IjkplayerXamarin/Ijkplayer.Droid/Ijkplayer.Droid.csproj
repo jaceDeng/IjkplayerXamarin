@@ -160,6 +160,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="javadocs\package-list" />
+    <None Include="package.nuspec" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.Bindings.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

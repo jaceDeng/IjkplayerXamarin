@@ -67,7 +67,7 @@ namespace IjkplayerXamarin.Droid
         }
 
          
-        public virtual void show()
+        public virtual void Show()
         {
             base.Show();
             if (mActionBar != null)
@@ -76,7 +76,7 @@ namespace IjkplayerXamarin.Droid
             }
         }
 
-        public virtual void hide()
+        public virtual void Hide()
         {
             base.Hide();
             if (mActionBar != null)
@@ -101,15 +101,15 @@ namespace IjkplayerXamarin.Droid
         {
             mShowOnceArray.Add(view);
             view.Visibility = ViewStates.Visible; //View.VISIBLE;
-            show();
+            Show();
         }
 
-        public void show(int timeout)
+        public void Show(int timeout)
         {
             throw new System.NotImplementedException();
         }
 
-        public void showOnce(View view)
+        public void ShowOnce(View view)
         {
             throw new System.NotImplementedException();
         }

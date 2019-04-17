@@ -466,7 +466,7 @@ namespace IjkplayerXamarin.Droid
             {
                 if (mMediaController != null)
                 {
-                    mMediaController.hide();
+                    mMediaController.Hide();
                 }
                 mMediaController = value;
                 attachMediaController();
@@ -562,7 +562,7 @@ namespace IjkplayerXamarin.Droid
                                 outerInstance.Start();
                                 if (outerInstance.mMediaController != null)
                                 {
-                                    outerInstance.mMediaController.show();
+                                    outerInstance.mMediaController.Show();
                                 }
                             }
                             else if (!outerInstance.IsPlaying && (seekToPosition != 0 || outerInstance.CurrentPosition > 0))
@@ -570,7 +570,7 @@ namespace IjkplayerXamarin.Droid
                                 if (outerInstance.mMediaController != null)
                                 {
                                     // Show the media controls when we're paused into a video and make 'em stick.
-                                    outerInstance.mMediaController.show(0);
+                                    outerInstance.mMediaController.Show(0);
                                 }
                             }
                         }
@@ -603,7 +603,7 @@ namespace IjkplayerXamarin.Droid
                 outerInstance.mTargetState = STATE_PLAYBACK_COMPLETED;
                 if (outerInstance.mMediaController != null)
                 {
-                    outerInstance.mMediaController.hide();
+                    outerInstance.mMediaController.Hide();
                 }
                 if (outerInstance.mOnCompletionListener != null)
                 {
@@ -659,7 +659,7 @@ namespace IjkplayerXamarin.Droid
                 outerInstance.mTargetState = STATE_ERROR;
                 if (outerInstance.mMediaController != null)
                 {
-                    outerInstance.mMediaController.hide();
+                    outerInstance.mMediaController.Hide();
                 }
 
                 /* If an error handler has been supplied, use it and finish. */
@@ -930,12 +930,12 @@ namespace IjkplayerXamarin.Droid
                     if (mMediaPlayer.IsPlaying)
                     {
                         Pause();
-                        mMediaController.show();
+                        mMediaController.Show();
                     }
                     else
                     {
                         Start();
-                        mMediaController.hide();
+                        mMediaController.Hide();
                     }
                     return true;
                 }
@@ -944,7 +944,7 @@ namespace IjkplayerXamarin.Droid
                     if (!mMediaPlayer.IsPlaying)
                     {
                         Start();
-                        mMediaController.hide();
+                        mMediaController.Hide();
                     }
                     return true;
                 }
@@ -953,7 +953,7 @@ namespace IjkplayerXamarin.Droid
                     if (mMediaPlayer.IsPlaying)
                     {
                         Pause();
-                        mMediaController.show();
+                        mMediaController.Show();
                     }
                     return true;
                 }
@@ -970,11 +970,11 @@ namespace IjkplayerXamarin.Droid
         {
             if (mMediaController.IsShowing)
             {
-                mMediaController.hide();
+                mMediaController.Hide();
             }
             else
             {
-                mMediaController.show();
+                mMediaController.Show();
             }
         }
 

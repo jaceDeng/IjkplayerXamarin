@@ -23,7 +23,7 @@ namespace IjkplayerXamarin.Droid
 
 	public interface IMediaController
 	{
-        void hide();
+        void Hide();
 
         bool IsShowing { get; }
 
@@ -33,14 +33,14 @@ namespace IjkplayerXamarin.Droid
 
         void SetMediaPlayer(MediaController.IMediaPlayerControl player);
 
-        void show(int timeout);
+        void Show(int timeout);
 
-        void show();
+        void Show();
 
         //----------
         // Extends
         //----------
-        void showOnce(View view);
+        void ShowOnce(View view);
     }
 
 }
