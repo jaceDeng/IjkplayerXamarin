@@ -153,7 +153,7 @@
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
     <ProjectReference Include="..\IjkplayerXamarin\IjkplayerXamarin.csproj">
-      <Project>{5DD7BC67-6D6A-4570-B431-ABB784B2FB8A}</Project>
+      <Project>{B336FEDA-90D5-42C6-9F45-34BF72EC42D8}</Project>
       <Name>IjkplayerXamarin</Name>
     </ProjectReference>
   </ItemGroup>

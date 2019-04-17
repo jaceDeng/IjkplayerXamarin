@@ -162,9 +162,10 @@ namespace IJKPlayer
         [Field("IJKMPMediaPlaybackIsPreparedToPlayDidChangeNotification", "__Internal")]
         NSString PlaybackIsPreparedToPlayDidChangeNotification { get; }
 
+        //todo 
         // extern NSString *const IJKMPMoviePlayerScalingModeDidChangeNotification __attribute__((visibility("default")));
-        [Field("IJKMPMoviePlayerScalingModeDidChangeNotification", "__Internal")]
-        NSString ScalingModeDidChangeNotification { get; }
+        //[Field("IJKMPMoviePlayerScalingModeDidChangeNotification", "__Internal")]
+        //NSString ScalingModeDidChangeNotification { get; }
 
         // extern NSString *const IJKMPMoviePlayerPlaybackDidFinishNotification __attribute__((visibility("default")));
         [Field("IJKMPMoviePlayerPlaybackDidFinishNotification", "__Internal")]
@@ -558,7 +559,7 @@ namespace IJKPlayer
 
     // @interface IJKFFMoviePlayerController : NSObject <IJKMediaPlayback>
     [BaseType(typeof(NSObject))]
-    interface IJKFFMoviePlayerController : IIJKMediaPlayback
+    interface IJKFFMoviePlayerController : IJKMediaPlayback
     {
         // -(id)initWithContentURL:(NSURL *)aUrl withOptions:(IJKFFOptions *)options;
         [Export("initWithContentURL:withOptions:")]
@@ -578,23 +579,115 @@ namespace IJKPlayer
 
         // -(void)prepareToPlay;
         [Export("prepareToPlay")]
-        void PrepareToPlay();
+        new void PrepareToPlay();
 
         // -(void)play;
         [Export("play")]
-        void Play();
+        new void Play();
 
         // -(void)pause;
         [Export("pause")]
-        void Pause();
+        new void Pause();
 
         // -(void)stop;
         [Export("stop")]
-        void Stop();
+        new void Stop();
 
         // -(BOOL)isPlaying;
         [Export("isPlaying")]
-        bool IsPlaying { get; }
+        new bool IsPlaying { get; }
+
+        // -(void)shutdown;
+        [Export("shutdown")]
+        new void Shutdown();
+
+        // -(void)setPauseInBackground:(BOOL)pause;
+        [Export("setPauseInBackground:")]
+        new void SetPauseInBackground(bool pause);
+
+        // @property (readonly, nonatomic) UIView * view;
+        [Export("view")]
+        new UIView View { get; }
+
+        // @required @property (nonatomic) NSTimeInterval currentPlaybackTime;
+        [Export("currentPlaybackTime")]
+        new double CurrentPlaybackTime { get; set; }
+
+        // @required @property (readonly, nonatomic) NSTimeInterval duration;
+        [Export("duration")]
+        new double Duration { get; }
+
+        // @required @property (readonly, nonatomic) NSTimeInterval playableDuration;
+        [Export("playableDuration")]
+        new double PlayableDuration { get; }
+
+        // @required @property (readonly, nonatomic) NSInteger bufferingProgress;
+        [Export("bufferingProgress")]
+        new nint BufferingProgress { get; }
+
+        // @required @property (readonly, nonatomic) BOOL isPreparedToPlay;
+        [Export("isPreparedToPlay")]
+        new bool IsPreparedToPlay { get; }
+
+        // @required @property (readonly, nonatomic) IJKMPMoviePlaybackState playbackState;
+        [Export("playbackState")]
+        new IJKMPMoviePlaybackState PlaybackState { get; }
+
+        // @required @property (readonly, nonatomic) IJKMPMovieLoadState loadState;
+        [Export("loadState")]
+        new IJKMPMovieLoadState LoadState { get; }
+
+        // @required @property (readonly, nonatomic) int isSeekBuffering;
+        [Export("isSeekBuffering")]
+        new int IsSeekBuffering { get; }
+
+        // @required @property (readonly, nonatomic) int isAudioSync;
+        [Export("isAudioSync")]
+        new int IsAudioSync { get; }
+
+        // @required @property (readonly, nonatomic) int isVideoSync;
+        [Export("isVideoSync")]
+        new int IsVideoSync { get; }
+
+        // @required @property (readonly, nonatomic) int64_t numberOfBytesTransferred;
+        [Export("numberOfBytesTransferred")]
+        new long NumberOfBytesTransferred { get; }
+
+        // @required @property (readonly, nonatomic) CGSize naturalSize;
+        [Export("naturalSize")]
+        new CGSize NaturalSize { get; }
+
+        // @required @property (nonatomic) IJKMPMovieScalingMode scalingMode;
+        [Export("scalingMode", ArgumentSemantic.Assign)]
+        new IJKMPMovieScalingMode ScalingMode { get; set; }
+
+        // @required @property (nonatomic) BOOL shouldAutoplay;
+        [Export("shouldAutoplay")]
+        new bool ShouldAutoplay { get; set; }
+
+        // @required @property (nonatomic) BOOL allowsMediaAirPlay;
+        [Export("allowsMediaAirPlay")]
+        new bool AllowsMediaAirPlay { get; set; }
+
+        // @required @property (nonatomic) BOOL isDanmakuMediaAirPlay;
+        [Export("isDanmakuMediaAirPlay")]
+        new bool IsDanmakuMediaAirPlay { get; set; }
+
+        // @required @property (readonly, nonatomic) BOOL airPlayMediaActive;
+        [Export("airPlayMediaActive")]
+        new bool AirPlayMediaActive { get; }
+
+        // @required @property (nonatomic) float playbackRate;
+        [Export("playbackRate")]
+        new float PlaybackRate { get; set; }
+
+        // @required @property (nonatomic) float playbackVolume;
+        [Export("playbackVolume")]
+        new float PlaybackVolume { get; set; }
+
+        // @required -(UIImage *)thumbnailImageAtCurrentTime;
+        [Export("thumbnailImageAtCurrentTime")]
+        new UIImage ThumbnailImageAtCurrentTime { get; }
 
         // -(int64_t)trafficStatistic;
         [Export("trafficStatistic")]
@@ -603,10 +696,6 @@ namespace IJKPlayer
         // -(float)dropFrameRate;
         [Export("dropFrameRate")]
         float DropFrameRate { get; }
-
-        // -(void)setPauseInBackground:(BOOL)pause;
-        [Export("setPauseInBackground:")]
-        void SetPauseInBackground(bool pause);
 
         // -(BOOL)isVideoToolboxOpen;
         [Export("isVideoToolboxOpen")]
@@ -734,7 +823,7 @@ namespace IJKPlayer
 
     // @interface IJKAVMoviePlayerController : NSObject <IJKMediaPlayback>
     [BaseType(typeof(NSObject))]
-    interface IJKAVMoviePlayerController : IIJKMediaPlayback
+    interface IJKAVMoviePlayerController : IJKMediaPlayback
     {
         // -(id)initWithContentURL:(NSURL *)aUrl;
         [Export("initWithContentURL:")]
@@ -743,6 +832,118 @@ namespace IJKPlayer
         // -(id)initWithContentURLString:(NSString *)aUrl;
         [Export("initWithContentURLString:")]
         IntPtr Constructor(string aUrl);
+
+        // -(void)prepareToPlay;
+        [Export("prepareToPlay")]
+        new void PrepareToPlay();
+
+        // -(void)play;
+        [Export("play")]
+        new void Play();
+
+        // -(void)pause;
+        [Export("pause")]
+        new void Pause();
+
+        // -(void)stop;
+        [Export("stop")]
+        new void Stop();
+
+        // -(BOOL)isPlaying;
+        [Export("isPlaying")]
+        new bool IsPlaying { get; }
+
+        // -(void)shutdown;
+        [Export("shutdown")]
+        new void Shutdown();
+
+        // -(void)setPauseInBackground:(BOOL)pause;
+        [Export("setPauseInBackground:")]
+        new void SetPauseInBackground(bool pause);
+
+        // @property (readonly, nonatomic) UIView * view;
+        [Export("view")]
+        new UIView View { get; }
+
+        // @required @property (nonatomic) NSTimeInterval currentPlaybackTime;
+        [Export("currentPlaybackTime")]
+        new double CurrentPlaybackTime { get; set; }
+
+        // @required @property (readonly, nonatomic) NSTimeInterval duration;
+        [Export("duration")]
+        new double Duration { get; }
+
+        // @required @property (readonly, nonatomic) NSTimeInterval playableDuration;
+        [Export("playableDuration")]
+        new double PlayableDuration { get; }
+
+        // @required @property (readonly, nonatomic) NSInteger bufferingProgress;
+        [Export("bufferingProgress")]
+        new nint BufferingProgress { get; }
+
+        // @required @property (readonly, nonatomic) BOOL isPreparedToPlay;
+        [Export("isPreparedToPlay")]
+        new bool IsPreparedToPlay { get; }
+
+        // @required @property (readonly, nonatomic) IJKMPMoviePlaybackState playbackState;
+        [Export("playbackState")]
+        new IJKMPMoviePlaybackState PlaybackState { get; }
+
+        // @required @property (readonly, nonatomic) IJKMPMovieLoadState loadState;
+        [Export("loadState")]
+        new IJKMPMovieLoadState LoadState { get; }
+
+        // @required @property (readonly, nonatomic) int isSeekBuffering;
+        [Export("isSeekBuffering")]
+        new int IsSeekBuffering { get; }
+
+        // @required @property (readonly, nonatomic) int isAudioSync;
+        [Export("isAudioSync")]
+        new int IsAudioSync { get; }
+
+        // @required @property (readonly, nonatomic) int isVideoSync;
+        [Export("isVideoSync")]
+        new int IsVideoSync { get; }
+
+        // @required @property (readonly, nonatomic) int64_t numberOfBytesTransferred;
+        [Export("numberOfBytesTransferred")]
+        new long NumberOfBytesTransferred { get; }
+
+        // @required @property (readonly, nonatomic) CGSize naturalSize;
+        [Export("naturalSize")]
+        new CGSize NaturalSize { get; }
+
+        // @required @property (nonatomic) IJKMPMovieScalingMode scalingMode;
+        [Export("scalingMode", ArgumentSemantic.Assign)]
+        new IJKMPMovieScalingMode ScalingMode { get; set; }
+
+        // @required @property (nonatomic) BOOL shouldAutoplay;
+        [Export("shouldAutoplay")]
+        new bool ShouldAutoplay { get; set; }
+
+        // @required @property (nonatomic) BOOL allowsMediaAirPlay;
+        [Export("allowsMediaAirPlay")]
+        new bool AllowsMediaAirPlay { get; set; }
+
+        // @required @property (nonatomic) BOOL isDanmakuMediaAirPlay;
+        [Export("isDanmakuMediaAirPlay")]
+        new bool IsDanmakuMediaAirPlay { get; set; }
+
+        // @required @property (readonly, nonatomic) BOOL airPlayMediaActive;
+        [Export("airPlayMediaActive")]
+        new bool AirPlayMediaActive { get; }
+
+        // @required @property (nonatomic) float playbackRate;
+        [Export("playbackRate")]
+        new float PlaybackRate { get; set; }
+
+        // @required @property (nonatomic) float playbackVolume;
+        [Export("playbackVolume")]
+        new float PlaybackVolume { get; set; }
+
+        // @required -(UIImage *)thumbnailImageAtCurrentTime;
+        [Export("thumbnailImageAtCurrentTime")]
+        new UIImage ThumbnailImageAtCurrentTime { get; }
 
         // +(id)getInstance:(NSString *)aUrl;
         [Static]
