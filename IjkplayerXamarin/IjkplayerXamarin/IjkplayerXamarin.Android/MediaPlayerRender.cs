@@ -9,11 +9,12 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using Com.Shuyu.Gsyvideoplayer.Video;
 using Xamarin.Forms.Platform.Android;
 [assembly: Xamarin.Forms.ExportRenderer(typeof(IjkplayerXamarin.MediaPlayer), typeof(IjkplayerXamarin.Droid.MediaPlayerRender))]
 namespace IjkplayerXamarin.Droid
 {
-    public class MediaPlayerRender : ViewRenderer<MediaPlayer, IjkVideoView>
+    public class MediaPlayerRender : ViewRenderer<MediaPlayer, StandardGSYVideoPlayer>
     {
         public MediaPlayerRender(Context context) : base(context)
         {
@@ -24,17 +25,34 @@ namespace IjkplayerXamarin.Droid
             base.OnElementChanged(e);
             if (Control == null)
             {
-                var frameLayout = new IjkVideoView(Context);
-                frameLayout.VideoURI = Android.Net.Uri.Parse(Element.VideoURI);
-                frameLayout.Start();
+                var player = new StandardGSYVideoPlayer(Context);
+                
+                //设置返回按键功能
+                //  frameLayout.BackButton.Click += BackButton_Click;
+                if (e.OldElement != null)
+                {
+                    // Unsubscribe
+                  //  frameLayout.Click -= FrameLayout_Touch;
+                }
                 if (e.NewElement != null)
                 {
-                  //  frameLayout.LayoutParameters = new FrameLayout.LayoutParams((int)e.NewElement.Width, (int)e.NewElement.Height);
+                    player.ContextClick += (sender, erg) =>
+                    {
 
+
+                    };
+                     
+                    // frameLayout.LayoutParameters = new FrameLayout.LayoutParams( , (int)e.NewElement.Height);
+                   // frameLayout.Click += FrameLayout_Touch;
                 }
-                SetNativeControl(frameLayout);
+                SetNativeControl(player);
+
+                // frameLayout.SetUp(Element.VideoURI, true, "测试");
+                //  frameLayout.StartPlayLogic();
             }
 
         }
+
+       
     }
 }

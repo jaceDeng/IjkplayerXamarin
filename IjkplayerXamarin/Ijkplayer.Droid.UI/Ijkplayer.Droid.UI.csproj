@@ -54,7 +54,11 @@
     <TransformFile Include="Transforms\EnumFields.xml" />
     <TransformFile Include="Transforms\EnumMethods.xml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <PackageReference Include="Ijkplayer.Droid">
+      <Version>0.8.8</Version>
+    </PackageReference>
+  </ItemGroup>
   <ItemGroup>
     <Content Include="javadocs\allclasses-frame.html" />
     <Content Include="javadocs\allclasses-noframe.html" />
