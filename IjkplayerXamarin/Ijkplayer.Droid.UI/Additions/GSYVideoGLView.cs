@@ -14,7 +14,7 @@ namespace Com.Shuyu.Gsyvideoplayer.Render.View
 {
     public partial class GSYVideoGLView : global::Android.Opengl.GLSurfaceView
     {
-
+         
         public void SetRenderMode(int p0)
         {
             this.RenderMode = (Android.Opengl.Rendermode)p0;
