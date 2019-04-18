@@ -26,24 +26,21 @@ namespace IjkplayerXamarin.Droid
             if (Control == null)
             {
                 var player = new StandardGSYVideoPlayer(Context);
-                
+
                 //设置返回按键功能
-                //  frameLayout.BackButton.Click += BackButton_Click;
+
                 if (e.OldElement != null)
                 {
                     // Unsubscribe
-                  //  frameLayout.Click -= FrameLayout_Touch;
+                    //  frameLayout.Click -= FrameLayout_Touch;
                 }
                 if (e.NewElement != null)
                 {
-                    player.ContextClick += (sender, erg) =>
-                    {
+                    player.SetUp(Element.VideoURI, true, "");
+                  //  player.StartPlayLogic();
 
-
-                    };
-                     
                     // frameLayout.LayoutParameters = new FrameLayout.LayoutParams( , (int)e.NewElement.Height);
-                   // frameLayout.Click += FrameLayout_Touch;
+                    // frameLayout.Click += FrameLayout_Touch;
                 }
                 SetNativeControl(player);
 
@@ -53,6 +50,6 @@ namespace IjkplayerXamarin.Droid
 
         }
 
-       
+
     }
 }

@@ -6,7 +6,7 @@
 
     <StackLayout>
         <!-- Place new controls here -->
-        <local:MediaPlayer  HeightRequest="300" VerticalOptions="Fill" HorizontalOptions="Fill"   VideoURI="http://vfx.mtime.cn/Video/2017/03/31/mp4/170331093811717750.mp4"></local:MediaPlayer>
+        <local:MediaPlayer  HeightRequest="300" VerticalOptions="Fill" HorizontalOptions="Fill"   VideoURI="rtmp://58.200.131.2:1935/livetv/hunantv"></local:MediaPlayer>
     </StackLayout>
 
 </ContentPage>
