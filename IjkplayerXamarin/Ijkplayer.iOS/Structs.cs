@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 using CoreVideo;
 using ObjCRuntime;
 
-namespace IJKPlayer
+namespace Ijkplayer.iOS
 {
     [Native]
     public enum IJKMPMovieScalingMode : long

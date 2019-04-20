@@ -5,7 +5,7 @@ using MediaPlayer;
 using ObjCRuntime;
 using UIKit;
 
-namespace IJKPlayer
+namespace Ijkplayer.iOS
 {
     // @protocol IJKMediaPlayback <NSObject>
     partial interface IIJKMediaPlayback { }
