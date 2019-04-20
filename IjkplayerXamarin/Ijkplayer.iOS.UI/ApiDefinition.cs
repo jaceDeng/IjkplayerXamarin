@@ -9,7 +9,7 @@ using UIKit;
 namespace Ijkplayer.iOS.UI
 {
     // @interface ZFPlayer (UIScrollView)
-    [Category]
+    //[Category]
     [BaseType(typeof(UIScrollView))]
     interface UIScrollView_ZFPlayer
     {
@@ -107,7 +107,7 @@ namespace Ijkplayer.iOS.UI
     }
 
     // @interface ZFPlayerCannotCalled (UIScrollView)
-    [Category]
+    //[Category]
     [BaseType(typeof(UIScrollView))]
     interface UIScrollView_ZFPlayerCannotCalled
     {
@@ -149,7 +149,7 @@ namespace Ijkplayer.iOS.UI
     }
 
     // @interface ZFPlayerDeprecated (UIScrollView)
-    [Category]
+    //[Category]
     [BaseType(typeof(UIScrollView))]
     interface UIScrollView_ZFPlayerDeprecated
     {
@@ -185,7 +185,7 @@ namespace Ijkplayer.iOS.UI
 
         // -(void)safelyAddObserver:(NSObject *)observer forKeyPath:(NSString *)keyPath options:(NSKeyValueObservingOptions)options context:(void *)context;
         [Export("safelyAddObserver:forKeyPath:options:context:")]
-        unsafe void SafelyAddObserver(NSObject observer, string keyPath, NSKeyValueObservingOptions options, void* context);
+        unsafe void SafelyAddObserver(NSObject observer, string keyPath, NSKeyValueObservingOptions options, NSObject context);
 
         // -(void)safelyRemoveObserver:(NSObject *)observer forKeyPath:(NSString *)keyPath;
         [Export("safelyRemoveObserver:forKeyPath:")]
@@ -286,7 +286,7 @@ namespace Ijkplayer.iOS.UI
     }
 
     [Static]
-    [Verify(ConstantsInterfaceAssociation)]
+    //[Verify(ConstantsInterfaceAssociation)]
     partial interface Constants
     {
         // extern double ZFPlayerVersionNumber;
@@ -295,7 +295,7 @@ namespace Ijkplayer.iOS.UI
 
         // extern const unsigned char [] ZFPlayerVersionString;
         [Field("ZFPlayerVersionString", "__Internal")]
-        byte[] ZFPlayerVersionString { get; }
+        NSString ZFPlayerVersionString { get; }
     }
 
     // @interface ZFPlayerView : UIView
@@ -372,11 +372,11 @@ namespace Ijkplayer.iOS.UI
 
         // @optional @property (copy, nonatomic) void (^ _Nullable)(id<ZFPlayerMediaPlayback> _Nonnull, NSURL * _Nonnull) playerPrepareToPlay;
         [NullAllowed, Export("playerPrepareToPlay", ArgumentSemantic.Copy)]
-        Action<ZFPlayerMediaPlayback, NSURL> PlayerPrepareToPlay { get; set; }
+        Action<ZFPlayerMediaPlayback, NSUrl> PlayerPrepareToPlay { get; set; }
 
         // @optional @property (copy, nonatomic) void (^ _Nullable)(id<ZFPlayerMediaPlayback> _Nonnull, NSURL * _Nonnull) playerReadyToPlay;
         [NullAllowed, Export("playerReadyToPlay", ArgumentSemantic.Copy)]
-        Action<ZFPlayerMediaPlayback, NSURL> PlayerReadyToPlay { get; set; }
+        Action<ZFPlayerMediaPlayback, NSUrl> PlayerReadyToPlay { get; set; }
 
         // @optional @property (copy, nonatomic) void (^ _Nullable)(id<ZFPlayerMediaPlayback> _Nonnull, NSTimeInterval, NSTimeInterval) playerPlayTimeChanged;
         [NullAllowed, Export("playerPlayTimeChanged", ArgumentSemantic.Copy)]
@@ -432,7 +432,7 @@ namespace Ijkplayer.iOS.UI
 
         // @optional -(UIImage * _Nonnull)thumbnailImageAtCurrentTime;
         [Export("thumbnailImageAtCurrentTime")]
-        [Verify(MethodToProperty)]
+      //  [Verify(MethodToProperty)]
         UIImage ThumbnailImageAtCurrentTime { get; }
 
         // @optional -(void)seekToTime:(NSTimeInterval)time completionHandler:(void (^ _Nullable)(BOOL))completionHandler;
@@ -559,12 +559,12 @@ namespace Ijkplayer.iOS.UI
         // +(instancetype _Nonnull)managerForAddress:(const void * _Nonnull)address;
         [Static]
         [Export("managerForAddress:")]
-        unsafe ZFReachabilityManager ManagerForAddress(void* address);
+        unsafe ZFReachabilityManager ManagerForAddress(NSString address);
 
         // -(instancetype _Nonnull)initWithReachability:(SCNetworkReachabilityRef _Nonnull)reachability __attribute__((objc_designated_initializer));
-        [Export("initWithReachability:")]
-        [DesignatedInitializer]
-        unsafe IntPtr Constructor(SCNetworkReachabilityRef* reachability);
+        //[Export("initWithReachability:")]
+        //[DesignatedInitializer]
+        //unsafe IntPtr Constructor(NetworkReachability reachability);
 
         // -(void)startMonitoring;
         [Export("startMonitoring")]
@@ -576,7 +576,7 @@ namespace Ijkplayer.iOS.UI
 
         // -(NSString * _Nonnull)localizedNetworkReachabilityStatusString;
         [Export("localizedNetworkReachabilityStatusString")]
-        [Verify(MethodToProperty)]
+        //[Verify(MethodToProperty)]
         string LocalizedNetworkReachabilityStatusString { get; }
 
         // -(void)setReachabilityStatusChangeBlock:(void (^ _Nullable)(ZFReachabilityStatus))block;
@@ -584,8 +584,8 @@ namespace Ijkplayer.iOS.UI
         void SetReachabilityStatusChangeBlock([NullAllowed] Action<ZFReachabilityStatus> block);
     }
 
-    [Static]
-    [Verify(ConstantsInterfaceAssociation)]
+    //[Static]
+  //  [Verify(ConstantsInterfaceAssociation)]
     partial interface Constants
     {
         // extern NSString *const _Nonnull ZFReachabilityDidChangeNotification;
@@ -629,7 +629,7 @@ namespace Ijkplayer.iOS.UI
 
         // @optional -(void)videoPlayer:(ZFPlayerController * _Nonnull)videoPlayer draggingTime:(NSTimeInterval)seekTime totalTime:(NSTimeInterval)totalTime;
         [Export("videoPlayer:draggingTime:totalTime:")]
-        void VideoPlayer(ZFPlayerController videoPlayer, double seekTime, double totalTime);
+        void VideoPlayerDraggingTime(ZFPlayerController videoPlayer, double seekTime, double totalTime);
 
         // @optional -(void)videoPlayerPlayEnd:(ZFPlayerController * _Nonnull)videoPlayer;
         [Export("videoPlayerPlayEnd:")]
@@ -649,7 +649,7 @@ namespace Ijkplayer.iOS.UI
 
         // @optional -(void)videoPlayer:(ZFPlayerController * _Nonnull)videoPlayer orientationDidChanged:(ZFOrientationObserver * _Nonnull)observer;
         [Export("videoPlayer:orientationDidChanged:")]
-        void VideoPlayer(ZFPlayerController videoPlayer, ZFOrientationObserver observer);
+        void VideoPlayerOrientationDidChanged(ZFPlayerController videoPlayer, ZFOrientationObserver observer);
 
         // @optional -(void)videoPlayer:(ZFPlayerController * _Nonnull)videoPlayer reachabilityChanged:(ZFReachabilityStatus)status;
         [Export("videoPlayer:reachabilityChanged:")]
@@ -797,7 +797,7 @@ namespace Ijkplayer.iOS.UI
     }
 
     // @interface ZFPlayerTimeControl (ZFPlayerController)
-    [Category]
+    //[Category]
     [BaseType(typeof(ZFPlayerController))]
     interface ZFPlayerController_ZFPlayerTimeControl
     {
@@ -827,7 +827,7 @@ namespace Ijkplayer.iOS.UI
     }
 
     // @interface ZFPlayerPlaybackControl (ZFPlayerController)
-    [Category]
+    //[Category]
     [BaseType(typeof(ZFPlayerController))]
     interface ZFPlayerController_ZFPlayerPlaybackControl
     {
@@ -881,11 +881,11 @@ namespace Ijkplayer.iOS.UI
 
         // @property (copy, nonatomic) void (^ _Nullable)(id<ZFPlayerMediaPlayback> _Nonnull, NSURL * _Nonnull) playerPrepareToPlay;
         [NullAllowed, Export("playerPrepareToPlay", ArgumentSemantic.Copy)]
-        Action<ZFPlayerMediaPlayback, NSURL> PlayerPrepareToPlay { get; set; }
+        Action<ZFPlayerMediaPlayback, NSUrl> PlayerPrepareToPlay { get; set; }
 
         // @property (copy, nonatomic) void (^ _Nullable)(id<ZFPlayerMediaPlayback> _Nonnull, NSURL * _Nonnull) playerReadyToPlay;
         [NullAllowed, Export("playerReadyToPlay", ArgumentSemantic.Copy)]
-        Action<ZFPlayerMediaPlayback, NSURL> PlayerReadyToPlay { get; set; }
+        Action<ZFPlayerMediaPlayback, NSUrl> PlayerReadyToPlay { get; set; }
 
         // @property (copy, nonatomic) void (^ _Nullable)(id<ZFPlayerMediaPlayback> _Nonnull, NSTimeInterval, NSTimeInterval) playerPlayTimeChanged;
         [NullAllowed, Export("playerPlayTimeChanged", ArgumentSemantic.Copy)]
@@ -937,7 +937,7 @@ namespace Ijkplayer.iOS.UI
     }
 
     // @interface ZFPlayerOrientationRotation (ZFPlayerController)
-    [Category]
+    //[Category]
     [BaseType(typeof(ZFPlayerController))]
     interface ZFPlayerController_ZFPlayerOrientationRotation
     {
@@ -1003,7 +1003,7 @@ namespace Ijkplayer.iOS.UI
     }
 
     // @interface ZFPlayerViewGesture (ZFPlayerController)
-    [Category]
+    //[Category]
     [BaseType(typeof(ZFPlayerController))]
     interface ZFPlayerController_ZFPlayerViewGesture
     {
@@ -1021,7 +1021,7 @@ namespace Ijkplayer.iOS.UI
     }
 
     // @interface ZFPlayerScrollView (ZFPlayerController)
-    [Category]
+    //[Category]
     [BaseType(typeof(ZFPlayerController))]
     interface ZFPlayerController_ZFPlayerScrollView
     {
@@ -1067,7 +1067,7 @@ namespace Ijkplayer.iOS.UI
 
         // @property (copy, nonatomic) NSArray<NSArray<NSURL *> *> * _Nullable sectionAssetURLs;
         [NullAllowed, Export("sectionAssetURLs", ArgumentSemantic.Copy)]
-        NSArray<NSURL>[] SectionAssetURLs { get; set; }
+        NSArray<NSUrl>[] SectionAssetURLs { get; set; }
 
         // @property (copy, nonatomic) void (^ _Nullable)(NSIndexPath * _Nonnull, CGFloat) zf_playerAppearingInScrollView;
         [NullAllowed, Export("zf_playerAppearingInScrollView", ArgumentSemantic.Copy)]
@@ -1134,31 +1134,31 @@ namespace Ijkplayer.iOS.UI
         // +(BOOL)getLogEnable;
         [Static]
         [Export("getLogEnable")]
-        [Verify(MethodToProperty)]
+        //[Verify(MethodToProperty)]
         bool LogEnable { get; }
 
         // +(NSString *)version;
         [Static]
         [Export("version")]
-        [Verify(MethodToProperty)]
+      //  [Verify(MethodToProperty)]
         string Version { get; }
 
         // +(void)logWithFunction:(const char *)function lineNumber:(int)lineNumber formatString:(NSString *)formatString;
         [Static]
         [Export("logWithFunction:lineNumber:formatString:")]
-        unsafe void LogWithFunction(sbyte* function, int lineNumber, string formatString);
+        unsafe void LogWithFunction(string function, int lineNumber, string formatString);
     }
 
-    [Static]
-    [Verify(ConstantsInterfaceAssociation)]
-    partial interface Constants
-    {
-        // extern double ZFPlayerVersionNumber;
-        [Field("ZFPlayerVersionNumber", "__Internal")]
-        double ZFPlayerVersionNumber { get; }
+    //[Static]
+    //[Verify(ConstantsInterfaceAssociation)]
+    //partial interface Constants
+    //{
+    //    // extern double ZFPlayerVersionNumber;
+    //    [Field("ZFPlayerVersionNumber", "__Internal")]
+    //    double ZFPlayerVersionNumber { get; }
 
-        // extern const unsigned char [] ZFPlayerVersionString;
-        [Field("ZFPlayerVersionString", "__Internal")]
-        byte[] ZFPlayerVersionString { get; }
-    }
+    //    // extern const unsigned char [] ZFPlayerVersionString;
+    //    [Field("ZFPlayerVersionString", "__Internal")]
+    //    byte[] ZFPlayerVersionString { get; }
+    //}
 }

@@ -6,7 +6,7 @@ using ObjCRuntime;
 namespace Ijkplayer.iOS.UI
 {
     [Native]
-    public enum ZFPlayerScrollDirection : nuint
+    public enum ZFPlayerScrollDirection : ulong
     {
         None,
         Up,
@@ -16,14 +16,14 @@ namespace Ijkplayer.iOS.UI
     }
 
     [Native]
-    public enum ZFPlayerScrollViewDirection : nint
+    public enum ZFPlayerScrollViewDirection : long
     {
         Vertical,
         Horizontal
     }
 
     [Native]
-    public enum ZFFullScreenMode : nuint
+    public enum ZFFullScreenMode : ulong
     {
         Automatic,
         Landscape,
@@ -31,7 +31,7 @@ namespace Ijkplayer.iOS.UI
     }
 
     [Native]
-    public enum ZFRotateType : nuint
+    public enum ZFRotateType : ulong
     {
         Normal,
         Cell,
@@ -39,7 +39,7 @@ namespace Ijkplayer.iOS.UI
     }
 
     [Native]
-    public enum ZFInterfaceOrientationMask : nuint
+    public enum ZFInterfaceOrientationMask : ulong
     {
         Portrait = (1 << 0),
         LandscapeLeft = (1 << 1),
@@ -51,7 +51,7 @@ namespace Ijkplayer.iOS.UI
     }
 
     [Native]
-    public enum ZFPlayerPlaybackState : nuint
+    public enum ZFPlayerPlaybackState : ulong
     {
         Unknown,
         Playing,
@@ -61,7 +61,7 @@ namespace Ijkplayer.iOS.UI
     }
 
     [Native]
-    public enum ZFPlayerLoadState : nuint
+    public enum ZFPlayerLoadState : ulong
     {
         Unknown = 0,
         Prepare = 1 << 0,
@@ -71,7 +71,7 @@ namespace Ijkplayer.iOS.UI
     }
 
     [Native]
-    public enum ZFPlayerScalingMode : nint
+    public enum ZFPlayerScalingMode : long
     {
         None,
         AspectFit,
@@ -80,7 +80,7 @@ namespace Ijkplayer.iOS.UI
     }
 
     [Native]
-    public enum ZFPlayerGestureType : nuint
+    public enum ZFPlayerGestureType : ulong
     {
         Unknown,
         SingleTap,
@@ -90,7 +90,7 @@ namespace Ijkplayer.iOS.UI
     }
 
     [Native]
-    public enum ZFPanDirection : nuint
+    public enum ZFPanDirection : ulong
     {
         Unknown,
         V,
@@ -98,7 +98,7 @@ namespace Ijkplayer.iOS.UI
     }
 
     [Native]
-    public enum ZFPanLocation : nuint
+    public enum ZFPanLocation : ulong
     {
         Unknown,
         Left,
@@ -106,7 +106,7 @@ namespace Ijkplayer.iOS.UI
     }
 
     [Native]
-    public enum ZFPanMovingDirection : nuint
+    public enum ZFPanMovingDirection : ulong
     {
         Unkown,
         Top,
@@ -116,7 +116,7 @@ namespace Ijkplayer.iOS.UI
     }
 
     [Native]
-    public enum ZFPlayerDisableGestureTypes : nuint
+    public enum ZFPlayerDisableGestureTypes : ulong
     {
         None = 0,
         SingleTap = 1 << 0,
@@ -127,7 +127,7 @@ namespace Ijkplayer.iOS.UI
     }
 
     [Native]
-    public enum ZFPlayerDisablePanMovingDirection : nuint
+    public enum ZFPlayerDisablePanMovingDirection : ulong
     {
         None = 0,
         Vertical = 1 << 0,
@@ -136,7 +136,7 @@ namespace Ijkplayer.iOS.UI
     }
 
     [Native]
-    public enum ZFReachabilityStatus : nint
+    public enum ZFReachabilityStatus : long
     {
         Unknown = -1,
         NotReachable = 0,
@@ -150,12 +150,12 @@ namespace Ijkplayer.iOS.UI
     {
         // extern NSString * _Nonnull ZFStringFromNetworkReachabilityStatus (ZFReachabilityStatus status);
         [DllImport("__Internal")]
-        [Verify(PlatformInvoke)]
+        //[Verify(PlatformInvoke)]
         static extern NSString ZFStringFromNetworkReachabilityStatus(ZFReachabilityStatus status);
     }
 
     [Native]
-    public enum ZFPlayerBackgroundState : nuint
+    public enum ZFPlayerBackgroundState : ulong
     {
         Foreground,
         Background
