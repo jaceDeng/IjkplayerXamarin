@@ -7,9 +7,9 @@
     <ProjectGuid>{0DBD983F-BD8F-4BD6-B08A-AD28457D35EF}</ProjectGuid>
     <TemplateGuid>{b6f3ff35-79b2-4f25-a2fc-60a7cf61013b}</TemplateGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>IJKPlayer</RootNamespace>
+    <RootNamespace>IJKPlayer.iOS</RootNamespace>
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
-    <AssemblyName>IJKPlayer</AssemblyName>
+    <AssemblyName>IJKPlayer.iOS</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>

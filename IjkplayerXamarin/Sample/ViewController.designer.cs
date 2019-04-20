@@ -11,8 +11,11 @@ using UIKit;
 
 namespace Sample
 {
-    [Register("ViewController")]
+    [Register ("ViewController")]
     partial class ViewController
     {
+        void ReleaseDesignerOutlets ()
+        {
+        }
     }
 }
