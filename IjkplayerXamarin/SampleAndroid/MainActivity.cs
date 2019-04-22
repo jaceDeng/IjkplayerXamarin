@@ -22,7 +22,12 @@ namespace SampleAndroid
 
                 orientationUtils.ResolveByClick();
             };
-            player.SetUp("http://vfx.mtime.cn/Video/2017/03/31/mp4/170331093811717750.mp4", true, "测试");
+           
+            ImageView imageView = new ImageView(this);
+            imageView.SetScaleType(ImageView.ScaleType.CenterCrop);
+            imageView.SetImageURI(Android.Net.Uri.Parse(" "));
+            player.ThumbImageView = imageView;
+            player.SetUp(" ", true, "测试");
             player.StartPlayLogic();
 
         }

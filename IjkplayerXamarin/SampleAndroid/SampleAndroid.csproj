@@ -36,6 +36,7 @@
     <AndroidLinkMode>None</AndroidLinkMode>
     <EmbedAssembliesIntoApk>False</EmbedAssembliesIntoApk>
     <AndroidEnableMultiDex>true</AndroidEnableMultiDex>
+    <AndroidSupportedAbis />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>True</DebugSymbols>
@@ -94,7 +95,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Ijkplayer.Droid">
-      <Version>0.8.8</Version>
+      <Version>0.8.8.3</Version>
     </PackageReference>
     <PackageReference Include="Ijkplayer.Droid.UI">
       <Version>0.8.8.2</Version>
