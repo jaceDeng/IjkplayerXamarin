@@ -4,7 +4,7 @@
     <!--*-->
     <id>Ijkplayer.Droid</id>
     <!--*-->
-    <version>0.8.8</version>
+    <version>0.8.8.5</version>
     <title>Ijkplayer.Droid</title>
     <!--*-->
     <authors>bilibili</authors>
@@ -16,9 +16,9 @@
 -->
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <!--*-->
-    <description>Ijkplayer的Xamarin 安卓绑定库 不是官方发布只是热心人绑定 Ijkplayer Xamarin Android </description>
+    <description>Ijkplayer的Xamarin 安卓绑定库 不是官方发布只是热心人绑定 Ijkplayer Xamarin Android  增加了rtsp兼容和 hls加密兼容</description>
     <!--*-->
-    <releaseNotes>Ijkplayer的Xamarin 安卓绑定库 不是官方发布只是热心人绑定 Ijkplayer Xamarin Android 目前是0.8.8 带了so x86架构 armv7 arm64 </releaseNotes>
+    <releaseNotes>Ijkplayer的Xamarin 安卓绑定库 不是官方发布只是热心人绑定 Ijkplayer Xamarin Android 目前是0.8.8 带了so x86架构 armv7 arm64  增加了rtsp兼容和 hls加密兼容</releaseNotes>
     <copyright>Copyright ©  2018</copyright>
     <tags>
     </tags>
