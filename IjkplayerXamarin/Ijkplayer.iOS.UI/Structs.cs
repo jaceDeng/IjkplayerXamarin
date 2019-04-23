@@ -1,33 +1,12 @@
 ﻿using System;
 using System.Runtime.InteropServices;
-using Foundation;
+using CoreVideo;
 using ObjCRuntime;
- 
-namespace Ijkplayer.iOS.UI
+
+namespace Ijkplayer.iOS
 {
-
     [Native]
-    public enum ZFPlayerPlaybackState : ulong
-    {
-        Unknown,
-        Playing,
-        Paused,
-        PlayFailed,
-        PlayStopped
-    }
-
-    [Native]
-    public enum ZFPlayerLoadState : ulong
-    {
-        Unknown = 0,
-        Prepare = 1 << 0,
-        Playable = 1 << 1,
-        PlaythroughOK = 1 << 2,
-        Stalled = 1 << 3
-    }
-
-    [Native]
-    public enum ZFPlayerScalingMode :long
+    public enum IJKMPMovieScalingMode : long
     {
         None,
         AspectFit,
@@ -36,49 +15,125 @@ namespace Ijkplayer.iOS.UI
     }
 
     [Native]
-    public enum ZFFullScreenMode :ulong
+    public enum IJKMPMoviePlaybackState : long
     {
-        Automatic,
-        Landscape,
-        Portrait
+        Stopped,
+        Playing,
+        Paused,
+        Interrupted,
+        SeekingForward,
+        SeekingBackward
     }
 
     [Native]
-    public enum ZFRotateType :ulong
+    public enum IJKMPMovieLoadState : ulong
     {
-        Normal,
-        Cell,
-        CellOther
+        Unknown = 0,
+        Playable = 1 << 0,
+        PlaythroughOK = 1 << 1,
+        Stalled = 1 << 2
     }
 
     [Native]
-    public enum ZFInterfaceOrientationMask :ulong
+    public enum IJKMPMovieFinishReason : long
     {
-        Portrait = (1 << 0),
-        LandscapeLeft = (1 << 1),
-        LandscapeRight = (1 << 2),
-        PortraitUpsideDown = (1 << 3),
-        Landscape = (LandscapeLeft | LandscapeRight),
-        All = (Portrait | LandscapeLeft | LandscapeRight | PortraitUpsideDown),
-        AllButUpsideDown = (Portrait | LandscapeLeft | LandscapeRight)
+        PlaybackEnded,
+        PlaybackError,
+        UserExited
     }
 
     [Native]
-    public enum ZFReachabilityStatus :long
+    public enum IJKMPMovieTimeOption : long
     {
-        Unknown = -1,
-        NotReachable = 0,
-        ReachableViaWiFi = 1,
-        ReachableVia2G = 2,
-        ReachableVia3G = 3,
-        ReachableVia4G = 4
+        NearestKeyFrame,
+        Exact
     }
 
-    static class CFunctions
+    [Native]
+    public enum IJKMediaEvent : long
     {
-        // extern NSString * _Nonnull ZFStringFromNetworkReachabilityStatus (ZFReachabilityStatus status);
-        [DllImport("__Internal")]
-        [Verify(PlatformInvoke)]
-        static extern NSString ZFStringFromNetworkReachabilityStatus(ZFReachabilityStatus status);
+        Event_WillHttpOpen = 1,
+        Event_DidHttpOpen = 2,
+        Event_WillHttpSeek = 3,
+        Event_DidHttpSeek = 4,
+        Ctrl_WillTcpOpen = 131073,
+        Ctrl_DidTcpOpen = 131074,
+        Ctrl_WillHttpOpen = 131075,
+        Ctrl_WillLiveOpen = 131077,
+        Ctrl_WillConcatSegmentOpen = 131079
     }
+
+    public enum IJKFFOptionCategory : long
+    {
+        Format = 1,
+        Codec = 2,
+        Sws = 3,
+        Player = 4,
+        Swr = 5
+    }
+
+    public enum IJKAVDiscard
+    {
+        None = -16,
+        Default = 0,
+        Nonref = 8,
+        Bidir = 16,
+        Nonkey = 32,
+        All = 48
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    public struct IJKOverlay
+    {
+        public int w;
+
+        public int h;
+
+        public uint format;
+
+        public int planes;
+
+        public unsafe ushort pitches;
+
+        public unsafe byte pixels;
+
+        public int sar_num;
+
+        public int sar_den;
+
+        public unsafe CVPixelBuffer pixel_buffer;
+    }
+
+    public enum IJKLogLevel : long
+    {
+        Unknown = 0,
+        Default = 1,
+        Verbose = 2,
+        Debug = 3,
+        Info = 4,
+        Warn = 5,
+        Error = 6,
+        Fatal = 7,
+        Silent = 8
+    }
+
+    //static class CFunctions
+    //{
+    //    // extern void IJKFFIOStatDebugCallback (const char *url, int type, int bytes);
+    //    [DllImport("__Internal")]
+    //    static extern unsafe void IJKFFIOStatDebugCallback(sbyte url, int type, int bytes);
+
+    //    // extern void IJKFFIOStatRegister (void (* cb)(const char *, int, int));
+    //    [DllImport("__Internal")]
+    //    static extern unsafe void IJKFFIOStatRegister(Action<sbyte, int, int> cb);
+
+    //    // extern void IJKFFIOStatCompleteDebugCallback (const char *url, int64_t read_bytes, int64_t total_size, int64_t elpased_time, int64_t total_duration);
+    //    [DllImport("__Internal")]
+    //    static extern unsafe void IJKFFIOStatCompleteDebugCallback(sbyte* url, long read_bytes, long total_size, long elpased_time, long total_duration);
+
+    //    // extern void IJKFFIOStatCompleteRegister (void (* cb)(const char *, int64_t, int64_t, int64_t, int64_t));
+    //    [DllImport("__Internal")]
+    //    static extern unsafe void IJKFFIOStatCompleteRegister(Action<sbyte, long, long, long, long> cb);
+    //}
 }
+

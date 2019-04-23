@@ -1,843 +1,973 @@
 ﻿using System;
-using AVFoundation;
 using CoreGraphics;
 using Foundation;
+using MediaPlayer;
 using ObjCRuntime;
-using SystemConfiguration;
 using UIKit;
- 
-namespace Ijkplayer.iOS.UI
+
+namespace Ijkplayer.iOS
 {
+    // @protocol IJKMediaPlayback <NSObject>
+    partial interface IIJKMediaPlayback { }
 
-    [Static]
-    [Verify(ConstantsInterfaceAssociation)]
-    partial interface Constants
-    {
-        // extern double ZFPlayerVersionNumber;
-        [Field("ZFPlayerVersionNumber", "__Internal")]
-        double ZFPlayerVersionNumber { get; }
-
-        // extern const unsigned char [] ZFPlayerVersionString;
-        [Field("ZFPlayerVersionString", "__Internal")]
-        byte[] ZFPlayerVersionString { get; }
-    }
-
-    // @interface ZFPlayerView : UIView
-    [BaseType(typeof(UIView))]
-    interface ZFPlayerView
-    {
-    }
-
-    // @protocol ZFPlayerMediaPlayback <NSObject>
     [Protocol, Model]
     [BaseType(typeof(NSObject))]
-    interface ZFPlayerMediaPlayback
+    interface IJKMediaPlayback
     {
-        // @required @property (nonatomic) ZFPlayerView * _Nonnull view;
+        // @required -(void)prepareToPlay;
         [Abstract]
-        [Export("view", ArgumentSemantic.Assign)]
-        ZFPlayerView View { get; set; }
-
-        // @optional @property (nonatomic) float volume;
-        [Export("volume")]
-        float Volume { get; set; }
-
-        // @optional @property (getter = isMuted, nonatomic) BOOL muted;
-        [Export("muted")]
-        bool Muted { [Bind("isMuted")] get; set; }
-
-        // @optional @property (nonatomic) float rate;
-        [Export("rate")]
-        float Rate { get; set; }
-
-        // @optional @property (readonly, nonatomic) NSTimeInterval currentTime;
-        [Export("currentTime")]
-        double CurrentTime { get; }
-
-        // @optional @property (readonly, nonatomic) NSTimeInterval totalTime;
-        [Export("totalTime")]
-        double TotalTime { get; }
-
-        // @optional @property (readonly, nonatomic) NSTimeInterval bufferTime;
-        [Export("bufferTime")]
-        double BufferTime { get; }
-
-        // @optional @property (nonatomic) NSTimeInterval seekTime;
-        [Export("seekTime")]
-        double SeekTime { get; set; }
-
-        // @optional @property (readonly, nonatomic) BOOL isPlaying;
-        [Export("isPlaying")]
-        bool IsPlaying { get; }
-
-        // @optional @property (nonatomic) ZFPlayerScalingMode scalingMode;
-        [Export("scalingMode", ArgumentSemantic.Assign)]
-        ZFPlayerScalingMode ScalingMode { get; set; }
-
-        // @optional @property (readonly, nonatomic) BOOL isPreparedToPlay;
-        [Export("isPreparedToPlay")]
-        bool IsPreparedToPlay { get; }
-
-        // @optional @property (nonatomic) NSURL * _Nonnull assetURL;
-        [Export("assetURL", ArgumentSemantic.Assign)]
-        NSUrl AssetURL { get; set; }
-
-        // @optional @property (readonly, nonatomic) CGSize presentationSize;
-        [Export("presentationSize")]
-        CGSize PresentationSize { get; }
-
-        // @optional @property (readonly, nonatomic) ZFPlayerPlaybackState playState;
-        [Export("playState")]
-        ZFPlayerPlaybackState PlayState { get; }
-
-        // @optional @property (readonly, nonatomic) ZFPlayerLoadState loadState;
-        [Export("loadState")]
-        ZFPlayerLoadState LoadState { get; }
-
-        // @optional @property (copy, nonatomic) void (^ _Nullable)(id<ZFPlayerMediaPlayback> _Nonnull, NSURL * _Nonnull) playerPrepareToPlay;
-        [NullAllowed, Export("playerPrepareToPlay", ArgumentSemantic.Copy)]
-        Action<ZFPlayerMediaPlayback, NSURL> PlayerPrepareToPlay { get; set; }
-
-        // @optional @property (copy, nonatomic) void (^ _Nullable)(id<ZFPlayerMediaPlayback> _Nonnull, NSURL * _Nonnull) playerReadyToPlay;
-        [NullAllowed, Export("playerReadyToPlay", ArgumentSemantic.Copy)]
-        Action<ZFPlayerMediaPlayback, NSURL> PlayerReadyToPlay { get; set; }
-
-        // @optional @property (copy, nonatomic) void (^ _Nullable)(id<ZFPlayerMediaPlayback> _Nonnull, NSTimeInterval, NSTimeInterval) playerPlayTimeChanged;
-        [NullAllowed, Export("playerPlayTimeChanged", ArgumentSemantic.Copy)]
-        Action<ZFPlayerMediaPlayback, double, double> PlayerPlayTimeChanged { get; set; }
-
-        // @optional @property (copy, nonatomic) void (^ _Nullable)(id<ZFPlayerMediaPlayback> _Nonnull, NSTimeInterval) playerBufferTimeChanged;
-        [NullAllowed, Export("playerBufferTimeChanged", ArgumentSemantic.Copy)]
-        Action<ZFPlayerMediaPlayback, double> PlayerBufferTimeChanged { get; set; }
-
-        // @optional @property (copy, nonatomic) void (^ _Nullable)(id<ZFPlayerMediaPlayback> _Nonnull, ZFPlayerPlaybackState) playerPlayStateChanged;
-        [NullAllowed, Export("playerPlayStateChanged", ArgumentSemantic.Copy)]
-        Action<ZFPlayerMediaPlayback, ZFPlayerPlaybackState> PlayerPlayStateChanged { get; set; }
-
-        // @optional @property (copy, nonatomic) void (^ _Nullable)(id<ZFPlayerMediaPlayback> _Nonnull, ZFPlayerLoadState) playerLoadStateChanged;
-        [NullAllowed, Export("playerLoadStateChanged", ArgumentSemantic.Copy)]
-        Action<ZFPlayerMediaPlayback, ZFPlayerLoadState> PlayerLoadStateChanged { get; set; }
-
-        // @optional @property (copy, nonatomic) void (^ _Nullable)(id<ZFPlayerMediaPlayback> _Nonnull, id _Nonnull) playerPlayFailed;
-        [NullAllowed, Export("playerPlayFailed", ArgumentSemantic.Copy)]
-        Action<ZFPlayerMediaPlayback, NSObject> PlayerPlayFailed { get; set; }
-
-        // @optional @property (copy, nonatomic) void (^ _Nullable)(id<ZFPlayerMediaPlayback> _Nonnull) playerDidToEnd;
-        [NullAllowed, Export("playerDidToEnd", ArgumentSemantic.Copy)]
-        Action<ZFPlayerMediaPlayback> PlayerDidToEnd { get; set; }
-
-        // @optional @property (copy, nonatomic) void (^ _Nullable)(id<ZFPlayerMediaPlayback> _Nonnull, CGSize) presentationSizeChanged;
-        [NullAllowed, Export("presentationSizeChanged", ArgumentSemantic.Copy)]
-        Action<ZFPlayerMediaPlayback, CGSize> PresentationSizeChanged { get; set; }
-
-        // @optional -(void)prepareToPlay;
         [Export("prepareToPlay")]
         void PrepareToPlay();
 
-        // @optional -(void)reloadPlayer;
-        [Export("reloadPlayer")]
-        void ReloadPlayer();
-
-        // @optional -(void)play;
+        // @required -(void)play;
+        [Abstract]
         [Export("play")]
         void Play();
 
-        // @optional -(void)pause;
+        // @required -(void)pause;
+        [Abstract]
         [Export("pause")]
         void Pause();
 
-        // @optional -(void)replay;
-        [Export("replay")]
-        void Replay();
-
-        // @optional -(void)stop;
+        // @required -(void)stop;
+        [Abstract]
         [Export("stop")]
         void Stop();
 
-        // @optional -(UIImage * _Nonnull)thumbnailImageAtCurrentTime;
-        [Export("thumbnailImageAtCurrentTime")]
-        [Verify(MethodToProperty)]
-        UIImage ThumbnailImageAtCurrentTime { get; }
+        // @required -(BOOL)isPlaying;
+        [Abstract]
+        [Export("isPlaying")]
+        bool IsPlaying { get; }
 
-        // @optional -(void)seekToTime:(NSTimeInterval)time completionHandler:(void (^ _Nullable)(BOOL))completionHandler;
-        [Export("seekToTime:completionHandler:")]
-        void SeekToTime(double time, [NullAllowed] Action<bool> completionHandler);
+        // @required -(void)shutdown;
+        [Abstract]
+        [Export("shutdown")]
+        void Shutdown();
 
-        // @optional -(void)replaceCurrentAssetURL:(NSURL * _Nonnull)assetURL __attribute__((deprecated("use the property `assetURL` instead.")));
-        [Export("replaceCurrentAssetURL:")]
-        void ReplaceCurrentAssetURL(NSUrl assetURL);
-    }
+        // @required -(void)setPauseInBackground:(BOOL)pause;
+        [Abstract]
+        [Export("setPauseInBackground:")]
+        void SetPauseInBackground(bool pause);
 
-    // @interface ZFOrientationObserver : NSObject
-    [BaseType(typeof(NSObject))]
-    interface ZFOrientationObserver
-    {
-        // -(void)updateRotateView:(UIView * _Nonnull)rotateView containerView:(UIView * _Nonnull)containerView;
-        [Export("updateRotateView:containerView:")]
-        void UpdateRotateView(UIView rotateView, UIView containerView);
+        // @required @property (readonly, nonatomic) UIView * view;
+        [Abstract]
+        [Export("view")]
+        UIView View { get; }
 
-        // -(void)cellModelRotateView:(UIView * _Nonnull)rotateView rotateViewAtCell:(UIView * _Nonnull)cell playerViewTag:(NSInteger)playerViewTag;
-        [Export("cellModelRotateView:rotateViewAtCell:playerViewTag:")]
-        void CellModelRotateView(UIView rotateView, UIView cell, nint playerViewTag);
+        // @required @property (nonatomic) NSTimeInterval currentPlaybackTime;
+        [Abstract]
+        [Export("currentPlaybackTime")]
+        double CurrentPlaybackTime { get; set; }
 
-        // -(void)cellOtherModelRotateView:(UIView * _Nonnull)rotateView containerView:(UIView * _Nonnull)containerView;
-        [Export("cellOtherModelRotateView:containerView:")]
-        void CellOtherModelRotateView(UIView rotateView, UIView containerView);
-
-        // @property (nonatomic, strong) UIView * _Nonnull fullScreenContainerView;
-        [Export("fullScreenContainerView", ArgumentSemantic.Strong)]
-        UIView FullScreenContainerView { get; set; }
-
-        // @property (nonatomic, weak) UIView * _Nullable containerView;
-        [NullAllowed, Export("containerView", ArgumentSemantic.Weak)]
-        UIView ContainerView { get; set; }
-
-        // @property (readonly, getter = isFullScreen, nonatomic) BOOL fullScreen;
-        [Export("fullScreen")]
-        bool FullScreen { [Bind("isFullScreen")] get; }
-
-        // @property (assign, nonatomic) BOOL forceDeviceOrientation;
-        [Export("forceDeviceOrientation")]
-        bool ForceDeviceOrientation { get; set; }
-
-        // @property (getter = isLockedScreen, nonatomic) BOOL lockedScreen;
-        [Export("lockedScreen")]
-        bool LockedScreen { [Bind("isLockedScreen")] get; set; }
-
-        // @property (copy, nonatomic) void (^ _Nullable)(ZFOrientationObserver * _Nonnull, BOOL) orientationWillChange;
-        [NullAllowed, Export("orientationWillChange", ArgumentSemantic.Copy)]
-        Action<ZFOrientationObserver, bool> OrientationWillChange { get; set; }
-
-        // @property (copy, nonatomic) void (^ _Nullable)(ZFOrientationObserver * _Nonnull, BOOL) orientationDidChanged;
-        [NullAllowed, Export("orientationDidChanged", ArgumentSemantic.Copy)]
-        Action<ZFOrientationObserver, bool> OrientationDidChanged { get; set; }
-
-        // @property (nonatomic) ZFFullScreenMode fullScreenMode;
-        [Export("fullScreenMode", ArgumentSemantic.Assign)]
-        ZFFullScreenMode FullScreenMode { get; set; }
-
-        // @property (nonatomic) float duration;
+        // @required @property (readonly, nonatomic) NSTimeInterval duration;
+        [Abstract]
         [Export("duration")]
-        float Duration { get; set; }
+        double Duration { get; }
 
-        // @property (getter = isStatusBarHidden, nonatomic) BOOL statusBarHidden;
-        [Export("statusBarHidden")]
-        bool StatusBarHidden { [Bind("isStatusBarHidden")] get; set; }
+        // @required @property (readonly, nonatomic) NSTimeInterval playableDuration;
+        [Abstract]
+        [Export("playableDuration")]
+        double PlayableDuration { get; }
 
-        // @property (readonly, nonatomic) UIInterfaceOrientation currentOrientation;
-        [Export("currentOrientation")]
-        UIInterfaceOrientation CurrentOrientation { get; }
+        // @required @property (readonly, nonatomic) NSInteger bufferingProgress;
+        [Abstract]
+        [Export("bufferingProgress")]
+        nint BufferingProgress { get; }
 
-        // @property (nonatomic) BOOL allowOrentitaionRotation;
-        [Export("allowOrentitaionRotation")]
-        bool AllowOrentitaionRotation { get; set; }
+        // @required @property (readonly, nonatomic) BOOL isPreparedToPlay;
+        [Abstract]
+        [Export("isPreparedToPlay")]
+        bool IsPreparedToPlay { get; }
 
-        // @property (assign, nonatomic) ZFInterfaceOrientationMask supportInterfaceOrientation;
-        [Export("supportInterfaceOrientation", ArgumentSemantic.Assign)]
-        ZFInterfaceOrientationMask SupportInterfaceOrientation { get; set; }
+        // @required @property (readonly, nonatomic) IJKMPMoviePlaybackState playbackState;
+        [Abstract]
+        [Export("playbackState")]
+        IJKMPMoviePlaybackState PlaybackState { get; }
 
-        // -(void)addDeviceOrientationObserver;
-        [Export("addDeviceOrientationObserver")]
-        void AddDeviceOrientationObserver();
+        // @required @property (readonly, nonatomic) IJKMPMovieLoadState loadState;
+        [Abstract]
+        [Export("loadState")]
+        IJKMPMovieLoadState LoadState { get; }
 
-        // -(void)removeDeviceOrientationObserver;
-        [Export("removeDeviceOrientationObserver")]
-        void RemoveDeviceOrientationObserver();
+        // @required @property (readonly, nonatomic) int isSeekBuffering;
+        [Abstract]
+        [Export("isSeekBuffering")]
+        int IsSeekBuffering { get; }
 
-        // -(void)enterLandscapeFullScreen:(UIInterfaceOrientation)orientation animated:(BOOL)animated;
-        [Export("enterLandscapeFullScreen:animated:")]
-        void EnterLandscapeFullScreen(UIInterfaceOrientation orientation, bool animated);
+        // @required @property (readonly, nonatomic) int isAudioSync;
+        [Abstract]
+        [Export("isAudioSync")]
+        int IsAudioSync { get; }
 
-        // -(void)enterPortraitFullScreen:(BOOL)fullScreen animated:(BOOL)animated;
-        [Export("enterPortraitFullScreen:animated:")]
-        void EnterPortraitFullScreen(bool fullScreen, bool animated);
+        // @required @property (readonly, nonatomic) int isVideoSync;
+        [Abstract]
+        [Export("isVideoSync")]
+        int IsVideoSync { get; }
 
-        // -(void)exitFullScreenWithAnimated:(BOOL)animated;
-        [Export("exitFullScreenWithAnimated:")]
-        void ExitFullScreenWithAnimated(bool animated);
-    }
+        // @required @property (readonly, nonatomic) int64_t numberOfBytesTransferred;
+        [Abstract]
+        [Export("numberOfBytesTransferred")]
+        long NumberOfBytesTransferred { get; }
 
-    // @interface ZFReachabilityManager : NSObject
-    [BaseType(typeof(NSObject))]
-    interface ZFReachabilityManager
-    {
-        // @property (readonly, assign, nonatomic) ZFReachabilityStatus networkReachabilityStatus;
-        [Export("networkReachabilityStatus", ArgumentSemantic.Assign)]
-        ZFReachabilityStatus NetworkReachabilityStatus { get; }
+        // @required @property (readonly, nonatomic) CGSize naturalSize;
+        [Abstract]
+        [Export("naturalSize")]
+        CGSize NaturalSize { get; }
 
-        // @property (readonly, getter = isReachable, assign, nonatomic) BOOL reachable;
-        [Export("reachable")]
-        bool Reachable { [Bind("isReachable")] get; }
+        // @required @property (nonatomic) IJKMPMovieScalingMode scalingMode;
+        [Abstract]
+        [Export("scalingMode", ArgumentSemantic.Assign)]
+        IJKMPMovieScalingMode ScalingMode { get; set; }
 
-        // @property (readonly, getter = isReachableViaWWAN, assign, nonatomic) BOOL reachableViaWWAN;
-        [Export("reachableViaWWAN")]
-        bool ReachableViaWWAN { [Bind("isReachableViaWWAN")] get; }
+        // @required @property (nonatomic) BOOL shouldAutoplay;
+        [Abstract]
+        [Export("shouldAutoplay")]
+        bool ShouldAutoplay { get; set; }
 
-        // @property (readonly, getter = isReachableViaWiFi, assign, nonatomic) BOOL reachableViaWiFi;
-        [Export("reachableViaWiFi")]
-        bool ReachableViaWiFi { [Bind("isReachableViaWiFi")] get; }
+        // @required @property (nonatomic) BOOL allowsMediaAirPlay;
+        [Abstract]
+        [Export("allowsMediaAirPlay")]
+        bool AllowsMediaAirPlay { get; set; }
 
-        // +(instancetype _Nonnull)sharedManager;
-        [Static]
-        [Export("sharedManager")]
-        ZFReachabilityManager SharedManager();
+        // @required @property (nonatomic) BOOL isDanmakuMediaAirPlay;
+        [Abstract]
+        [Export("isDanmakuMediaAirPlay")]
+        bool IsDanmakuMediaAirPlay { get; set; }
 
-        // +(instancetype _Nonnull)manager;
-        [Static]
-        [Export("manager")]
-        ZFReachabilityManager Manager();
+        // @required @property (readonly, nonatomic) BOOL airPlayMediaActive;
+        [Abstract]
+        [Export("airPlayMediaActive")]
+        bool AirPlayMediaActive { get; }
 
-        // +(instancetype _Nonnull)managerForDomain:(NSString * _Nonnull)domain;
-        [Static]
-        [Export("managerForDomain:")]
-        ZFReachabilityManager ManagerForDomain(string domain);
+        // @required @property (nonatomic) float playbackRate;
+        [Abstract]
+        [Export("playbackRate")]
+        float PlaybackRate { get; set; }
 
-        // +(instancetype _Nonnull)managerForAddress:(const void * _Nonnull)address;
-        [Static]
-        [Export("managerForAddress:")]
-        unsafe ZFReachabilityManager ManagerForAddress(void* address);
+        // @required @property (nonatomic) float playbackVolume;
+        [Abstract]
+        [Export("playbackVolume")]
+        float PlaybackVolume { get; set; }
 
-        // -(instancetype _Nonnull)initWithReachability:(SCNetworkReachabilityRef _Nonnull)reachability __attribute__((objc_designated_initializer));
-        [Export("initWithReachability:")]
-        [DesignatedInitializer]
-        unsafe IntPtr Constructor(SCNetworkReachabilityRef* reachability);
-
-        // -(void)startMonitoring;
-        [Export("startMonitoring")]
-        void StartMonitoring();
-
-        // -(void)stopMonitoring;
-        [Export("stopMonitoring")]
-        void StopMonitoring();
-
-        // -(NSString * _Nonnull)localizedNetworkReachabilityStatusString;
-        [Export("localizedNetworkReachabilityStatusString")]
-        [Verify(MethodToProperty)]
-        string LocalizedNetworkReachabilityStatusString { get; }
-
-        // -(void)setReachabilityStatusChangeBlock:(void (^ _Nullable)(ZFReachabilityStatus))block;
-        [Export("setReachabilityStatusChangeBlock:")]
-        void SetReachabilityStatusChangeBlock([NullAllowed] Action<ZFReachabilityStatus> block);
+        // @required -(UIImage *)thumbnailImageAtCurrentTime;
+        [Abstract]
+        [Export("thumbnailImageAtCurrentTime")]
+        UIImage ThumbnailImageAtCurrentTime { get; }
     }
 
     [Static]
-    [Verify(ConstantsInterfaceAssociation)]
-    partial interface Constants
+    partial interface IJKMPMoviePlayer
     {
-        // extern NSString *const _Nonnull ZFReachabilityDidChangeNotification;
-        [Field("ZFReachabilityDidChangeNotification", "__Internal")]
-        NSString ZFReachabilityDidChangeNotification { get; }
+        // extern NSString *const IJKMPMediaPlaybackIsPreparedToPlayDidChangeNotification __attribute__((visibility("default")));
+        [Field("IJKMPMediaPlaybackIsPreparedToPlayDidChangeNotification", "__Internal")]
+        NSString PlaybackIsPreparedToPlayDidChangeNotification { get; }
 
-        // extern NSString *const _Nonnull ZFReachabilityNotificationStatusItem;
-        [Field("ZFReachabilityNotificationStatusItem", "__Internal")]
-        NSString ZFReachabilityNotificationStatusItem { get; }
+        //todo 
+        // extern NSString *const IJKMPMoviePlayerScalingModeDidChangeNotification __attribute__((visibility("default")));
+        //[Field("IJKMPMoviePlayerScalingModeDidChangeNotification", "__Internal")]
+        //NSString ScalingModeDidChangeNotification { get; }
+
+        // extern NSString *const IJKMPMoviePlayerPlaybackDidFinishNotification __attribute__((visibility("default")));
+        [Field("IJKMPMoviePlayerPlaybackDidFinishNotification", "__Internal")]
+        NSString PlaybackDidFinishNotification { get; }
+
+        // extern NSString *const IJKMPMoviePlayerPlaybackDidFinishReasonUserInfoKey __attribute__((visibility("default")));
+        [Field("IJKMPMoviePlayerPlaybackDidFinishReasonUserInfoKey", "__Internal")]
+        NSString PlaybackDidFinishReasonUserInfoKey { get; }
+
+        // extern NSString *const IJKMPMoviePlayerPlaybackStateDidChangeNotification __attribute__((visibility("default")));
+        [Field("IJKMPMoviePlayerPlaybackStateDidChangeNotification", "__Internal")]
+        NSString PlaybackStateDidChangeNotification { get; }
+
+        // extern NSString *const IJKMPMoviePlayerLoadStateDidChangeNotification __attribute__((visibility("default")));
+        [Field("IJKMPMoviePlayerLoadStateDidChangeNotification", "__Internal")]
+        NSString LoadStateDidChangeNotification { get; }
+
+        // extern NSString *const IJKMPMoviePlayerIsAirPlayVideoActiveDidChangeNotification __attribute__((visibility("default")));
+        [Field("IJKMPMoviePlayerIsAirPlayVideoActiveDidChangeNotification", "__Internal")]
+        NSString IsAirPlayVideoActiveDidChangeNotification { get; }
+
+        // extern NSString *const IJKMPMovieNaturalSizeAvailableNotification __attribute__((visibility("default")));
+        [Field("IJKMPMovieNaturalSizeAvailableNotification", "__Internal")]
+        NSString NaturalSizeAvailableNotification { get; }
+
+        // extern NSString *const IJKMPMoviePlayerVideoDecoderOpenNotification __attribute__((visibility("default")));
+        [Field("IJKMPMoviePlayerVideoDecoderOpenNotification", "__Internal")]
+        NSString VideoDecoderOpenNotification { get; }
+
+        // extern NSString *const IJKMPMoviePlayerFirstVideoFrameRenderedNotification __attribute__((visibility("default")));
+        [Field("IJKMPMoviePlayerFirstVideoFrameRenderedNotification", "__Internal")]
+        NSString FirstVideoFrameRenderedNotification { get; }
+
+        // extern NSString *const IJKMPMoviePlayerFirstAudioFrameRenderedNotification __attribute__((visibility("default")));
+        [Field("IJKMPMoviePlayerFirstAudioFrameRenderedNotification", "__Internal")]
+        NSString FirstAudioFrameRenderedNotification { get; }
+
+        // extern NSString *const IJKMPMoviePlayerFirstAudioFrameDecodedNotification __attribute__((visibility("default")));
+        [Field("IJKMPMoviePlayerFirstAudioFrameDecodedNotification", "__Internal")]
+        NSString FirstAudioFrameDecodedNotification { get; }
+
+        // extern NSString *const IJKMPMoviePlayerFirstVideoFrameDecodedNotification __attribute__((visibility("default")));
+        [Field("IJKMPMoviePlayerFirstVideoFrameDecodedNotification", "__Internal")]
+        NSString FirstVideoFrameDecodedNotification { get; }
+
+        // extern NSString *const IJKMPMoviePlayerOpenInputNotification __attribute__((visibility("default")));
+        [Field("IJKMPMoviePlayerOpenInputNotification", "__Internal")]
+        NSString OpenInputNotification { get; }
+
+        // extern NSString *const IJKMPMoviePlayerFindStreamInfoNotification __attribute__((visibility("default")));
+        [Field("IJKMPMoviePlayerFindStreamInfoNotification", "__Internal")]
+        NSString FindStreamInfoNotification { get; }
+
+        // extern NSString *const IJKMPMoviePlayerComponentOpenNotification __attribute__((visibility("default")));
+        [Field("IJKMPMoviePlayerComponentOpenNotification", "__Internal")]
+        NSString ComponentOpenNotification { get; }
+
+        // extern NSString *const IJKMPMoviePlayerDidSeekCompleteNotification __attribute__((visibility("default")));
+        [Field("IJKMPMoviePlayerDidSeekCompleteNotification", "__Internal")]
+        NSString DidSeekCompleteNotification { get; }
+
+        // extern NSString *const IJKMPMoviePlayerDidSeekCompleteTargetKey __attribute__((visibility("default")));
+        [Field("IJKMPMoviePlayerDidSeekCompleteTargetKey", "__Internal")]
+        NSString DidSeekCompleteTargetKey { get; }
+
+        // extern NSString *const IJKMPMoviePlayerDidSeekCompleteErrorKey __attribute__((visibility("default")));
+        [Field("IJKMPMoviePlayerDidSeekCompleteErrorKey", "__Internal")]
+        NSString DidSeekCompleteErrorKey { get; }
+
+        // extern NSString *const IJKMPMoviePlayerDidAccurateSeekCompleteCurPos __attribute__((visibility("default")));
+        [Field("IJKMPMoviePlayerDidAccurateSeekCompleteCurPos", "__Internal")]
+        NSString DidAccurateSeekCompleteCurPos { get; }
+
+        // extern NSString *const IJKMPMoviePlayerAccurateSeekCompleteNotification __attribute__((visibility("default")));
+        [Field("IJKMPMoviePlayerAccurateSeekCompleteNotification", "__Internal")]
+        NSString AccurateSeekCompleteNotification { get; }
+
+        // extern NSString *const IJKMPMoviePlayerSeekAudioStartNotification __attribute__((visibility("default")));
+        [Field("IJKMPMoviePlayerSeekAudioStartNotification", "__Internal")]
+        NSString SeekAudioStartNotification { get; }
+
+        // extern NSString *const IJKMPMoviePlayerSeekVideoStartNotification __attribute__((visibility("default")));
+        [Field("IJKMPMoviePlayerSeekVideoStartNotification", "__Internal")]
+        NSString SeekVideoStartNotification { get; }
     }
 
-    // @protocol ZFPlayerMediaControl <NSObject>
+    // @interface IJKMediaUrlOpenData : NSObject
+    [BaseType(typeof(NSObject))]
+    interface IJKMediaUrlOpenData
+    {
+        // -(id)initWithUrl:(NSString *)url event:(IJKMediaEvent)event segmentIndex:(int)segmentIndex retryCounter:(int)retryCounter;
+        [Export("initWithUrl:event:segmentIndex:retryCounter:")]
+        IntPtr Constructor(string url, IJKMediaEvent @event, int segmentIndex, int retryCounter);
+
+        // @property (readonly, nonatomic) IJKMediaEvent event;
+        [Export("event")]
+        IJKMediaEvent Event { get; }
+
+        // @property (readonly, nonatomic) int segmentIndex;
+        [Export("segmentIndex")]
+        int SegmentIndex { get; }
+
+        // @property (readonly, nonatomic) int retryCounter;
+        [Export("retryCounter")]
+        int RetryCounter { get; }
+
+        // @property (retain, nonatomic) NSString * url;
+        [Export("url", ArgumentSemantic.Retain)]
+        string Url { get; set; }
+
+        // @property (assign, nonatomic) int fd;
+        [Export("fd")]
+        int Fd { get; set; }
+
+        // @property (nonatomic, strong) NSString * msg;
+        [Export("msg", ArgumentSemantic.Strong)]
+        string Msg { get; set; }
+
+        // @property (nonatomic) int error;
+        [Export("error")]
+        int Error { get; set; }
+
+        // @property (getter = isHandled, nonatomic) BOOL handled;
+        [Export("handled")]
+        bool Handled { [Bind("isHandled")] get; set; }
+
+        // @property (getter = isUrlChanged, nonatomic) BOOL urlChanged;
+        [Export("urlChanged")]
+        bool UrlChanged { [Bind("isUrlChanged")] get; set; }
+    }
+
+    // @protocol IJKMediaUrlOpenDelegate <NSObject>
+    partial interface IIJKMediaUrlOpenDelegate { }
+
     [Protocol, Model]
     [BaseType(typeof(NSObject))]
-    interface ZFPlayerMediaControl
+    interface IJKMediaUrlOpenDelegate
     {
-        // @required @property (nonatomic, weak) ZFPlayerController * _Nullable player;
+        // @required -(void)willOpenUrl:(IJKMediaUrlOpenData *)urlOpenData;
         [Abstract]
-        [NullAllowed, Export("player", ArgumentSemantic.Weak)]
-        ZFPlayerController Player { get; set; }
-
-        // @optional -(void)videoPlayer:(ZFPlayerController * _Nonnull)videoPlayer prepareToPlay:(NSURL * _Nonnull)assetURL;
-        [Export("videoPlayer:prepareToPlay:")]
-        void VideoPlayer(ZFPlayerController videoPlayer, NSUrl assetURL);
-
-        // @optional -(void)videoPlayer:(ZFPlayerController * _Nonnull)videoPlayer playStateChanged:(ZFPlayerPlaybackState)state;
-        [Export("videoPlayer:playStateChanged:")]
-        void VideoPlayer(ZFPlayerController videoPlayer, ZFPlayerPlaybackState state);
-
-        // @optional -(void)videoPlayer:(ZFPlayerController * _Nonnull)videoPlayer loadStateChanged:(ZFPlayerLoadState)state;
-        [Export("videoPlayer:loadStateChanged:")]
-        void VideoPlayer(ZFPlayerController videoPlayer, ZFPlayerLoadState state);
-
-        // @optional -(void)videoPlayer:(ZFPlayerController * _Nonnull)videoPlayer currentTime:(NSTimeInterval)currentTime totalTime:(NSTimeInterval)totalTime;
-        [Export("videoPlayer:currentTime:totalTime:")]
-        void VideoPlayer(ZFPlayerController videoPlayer, double currentTime, double totalTime);
-
-        // @optional -(void)videoPlayer:(ZFPlayerController * _Nonnull)videoPlayer bufferTime:(NSTimeInterval)bufferTime;
-        [Export("videoPlayer:bufferTime:")]
-        void VideoPlayer(ZFPlayerController videoPlayer, double bufferTime);
-
-        // @optional -(void)videoPlayer:(ZFPlayerController * _Nonnull)videoPlayer draggingTime:(NSTimeInterval)seekTime totalTime:(NSTimeInterval)totalTime;
-        [Export("videoPlayer:draggingTime:totalTime:")]
-        void VideoPlayer(ZFPlayerController videoPlayer, double seekTime, double totalTime);
-
-        // @optional -(void)videoPlayerPlayEnd:(ZFPlayerController * _Nonnull)videoPlayer;
-        [Export("videoPlayerPlayEnd:")]
-        void VideoPlayerPlayEnd(ZFPlayerController videoPlayer);
-
-        // @optional -(void)videoPlayerPlayFailed:(ZFPlayerController * _Nonnull)videoPlayer error:(id _Nonnull)error;
-        [Export("videoPlayerPlayFailed:error:")]
-        void VideoPlayerPlayFailed(ZFPlayerController videoPlayer, NSObject error);
-
-        // @optional -(void)lockedVideoPlayer:(ZFPlayerController * _Nonnull)videoPlayer lockedScreen:(BOOL)locked;
-        [Export("lockedVideoPlayer:lockedScreen:")]
-        void LockedVideoPlayer(ZFPlayerController videoPlayer, bool locked);
-
-        // @optional -(void)videoPlayer:(ZFPlayerController * _Nonnull)videoPlayer orientationWillChange:(ZFOrientationObserver * _Nonnull)observer;
-        [Export("videoPlayer:orientationWillChange:")]
-        void VideoPlayer(ZFPlayerController videoPlayer, ZFOrientationObserver observer);
-
-        // @optional -(void)videoPlayer:(ZFPlayerController * _Nonnull)videoPlayer orientationDidChanged:(ZFOrientationObserver * _Nonnull)observer;
-        [Export("videoPlayer:orientationDidChanged:")]
-        void VideoPlayer(ZFPlayerController videoPlayer, ZFOrientationObserver observer);
-
-        // @optional -(void)videoPlayer:(ZFPlayerController * _Nonnull)videoPlayer reachabilityChanged:(ZFReachabilityStatus)status;
-        [Export("videoPlayer:reachabilityChanged:")]
-        void VideoPlayer(ZFPlayerController videoPlayer, ZFReachabilityStatus status);
-
-        // @optional -(void)videoPlayer:(ZFPlayerController * _Nonnull)videoPlayer presentationSizeChanged:(CGSize)size;
-        [Export("videoPlayer:presentationSizeChanged:")]
-        void VideoPlayer(ZFPlayerController videoPlayer, CGSize size);
-
-        // @optional -(BOOL)gestureTriggerCondition:(id)gestureControl gestureType:(id)gestureType gestureRecognizer:(UIGestureRecognizer * _Nonnull)gestureRecognizer touch:(UITouch * _Nonnull)touch;
-        [Export("gestureTriggerCondition:gestureType:gestureRecognizer:touch:")]
-        bool GestureTriggerCondition(NSObject gestureControl, NSObject gestureType, UIGestureRecognizer gestureRecognizer, UITouch touch);
-
-        // @optional -(void)gestureSingleTapped:(id)gestureControl;
-        [Export("gestureSingleTapped:")]
-        void GestureSingleTapped(NSObject gestureControl);
-
-        // @optional -(void)gestureDoubleTapped:(id)gestureControl;
-        [Export("gestureDoubleTapped:")]
-        void GestureDoubleTapped(NSObject gestureControl);
-
-        // @optional -(void)gestureBeganPan:(id)gestureControl panDirection:(id)direction panLocation:(id)location;
-        [Export("gestureBeganPan:panDirection:panLocation:")]
-        void GestureBeganPan(NSObject gestureControl, NSObject direction, NSObject location);
-
-        // @optional -(void)gestureChangedPan:(id)gestureControl panDirection:(id)direction panLocation:(id)location withVelocity:(CGPoint)velocity;
-        [Export("gestureChangedPan:panDirection:panLocation:withVelocity:")]
-        void GestureChangedPan(NSObject gestureControl, NSObject direction, NSObject location, CGPoint velocity);
-
-        // @optional -(void)gestureEndedPan:(id)gestureControl panDirection:(id)direction panLocation:(id)location;
-        [Export("gestureEndedPan:panDirection:panLocation:")]
-        void GestureEndedPan(NSObject gestureControl, NSObject direction, NSObject location);
-
-        // @optional -(void)gesturePinched:(id)gestureControl scale:(float)scale;
-        [Export("gesturePinched:scale:")]
-        void GesturePinched(NSObject gestureControl, float scale);
-
-        // @optional -(void)playerWillAppearInScrollView:(ZFPlayerController * _Nonnull)videoPlayer;
-        [Export("playerWillAppearInScrollView:")]
-        void PlayerWillAppearInScrollView(ZFPlayerController videoPlayer);
-
-        // @optional -(void)playerDidAppearInScrollView:(ZFPlayerController * _Nonnull)videoPlayer;
-        [Export("playerDidAppearInScrollView:")]
-        void PlayerDidAppearInScrollView(ZFPlayerController videoPlayer);
-
-        // @optional -(void)playerWillDisappearInScrollView:(ZFPlayerController * _Nonnull)videoPlayer;
-        [Export("playerWillDisappearInScrollView:")]
-        void PlayerWillDisappearInScrollView(ZFPlayerController videoPlayer);
-
-        // @optional -(void)playerDidDisappearInScrollView:(ZFPlayerController * _Nonnull)videoPlayer;
-        [Export("playerDidDisappearInScrollView:")]
-        void PlayerDidDisappearInScrollView(ZFPlayerController videoPlayer);
-
-        // @optional -(void)playerAppearingInScrollView:(ZFPlayerController * _Nonnull)videoPlayer playerApperaPercent:(CGFloat)playerApperaPercent;
-        [Export("playerAppearingInScrollView:playerApperaPercent:")]
-        void PlayerAppearingInScrollView(ZFPlayerController videoPlayer, nfloat playerApperaPercent);
-
-        // @optional -(void)playerDisappearingInScrollView:(ZFPlayerController * _Nonnull)videoPlayer playerDisapperaPercent:(CGFloat)playerDisapperaPercent;
-        [Export("playerDisappearingInScrollView:playerDisapperaPercent:")]
-        void PlayerDisappearingInScrollView(ZFPlayerController videoPlayer, nfloat playerDisapperaPercent);
+        [Export("willOpenUrl:")]
+        void WillOpenUrl(IJKMediaUrlOpenData urlOpenData);
     }
 
-    // @interface ZFPlayerController : NSObject
+    // @protocol IJKMediaNativeInvokeDelegate <NSObject>
+    partial interface IIJKMediaNativeInvokeDelegate { }
+
+    [Protocol, Model]
     [BaseType(typeof(NSObject))]
-    interface ZFPlayerController
+    interface IJKMediaNativeInvokeDelegate
     {
-        // @property (nonatomic, strong) UIView * _Nonnull containerView;
-        [Export("containerView", ArgumentSemantic.Strong)]
-        UIView ContainerView { get; set; }
-
-        // @property (nonatomic, strong) id<ZFPlayerMediaPlayback> _Nonnull currentPlayerManager;
-        [Export("currentPlayerManager", ArgumentSemantic.Strong)]
-        ZFPlayerMediaPlayback CurrentPlayerManager { get; set; }
-
-        // @property (nonatomic, strong) UIView<ZFPlayerMediaControl> * _Nonnull controlView;
-        [Export("controlView", ArgumentSemantic.Strong)]
-        ZFPlayerMediaControl ControlView { get; set; }
-
-        // @property (readonly, nonatomic, strong) int * _Nonnull notification;
-        [Export("notification", ArgumentSemantic.Strong)]
-        unsafe int* Notification { get; }
-
-        // +(instancetype _Nonnull)playerWithPlayerManager:(id<ZFPlayerMediaPlayback> _Nonnull)playerManager containerView:(UIView * _Nonnull)containerView;
-        [Static]
-        [Export("playerWithPlayerManager:containerView:")]
-        ZFPlayerController PlayerWithPlayerManager(ZFPlayerMediaPlayback playerManager, UIView containerView);
-
-        // -(instancetype _Nonnull)initWithPlayerManager:(id<ZFPlayerMediaPlayback> _Nonnull)playerManager containerView:(UIView * _Nonnull)containerView;
-        [Export("initWithPlayerManager:containerView:")]
-        IntPtr Constructor(ZFPlayerMediaPlayback playerManager, UIView containerView);
-
-        // +(instancetype _Nonnull)playerWithScrollView:(UIScrollView * _Nonnull)scrollView playerManager:(id<ZFPlayerMediaPlayback> _Nonnull)playerManager containerViewTag:(NSInteger)containerViewTag;
-        [Static]
-        [Export("playerWithScrollView:playerManager:containerViewTag:")]
-        ZFPlayerController PlayerWithScrollView(UIScrollView scrollView, ZFPlayerMediaPlayback playerManager, nint containerViewTag);
-
-        // -(instancetype _Nonnull)initWithScrollView:(UIScrollView * _Nonnull)scrollView playerManager:(id<ZFPlayerMediaPlayback> _Nonnull)playerManager containerViewTag:(NSInteger)containerViewTag;
-        [Export("initWithScrollView:playerManager:containerViewTag:")]
-        IntPtr Constructor(UIScrollView scrollView, ZFPlayerMediaPlayback playerManager, nint containerViewTag);
+        // @required -(int)invoke:(IJKMediaEvent)event attributes:(NSDictionary *)attributes;
+        [Abstract]
+        [Export("invoke:attributes:")]
+        int Attributes(IJKMediaEvent @event, NSDictionary attributes);
     }
 
-    // @interface ZFPlayerTimeControl (ZFPlayerController)
-    [Category]
-    [BaseType(typeof(ZFPlayerController))]
-    interface ZFPlayerController_ZFPlayerTimeControl
+    // @interface IJKMPMoviePlayerController : MPMoviePlayerController <IJKMediaPlayback>
+    [BaseType(typeof(MPMoviePlayerController))]
+    interface IJKMPMoviePlayerController : IIJKMediaPlayback
     {
-        // @property (readonly, nonatomic) NSTimeInterval currentTime;
-        [Export("currentTime")]
-        double CurrentTime { get; }
+        // -(id)initWithContentURL:(NSURL *)aUrl;
+        [Export("initWithContentURL:")]
+        IntPtr Constructor(NSUrl aUrl);
 
-        // @property (readonly, nonatomic) NSTimeInterval totalTime;
-        [Export("totalTime")]
-        double TotalTime { get; }
-
-        // @property (readonly, nonatomic) NSTimeInterval bufferTime;
-        [Export("bufferTime")]
-        double BufferTime { get; }
-
-        // @property (readonly, nonatomic) float progress;
-        [Export("progress")]
-        float Progress { get; }
-
-        // @property (readonly, nonatomic) float bufferProgress;
-        [Export("bufferProgress")]
-        float BufferProgress { get; }
-
-        // -(void)seekToTime:(NSTimeInterval)time completionHandler:(void (^ _Nullable)(BOOL))completionHandler;
-        [Export("seekToTime:completionHandler:")]
-        void SeekToTime(double time, [NullAllowed] Action<bool> completionHandler);
+        // -(id)initWithContentURLString:(NSString *)aUrl;
+        [Export("initWithContentURLString:")]
+        IntPtr Constructor(string aUrl);
     }
 
-    // @interface ZFPlayerPlaybackControl (ZFPlayerController)
-    [Category]
-    [BaseType(typeof(ZFPlayerController))]
-    interface ZFPlayerController_ZFPlayerPlaybackControl
+    // @interface IJKFFOptions : NSObject
+    [BaseType(typeof(NSObject))]
+    interface IJKFFOptions
     {
-        // @property (nonatomic) float volume;
-        [Export("volume")]
-        float Volume { get; set; }
+        // +(IJKFFOptions *)optionsByDefault;
+        [Static]
+        [Export("optionsByDefault")]
+        IJKFFOptions OptionsByDefault { get; }
 
-        // @property (getter = isMuted, nonatomic) BOOL muted;
-        [Export("muted")]
-        bool Muted { [Bind("isMuted")] get; set; }
+        // -(void)applyTo:(struct IjkMediaPlayer *)mediaPlayer;
+        //todo
+        [Export("applyTo:")]
+        unsafe void ApplyTo(NSObject mediaPlayer);
 
-        // @property (nonatomic) float brightness;
-        [Export("brightness")]
-        float Brightness { get; set; }
+        // -(void)setOptionValue:(NSString *)value forKey:(NSString *)key ofCategory:(IJKFFOptionCategory)category;
+        [Export("setOptionValue:forKey:ofCategory:")]
+        void SetOptionValue(string value, string key, IJKFFOptionCategory category);
 
-        // @property (nonatomic) NSURL * _Nonnull assetURL;
-        [Export("assetURL", ArgumentSemantic.Assign)]
-        NSUrl AssetURL { get; set; }
+        // -(void)setOptionIntValue:(int64_t)value forKey:(NSString *)key ofCategory:(IJKFFOptionCategory)category;
+        [Export("setOptionIntValue:forKey:ofCategory:")]
+        void SetOptionIntValue(long value, string key, IJKFFOptionCategory category);
 
-        // @property (copy, nonatomic) NSArray<NSURL *> * _Nullable assetURLs;
-        [NullAllowed, Export("assetURLs", ArgumentSemantic.Copy)]
-        NSUrl[] AssetURLs { get; set; }
+        // -(void)setFormatOptionValue:(NSString *)value forKey:(NSString *)key;
+        [Export("setFormatOptionValue:forKey:")]
+        void SetFormatOptionValue(string value, string key);
 
-        // @property (nonatomic) NSInteger currentPlayIndex;
-        [Export("currentPlayIndex")]
-        nint CurrentPlayIndex { get; set; }
+        // -(void)setCodecOptionValue:(NSString *)value forKey:(NSString *)key;
+        [Export("setCodecOptionValue:forKey:")]
+        void SetCodecOptionValue(string value, string key);
 
-        // @property (readonly, nonatomic) BOOL isLastAssetURL;
-        [Export("isLastAssetURL")]
-        bool IsLastAssetURL { get; }
+        // -(void)setSwsOptionValue:(NSString *)value forKey:(NSString *)key;
+        [Export("setSwsOptionValue:forKey:")]
+        void SetSwsOptionValue(string value, string key);
 
-        // @property (readonly, nonatomic) BOOL isFirstAssetURL;
-        [Export("isFirstAssetURL")]
-        bool IsFirstAssetURL { get; }
+        // -(void)setPlayerOptionValue:(NSString *)value forKey:(NSString *)key;
+        [Export("setPlayerOptionValue:forKey:")]
+        void SetPlayerOptionValue(string value, string key);
 
-        // @property (nonatomic) BOOL pauseWhenAppResignActive;
-        [Export("pauseWhenAppResignActive")]
-        bool PauseWhenAppResignActive { get; set; }
+        // -(void)setFormatOptionIntValue:(int64_t)value forKey:(NSString *)key;
+        [Export("setFormatOptionIntValue:forKey:")]
+        void SetFormatOptionIntValue(long value, string key);
 
-        // @property (getter = isPauseByEvent, nonatomic) BOOL pauseByEvent;
-        [Export("pauseByEvent")]
-        bool PauseByEvent { [Bind("isPauseByEvent")] get; set; }
+        // -(void)setCodecOptionIntValue:(int64_t)value forKey:(NSString *)key;
+        [Export("setCodecOptionIntValue:forKey:")]
+        void SetCodecOptionIntValue(long value, string key);
 
-        // @property (getter = isViewControllerDisappear, nonatomic) BOOL viewControllerDisappear;
-        [Export("viewControllerDisappear")]
-        bool ViewControllerDisappear { [Bind("isViewControllerDisappear")] get; set; }
+        // -(void)setSwsOptionIntValue:(int64_t)value forKey:(NSString *)key;
+        [Export("setSwsOptionIntValue:forKey:")]
+        void SetSwsOptionIntValue(long value, string key);
 
-        // @property (assign, nonatomic) BOOL customAudioSession;
-        [Export("customAudioSession")]
-        bool CustomAudioSession { get; set; }
+        // -(void)setPlayerOptionIntValue:(int64_t)value forKey:(NSString *)key;
+        [Export("setPlayerOptionIntValue:forKey:")]
+        void SetPlayerOptionIntValue(long value, string key);
 
-        // @property (copy, nonatomic) void (^ _Nullable)(id<ZFPlayerMediaPlayback> _Nonnull, NSURL * _Nonnull) playerPrepareToPlay;
-        [NullAllowed, Export("playerPrepareToPlay", ArgumentSemantic.Copy)]
-        Action<ZFPlayerMediaPlayback, NSURL> PlayerPrepareToPlay { get; set; }
+        // @property (nonatomic) BOOL showHudView;
+        [Export("showHudView")]
+        bool ShowHudView { get; set; }
+    }
 
-        // @property (copy, nonatomic) void (^ _Nullable)(id<ZFPlayerMediaPlayback> _Nonnull, NSURL * _Nonnull) playerReadyToPlay;
-        [NullAllowed, Export("playerReadyToPlay", ArgumentSemantic.Copy)]
-        Action<ZFPlayerMediaPlayback, NSURL> PlayerReadyToPlay { get; set; }
+    // @interface IJKFFMonitor : NSObject
+    [BaseType(typeof(NSObject))]
+    interface IJKFFMonitor
+    {
+        // @property (nonatomic) NSDictionary * mediaMeta;
+        [Export("mediaMeta", ArgumentSemantic.Assign)]
+        NSDictionary MediaMeta { get; set; }
 
-        // @property (copy, nonatomic) void (^ _Nullable)(id<ZFPlayerMediaPlayback> _Nonnull, NSTimeInterval, NSTimeInterval) playerPlayTimeChanged;
-        [NullAllowed, Export("playerPlayTimeChanged", ArgumentSemantic.Copy)]
-        Action<ZFPlayerMediaPlayback, double, double> PlayerPlayTimeChanged { get; set; }
+        // @property (nonatomic) NSDictionary * videoMeta;
+        [Export("videoMeta", ArgumentSemantic.Assign)]
+        NSDictionary VideoMeta { get; set; }
 
-        // @property (copy, nonatomic) void (^ _Nullable)(id<ZFPlayerMediaPlayback> _Nonnull, NSTimeInterval) playerBufferTimeChanged;
-        [NullAllowed, Export("playerBufferTimeChanged", ArgumentSemantic.Copy)]
-        Action<ZFPlayerMediaPlayback, double> PlayerBufferTimeChanged { get; set; }
+        // @property (nonatomic) NSDictionary * audioMeta;
+        [Export("audioMeta", ArgumentSemantic.Assign)]
+        NSDictionary AudioMeta { get; set; }
 
-        // @property (copy, nonatomic) void (^ _Nullable)(id<ZFPlayerMediaPlayback> _Nonnull, ZFPlayerPlaybackState) playerPlayStateChanged;
-        [NullAllowed, Export("playerPlayStateChanged", ArgumentSemantic.Copy)]
-        Action<ZFPlayerMediaPlayback, ZFPlayerPlaybackState> PlayerPlayStateChanged { get; set; }
+        // @property (readonly, nonatomic) int64_t duration;
+        [Export("duration")]
+        long Duration { get; }
 
-        // @property (copy, nonatomic) void (^ _Nullable)(id<ZFPlayerMediaPlayback> _Nonnull, ZFPlayerLoadState) playerLoadStateChanged;
-        [NullAllowed, Export("playerLoadStateChanged", ArgumentSemantic.Copy)]
-        Action<ZFPlayerMediaPlayback, ZFPlayerLoadState> PlayerLoadStateChanged { get; set; }
+        // @property (readonly, nonatomic) int64_t bitrate;
+        [Export("bitrate")]
+        long Bitrate { get; }
 
-        // @property (copy, nonatomic) void (^ _Nullable)(id<ZFPlayerMediaPlayback> _Nonnull, id _Nonnull) playerPlayFailed;
-        [NullAllowed, Export("playerPlayFailed", ArgumentSemantic.Copy)]
-        Action<ZFPlayerMediaPlayback, NSObject> PlayerPlayFailed { get; set; }
+        // @property (readonly, nonatomic) float fps;
+        [Export("fps")]
+        float Fps { get; }
 
-        // @property (copy, nonatomic) void (^ _Nullable)(id<ZFPlayerMediaPlayback> _Nonnull) playerDidToEnd;
-        [NullAllowed, Export("playerDidToEnd", ArgumentSemantic.Copy)]
-        Action<ZFPlayerMediaPlayback> PlayerDidToEnd { get; set; }
+        // @property (readonly, nonatomic) int width;
+        [Export("width")]
+        int Width { get; }
 
-        // @property (copy, nonatomic) void (^ _Nullable)(id<ZFPlayerMediaPlayback> _Nonnull, CGSize) presentationSizeChanged;
-        [NullAllowed, Export("presentationSizeChanged", ArgumentSemantic.Copy)]
-        Action<ZFPlayerMediaPlayback, CGSize> PresentationSizeChanged { get; set; }
+        // @property (readonly, nonatomic) int height;
+        [Export("height")]
+        int Height { get; }
 
-        // -(void)playTheNext;
-        [Export("playTheNext")]
-        void PlayTheNext();
+        // @property (readonly, nonatomic) NSString * vcodec;
+        [Export("vcodec")]
+        string Vcodec { get; }
 
-        // -(void)playThePrevious;
-        [Export("playThePrevious")]
-        void PlayThePrevious();
+        // @property (readonly, nonatomic) NSString * acodec;
+        [Export("acodec")]
+        string Acodec { get; }
 
-        // -(void)playTheIndex:(NSInteger)index;
-        [Export("playTheIndex:")]
-        void PlayTheIndex(nint index);
+        // @property (readonly, nonatomic) int sampleRate;
+        [Export("sampleRate")]
+        int SampleRate { get; }
+
+        // @property (readonly, nonatomic) int64_t channelLayout;
+        [Export("channelLayout")]
+        long ChannelLayout { get; }
+
+        // @property (nonatomic) NSString * vdecoder;
+        [Export("vdecoder")]
+        string Vdecoder { get; set; }
+
+        // @property (nonatomic) int tcpError;
+        [Export("tcpError")]
+        int TcpError { get; set; }
+
+        // @property (nonatomic) NSString * remoteIp;
+        [Export("remoteIp")]
+        string RemoteIp { get; set; }
+
+        // @property (nonatomic) int httpError;
+        [Export("httpError")]
+        int HttpError { get; set; }
+
+        // @property (nonatomic) NSString * httpUrl;
+        [Export("httpUrl")]
+        string HttpUrl { get; set; }
+
+        // @property (nonatomic) NSString * httpHost;
+        [Export("httpHost")]
+        string HttpHost { get; set; }
+
+        // @property (nonatomic) int httpCode;
+        [Export("httpCode")]
+        int HttpCode { get; set; }
+
+        // @property (nonatomic) int64_t httpOpenTick;
+        [Export("httpOpenTick")]
+        long HttpOpenTick { get; set; }
+
+        // @property (nonatomic) int64_t httpSeekTick;
+        [Export("httpSeekTick")]
+        long HttpSeekTick { get; set; }
+
+        // @property (nonatomic) int httpOpenCount;
+        [Export("httpOpenCount")]
+        int HttpOpenCount { get; set; }
+
+        // @property (nonatomic) int httpSeekCount;
+        [Export("httpSeekCount")]
+        int HttpSeekCount { get; set; }
+
+        // @property (nonatomic) int64_t lastHttpOpenDuration;
+        [Export("lastHttpOpenDuration")]
+        long LastHttpOpenDuration { get; set; }
+
+        // @property (nonatomic) int64_t lastHttpSeekDuration;
+        [Export("lastHttpSeekDuration")]
+        long LastHttpSeekDuration { get; set; }
+
+        // @property (nonatomic) int64_t filesize;
+        [Export("filesize")]
+        long Filesize { get; set; }
+
+        // @property (nonatomic) int64_t prepareStartTick;
+        [Export("prepareStartTick")]
+        long PrepareStartTick { get; set; }
+
+        // @property (nonatomic) int64_t prepareDuration;
+        [Export("prepareDuration")]
+        long PrepareDuration { get; set; }
+
+        // @property (nonatomic) int64_t firstVideoFrameLatency;
+        [Export("firstVideoFrameLatency")]
+        long FirstVideoFrameLatency { get; set; }
+
+        // @property (nonatomic) int64_t lastPrerollStartTick;
+        [Export("lastPrerollStartTick")]
+        long LastPrerollStartTick { get; set; }
+
+        // @property (nonatomic) int64_t lastPrerollDuration;
+        [Export("lastPrerollDuration")]
+        long LastPrerollDuration { get; set; }
+    }
+
+    // @protocol IJKSDLGLViewProtocol <NSObject>
+    partial interface IIJKSDLGLViewProtocol { }
+
+    [Protocol, Model]
+    [BaseType(typeof(NSObject))]
+    interface IJKSDLGLViewProtocol
+    {
+        // @required -(UIImage *)snapshot;
+        [Abstract]
+        [Export("snapshot")]
+        UIImage Snapshot { get; }
+
+        // @required @property (readonly, nonatomic) CGFloat fps;
+        [Abstract]
+        [Export("fps")]
+        nfloat Fps { get; }
+
+        // @required @property (nonatomic) CGFloat scaleFactor;
+        [Abstract]
+        [Export("scaleFactor")]
+        nfloat ScaleFactor { get; set; }
+
+        // @required @property (nonatomic) BOOL isThirdGLView;
+        [Abstract]
+        [Export("isThirdGLView")]
+        bool IsThirdGLView { get; set; }
+
+        // @required -(void)display_pixels:(IJKOverlay *)overlay;
+        [Abstract]
+        [Export("display_pixels:")]
+        unsafe void Display_pixels(IJKOverlay overlay);
+    }
+
+    // @interface IJKFFMoviePlayerController : NSObject <IJKMediaPlayback>
+    [BaseType(typeof(NSObject))]
+    interface IJKFFMoviePlayerController : IJKMediaPlayback
+    {
+        // -(id)initWithContentURL:(NSURL *)aUrl withOptions:(IJKFFOptions *)options;
+        [Export("initWithContentURL:withOptions:")]
+        IntPtr Constructor(NSUrl aUrl, IJKFFOptions options);
+
+        // -(id)initWithContentURLString:(NSString *)aUrlString withOptions:(IJKFFOptions *)options;
+        [Export("initWithContentURLString:withOptions:")]
+        IntPtr Constructor(string aUrlString, IJKFFOptions options);
+
+        // -(id)initWithMoreContent:(NSURL *)aUrl withOptions:(IJKFFOptions *)options withGLView:(UIView<IJKSDLGLViewProtocol> *)glView;
+        [Export("initWithMoreContent:withOptions:withGLView:")]
+        IntPtr Constructor(NSUrl aUrl, IJKFFOptions options, IJKSDLGLViewProtocol glView);
+
+        // -(id)initWithMoreContentString:(NSString *)aUrlString withOptions:(IJKFFOptions *)options withGLView:(UIView<IJKSDLGLViewProtocol> *)glView;
+        [Export("initWithMoreContentString:withOptions:withGLView:")]
+        IntPtr Constructor(string aUrlString, IJKFFOptions options, IJKSDLGLViewProtocol glView);
+
+        // -(void)prepareToPlay;
+        [Export("prepareToPlay")]
+        new void PrepareToPlay();
+
+        // -(void)play;
+        [Export("play")]
+        new void Play();
+
+        // -(void)pause;
+        [Export("pause")]
+        new void Pause();
 
         // -(void)stop;
         [Export("stop")]
-        void Stop();
+        new void Stop();
 
-        // -(void)replaceCurrentPlayerManager:(id<ZFPlayerMediaPlayback> _Nonnull)manager;
-        [Export("replaceCurrentPlayerManager:")]
-        void ReplaceCurrentPlayerManager(ZFPlayerMediaPlayback manager);
+        // -(BOOL)isPlaying;
+        [Export("isPlaying")]
+        new bool IsPlaying { get; }
+
+        // -(void)shutdown;
+        [Export("shutdown")]
+        new void Shutdown();
+
+        // -(void)setPauseInBackground:(BOOL)pause;
+        [Export("setPauseInBackground:")]
+        new void SetPauseInBackground(bool pause);
+
+        // @property (readonly, nonatomic) UIView * view;
+        [Export("view")]
+        new UIView View { get; }
+
+        // @required @property (nonatomic) NSTimeInterval currentPlaybackTime;
+        [Export("currentPlaybackTime")]
+        new double CurrentPlaybackTime { get; set; }
+
+        // @required @property (readonly, nonatomic) NSTimeInterval duration;
+        [Export("duration")]
+        new double Duration { get; }
+
+        // @required @property (readonly, nonatomic) NSTimeInterval playableDuration;
+        [Export("playableDuration")]
+        new double PlayableDuration { get; }
+
+        // @required @property (readonly, nonatomic) NSInteger bufferingProgress;
+        [Export("bufferingProgress")]
+        new nint BufferingProgress { get; }
+
+        // @required @property (readonly, nonatomic) BOOL isPreparedToPlay;
+        [Export("isPreparedToPlay")]
+        new bool IsPreparedToPlay { get; }
+
+        // @required @property (readonly, nonatomic) IJKMPMoviePlaybackState playbackState;
+        [Export("playbackState")]
+        new IJKMPMoviePlaybackState PlaybackState { get; }
+
+        // @required @property (readonly, nonatomic) IJKMPMovieLoadState loadState;
+        [Export("loadState")]
+        new IJKMPMovieLoadState LoadState { get; }
+
+        // @required @property (readonly, nonatomic) int isSeekBuffering;
+        [Export("isSeekBuffering")]
+        new int IsSeekBuffering { get; }
+
+        // @required @property (readonly, nonatomic) int isAudioSync;
+        [Export("isAudioSync")]
+        new int IsAudioSync { get; }
+
+        // @required @property (readonly, nonatomic) int isVideoSync;
+        [Export("isVideoSync")]
+        new int IsVideoSync { get; }
+
+        // @required @property (readonly, nonatomic) int64_t numberOfBytesTransferred;
+        [Export("numberOfBytesTransferred")]
+        new long NumberOfBytesTransferred { get; }
+
+        // @required @property (readonly, nonatomic) CGSize naturalSize;
+        [Export("naturalSize")]
+        new CGSize NaturalSize { get; }
+
+        // @required @property (nonatomic) IJKMPMovieScalingMode scalingMode;
+        [Export("scalingMode", ArgumentSemantic.Assign)]
+        new IJKMPMovieScalingMode ScalingMode { get; set; }
+
+        // @required @property (nonatomic) BOOL shouldAutoplay;
+        [Export("shouldAutoplay")]
+        new bool ShouldAutoplay { get; set; }
+
+        // @required @property (nonatomic) BOOL allowsMediaAirPlay;
+        [Export("allowsMediaAirPlay")]
+        new bool AllowsMediaAirPlay { get; set; }
+
+        // @required @property (nonatomic) BOOL isDanmakuMediaAirPlay;
+        [Export("isDanmakuMediaAirPlay")]
+        new bool IsDanmakuMediaAirPlay { get; set; }
+
+        // @required @property (readonly, nonatomic) BOOL airPlayMediaActive;
+        [Export("airPlayMediaActive")]
+        new bool AirPlayMediaActive { get; }
+
+        // @required @property (nonatomic) float playbackRate;
+        [Export("playbackRate")]
+        new float PlaybackRate { get; set; }
+
+        // @required @property (nonatomic) float playbackVolume;
+        [Export("playbackVolume")]
+        new float PlaybackVolume { get; set; }
+
+        // @required -(UIImage *)thumbnailImageAtCurrentTime;
+        [Export("thumbnailImageAtCurrentTime")]
+        new UIImage ThumbnailImageAtCurrentTime { get; }
+
+        // -(int64_t)trafficStatistic;
+        [Export("trafficStatistic")]
+        long TrafficStatistic { get; }
+
+        // -(float)dropFrameRate;
+        [Export("dropFrameRate")]
+        float DropFrameRate { get; }
+
+        // -(BOOL)isVideoToolboxOpen;
+        [Export("isVideoToolboxOpen")]
+        bool IsVideoToolboxOpen { get; }
+
+        // -(void)setHudValue:(NSString *)value forKey:(NSString *)key;
+        [Export("setHudValue:forKey:")]
+        void SetHudValue(string value, string key);
+
+        // +(void)setLogReport:(BOOL)preferLogReport;
+        [Static]
+        [Export("setLogReport:")]
+        void SetLogReport(bool preferLogReport);
+
+        // +(void)setLogLevel:(IJKLogLevel)logLevel;
+        [Static]
+        [Export("setLogLevel:")]
+        void SetLogLevel(IJKLogLevel logLevel);
+
+        // +(BOOL)checkIfFFmpegVersionMatch:(BOOL)showAlert;
+        [Static]
+        [Export("checkIfFFmpegVersionMatch:")]
+        bool CheckIfFFmpegVersionMatch(bool showAlert);
+
+        // +(BOOL)checkIfPlayerVersionMatch:(BOOL)showAlert version:(NSString *)version;
+        [Static]
+        [Export("checkIfPlayerVersionMatch:version:")]
+        bool CheckIfPlayerVersionMatch(bool showAlert, string version);
+
+        // @property (readonly, nonatomic) CGFloat fpsInMeta;
+        [Export("fpsInMeta")]
+        nfloat FpsInMeta { get; }
+
+        // @property (readonly, nonatomic) CGFloat fpsAtOutput;
+        [Export("fpsAtOutput")]
+        nfloat FpsAtOutput { get; }
+
+        // @property (nonatomic) BOOL shouldShowHudView;
+        [Export("shouldShowHudView")]
+        bool ShouldShowHudView { get; set; }
+
+        // -(void)setOptionValue:(NSString *)value forKey:(NSString *)key ofCategory:(IJKFFOptionCategory)category;
+        [Export("setOptionValue:forKey:ofCategory:")]
+        void SetOptionValue(string value, string key, IJKFFOptionCategory category);
+
+        // -(void)setOptionIntValue:(int64_t)value forKey:(NSString *)key ofCategory:(IJKFFOptionCategory)category;
+        [Export("setOptionIntValue:forKey:ofCategory:")]
+        void SetOptionIntValue(long value, string key, IJKFFOptionCategory category);
+
+        // -(void)setFormatOptionValue:(NSString *)value forKey:(NSString *)key;
+        [Export("setFormatOptionValue:forKey:")]
+        void SetFormatOptionValue(string value, string key);
+
+        // -(void)setCodecOptionValue:(NSString *)value forKey:(NSString *)key;
+        [Export("setCodecOptionValue:forKey:")]
+        void SetCodecOptionValue(string value, string key);
+
+        // -(void)setSwsOptionValue:(NSString *)value forKey:(NSString *)key;
+        [Export("setSwsOptionValue:forKey:")]
+        void SetSwsOptionValue(string value, string key);
+
+        // -(void)setPlayerOptionValue:(NSString *)value forKey:(NSString *)key;
+        [Export("setPlayerOptionValue:forKey:")]
+        void SetPlayerOptionValue(string value, string key);
+
+        // -(void)setFormatOptionIntValue:(int64_t)value forKey:(NSString *)key;
+        [Export("setFormatOptionIntValue:forKey:")]
+        void SetFormatOptionIntValue(long value, string key);
+
+        // -(void)setCodecOptionIntValue:(int64_t)value forKey:(NSString *)key;
+        [Export("setCodecOptionIntValue:forKey:")]
+        void SetCodecOptionIntValue(long value, string key);
+
+        // -(void)setSwsOptionIntValue:(int64_t)value forKey:(NSString *)key;
+        [Export("setSwsOptionIntValue:forKey:")]
+        void SetSwsOptionIntValue(long value, string key);
+
+        // -(void)setPlayerOptionIntValue:(int64_t)value forKey:(NSString *)key;
+        [Export("setPlayerOptionIntValue:forKey:")]
+        void SetPlayerOptionIntValue(long value, string key);
+
+        [Wrap("WeakSegmentOpenDelegate")]
+        IIJKMediaUrlOpenDelegate SegmentOpenDelegate { get; set; }
+
+        // @property (retain, nonatomic) id<IJKMediaUrlOpenDelegate> segmentOpenDelegate;
+        [NullAllowed, Export("segmentOpenDelegate", ArgumentSemantic.Retain)]
+        NSObject WeakSegmentOpenDelegate { get; set; }
+
+        [Wrap("WeakTcpOpenDelegate")]
+        IJKMediaUrlOpenDelegate TcpOpenDelegate { get; set; }
+
+        // @property (retain, nonatomic) id<IJKMediaUrlOpenDelegate> tcpOpenDelegate;
+        [NullAllowed, Export("tcpOpenDelegate", ArgumentSemantic.Retain)]
+        NSObject WeakTcpOpenDelegate { get; set; }
+
+        [Wrap("WeakHttpOpenDelegate")]
+        IIJKMediaUrlOpenDelegate HttpOpenDelegate { get; set; }
+
+        // @property (retain, nonatomic) id<IJKMediaUrlOpenDelegate> httpOpenDelegate;
+        [NullAllowed, Export("httpOpenDelegate", ArgumentSemantic.Retain)]
+        NSObject WeakHttpOpenDelegate { get; set; }
+
+        [Wrap("WeakLiveOpenDelegate")]
+        IIJKMediaUrlOpenDelegate LiveOpenDelegate { get; set; }
+
+        // @property (retain, nonatomic) id<IJKMediaUrlOpenDelegate> liveOpenDelegate;
+        [NullAllowed, Export("liveOpenDelegate", ArgumentSemantic.Retain)]
+        NSObject WeakLiveOpenDelegate { get; set; }
+
+        [Wrap("WeakNativeInvokeDelegate")]
+        IIJKMediaNativeInvokeDelegate NativeInvokeDelegate { get; set; }
+
+        // @property (retain, nonatomic) id<IJKMediaNativeInvokeDelegate> nativeInvokeDelegate;
+        [NullAllowed, Export("nativeInvokeDelegate", ArgumentSemantic.Retain)]
+        NSObject WeakNativeInvokeDelegate { get; set; }
+
+        // -(void)didShutdown;
+        [Export("didShutdown")]
+        void DidShutdown();
+
+        // @property (readonly, nonatomic) IJKFFMonitor * monitor;
+        [Export("monitor")]
+        IJKFFMonitor Monitor { get; }
     }
 
-    // @interface ZFPlayerOrientationRotation (ZFPlayerController)
-    [Category]
-    [BaseType(typeof(ZFPlayerController))]
-    interface ZFPlayerController_ZFPlayerOrientationRotation
-    {
-        // @property (readonly, nonatomic) ZFOrientationObserver * _Nonnull orientationObserver;
-        [Export("orientationObserver")]
-        ZFOrientationObserver OrientationObserver { get; }
-
-        // @property (readonly, nonatomic) BOOL shouldAutorotate;
-        [Export("shouldAutorotate")]
-        bool ShouldAutorotate { get; }
-
-        // @property (nonatomic) BOOL allowOrentitaionRotation;
-        [Export("allowOrentitaionRotation")]
-        bool AllowOrentitaionRotation { get; set; }
-
-        // @property (readonly, nonatomic) BOOL isFullScreen;
-        [Export("isFullScreen")]
-        bool IsFullScreen { get; }
-
-        // @property (getter = isLockedScreen, nonatomic) BOOL lockedScreen;
-        [Export("lockedScreen")]
-        bool LockedScreen { [Bind("isLockedScreen")] get; set; }
-
-        // @property (getter = isStatusBarHidden, nonatomic) BOOL statusBarHidden;
-        [Export("statusBarHidden")]
-        bool StatusBarHidden { [Bind("isStatusBarHidden")] get; set; }
-
-        // @property (assign, nonatomic) BOOL forceDeviceOrientation;
-        [Export("forceDeviceOrientation")]
-        bool ForceDeviceOrientation { get; set; }
-
-        // @property (readonly, nonatomic) UIInterfaceOrientation currentOrientation;
-        [Export("currentOrientation")]
-        UIInterfaceOrientation CurrentOrientation { get; }
-
-        // @property (copy, nonatomic) void (^ _Nullable)(ZFPlayerController * _Nonnull, BOOL) orientationWillChange;
-        [NullAllowed, Export("orientationWillChange", ArgumentSemantic.Copy)]
-        Action<ZFPlayerController, bool> OrientationWillChange { get; set; }
-
-        // @property (copy, nonatomic) void (^ _Nullable)(ZFPlayerController * _Nonnull, BOOL) orientationDidChanged;
-        [NullAllowed, Export("orientationDidChanged", ArgumentSemantic.Copy)]
-        Action<ZFPlayerController, bool> OrientationDidChanged { get; set; }
-
-        // -(void)addDeviceOrientationObserver;
-        [Export("addDeviceOrientationObserver")]
-        void AddDeviceOrientationObserver();
-
-        // -(void)removeDeviceOrientationObserver;
-        [Export("removeDeviceOrientationObserver")]
-        void RemoveDeviceOrientationObserver();
-
-        // -(void)enterLandscapeFullScreen:(UIInterfaceOrientation)orientation animated:(BOOL)animated;
-        [Export("enterLandscapeFullScreen:animated:")]
-        void EnterLandscapeFullScreen(UIInterfaceOrientation orientation, bool animated);
-
-        // -(void)enterPortraitFullScreen:(BOOL)fullScreen animated:(BOOL)animated;
-        [Export("enterPortraitFullScreen:animated:")]
-        void EnterPortraitFullScreen(bool fullScreen, bool animated);
-
-        // -(void)enterFullScreen:(BOOL)fullScreen animated:(BOOL)animated;
-        [Export("enterFullScreen:animated:")]
-        void EnterFullScreen(bool fullScreen, bool animated);
-    }
-
-    // @interface ZFPlayerViewGesture (ZFPlayerController)
-    [Category]
-    [BaseType(typeof(ZFPlayerController))]
-    interface ZFPlayerController_ZFPlayerViewGesture
-    {
-        // @property (readonly, nonatomic) int * _Nonnull gestureControl;
-        [Export("gestureControl")]
-        unsafe int* GestureControl { get; }
-
-        // @property (assign, nonatomic) int disableGestureTypes;
-        [Export("disableGestureTypes")]
-        int DisableGestureTypes { get; set; }
-
-        // @property (nonatomic) int disablePanMovingDirection;
-        [Export("disablePanMovingDirection")]
-        int DisablePanMovingDirection { get; set; }
-    }
-
-    // @interface ZFPlayerScrollView (ZFPlayerController)
-    [Category]
-    [BaseType(typeof(ZFPlayerController))]
-    interface ZFPlayerController_ZFPlayerScrollView
-    {
-        // @property (readonly, nonatomic) UIScrollView * _Nullable scrollView;
-        [NullAllowed, Export("scrollView")]
-        UIScrollView ScrollView { get; }
-
-        // @property (nonatomic) BOOL shouldAutoPlay;
-        [Export("shouldAutoPlay")]
-        bool ShouldAutoPlay { get; set; }
-
-        // @property (getter = isWWANAutoPlay, nonatomic) BOOL WWANAutoPlay;
-        [Export("WWANAutoPlay")]
-        bool WWANAutoPlay { [Bind("isWWANAutoPlay")] get; set; }
-
-        // @property (readonly, nonatomic) int * _Nullable smallFloatView;
-        [NullAllowed, Export("smallFloatView")]
-        unsafe int* SmallFloatView { get; }
-
-        // @property (readonly, nonatomic) BOOL isSmallFloatViewShow;
-        [Export("isSmallFloatViewShow")]
-        bool IsSmallFloatViewShow { get; }
-
-        // @property (readonly, nonatomic) NSIndexPath * _Nullable playingIndexPath;
-        [NullAllowed, Export("playingIndexPath")]
-        NSIndexPath PlayingIndexPath { get; }
-
-        // @property (readonly, nonatomic) NSInteger containerViewTag;
-        [Export("containerViewTag")]
-        nint ContainerViewTag { get; }
-
-        // @property (nonatomic) BOOL stopWhileNotVisible;
-        [Export("stopWhileNotVisible")]
-        bool StopWhileNotVisible { get; set; }
-
-        // @property (nonatomic) CGFloat playerDisapperaPercent;
-        [Export("playerDisapperaPercent")]
-        nfloat PlayerDisapperaPercent { get; set; }
-
-        // @property (nonatomic) CGFloat playerApperaPercent;
-        [Export("playerApperaPercent")]
-        nfloat PlayerApperaPercent { get; set; }
-
-        // @property (copy, nonatomic) NSArray<NSArray<NSURL *> *> * _Nullable sectionAssetURLs;
-        [NullAllowed, Export("sectionAssetURLs", ArgumentSemantic.Copy)]
-        NSArray<NSURL>[] SectionAssetURLs { get; set; }
-
-        // @property (copy, nonatomic) void (^ _Nullable)(NSIndexPath * _Nonnull, CGFloat) zf_playerAppearingInScrollView;
-        [NullAllowed, Export("zf_playerAppearingInScrollView", ArgumentSemantic.Copy)]
-        Action<NSIndexPath, nfloat> Zf_playerAppearingInScrollView { get; set; }
-
-        // @property (copy, nonatomic) void (^ _Nullable)(NSIndexPath * _Nonnull, CGFloat) zf_playerDisappearingInScrollView;
-        [NullAllowed, Export("zf_playerDisappearingInScrollView", ArgumentSemantic.Copy)]
-        Action<NSIndexPath, nfloat> Zf_playerDisappearingInScrollView { get; set; }
-
-        // @property (copy, nonatomic) void (^ _Nullable)(NSIndexPath * _Nonnull) zf_playerWillAppearInScrollView;
-        [NullAllowed, Export("zf_playerWillAppearInScrollView", ArgumentSemantic.Copy)]
-        Action<NSIndexPath> Zf_playerWillAppearInScrollView { get; set; }
-
-        // @property (copy, nonatomic) void (^ _Nullable)(NSIndexPath * _Nonnull) zf_playerDidAppearInScrollView;
-        [NullAllowed, Export("zf_playerDidAppearInScrollView", ArgumentSemantic.Copy)]
-        Action<NSIndexPath> Zf_playerDidAppearInScrollView { get; set; }
-
-        // @property (copy, nonatomic) void (^ _Nullable)(NSIndexPath * _Nonnull) zf_playerWillDisappearInScrollView;
-        [NullAllowed, Export("zf_playerWillDisappearInScrollView", ArgumentSemantic.Copy)]
-        Action<NSIndexPath> Zf_playerWillDisappearInScrollView { get; set; }
-
-        // @property (copy, nonatomic) void (^ _Nullable)(NSIndexPath * _Nonnull) zf_playerDidDisappearInScrollView;
-        [NullAllowed, Export("zf_playerDidDisappearInScrollView", ArgumentSemantic.Copy)]
-        Action<NSIndexPath> Zf_playerDidDisappearInScrollView { get; set; }
-
-        // -(void)updateScrollViewPlayerToCell;
-        [Export("updateScrollViewPlayerToCell")]
-        void UpdateScrollViewPlayerToCell();
-
-        // -(void)updateNoramlPlayerWithContainerView:(UIView * _Nonnull)containerView;
-        [Export("updateNoramlPlayerWithContainerView:")]
-        void UpdateNoramlPlayerWithContainerView(UIView containerView);
-
-        // -(void)stopCurrentPlayingCell;
-        [Export("stopCurrentPlayingCell")]
-        void StopCurrentPlayingCell();
-
-        // -(void)playTheIndexPath:(NSIndexPath * _Nonnull)indexPath;
-        [Export("playTheIndexPath:")]
-        void PlayTheIndexPath(NSIndexPath indexPath);
-
-        // -(void)playTheIndexPath:(NSIndexPath * _Nonnull)indexPath scrollToTop:(BOOL)scrollToTop;
-        [Export("playTheIndexPath:scrollToTop:")]
-        void PlayTheIndexPath(NSIndexPath indexPath, bool scrollToTop);
-
-        // -(void)playTheIndexPath:(NSIndexPath * _Nonnull)indexPath assetURL:(NSURL * _Nonnull)assetURL scrollToTop:(BOOL)scrollToTop;
-        [Export("playTheIndexPath:assetURL:scrollToTop:")]
-        void PlayTheIndexPath(NSIndexPath indexPath, NSUrl assetURL, bool scrollToTop);
-
-        // -(void)playTheIndexPath:(NSIndexPath * _Nonnull)indexPath scrollToTop:(BOOL)scrollToTop completionHandler:(void (^ _Nullable)(void))completionHandler;
-        [Export("playTheIndexPath:scrollToTop:completionHandler:")]
-        void PlayTheIndexPath(NSIndexPath indexPath, bool scrollToTop, [NullAllowed] Action completionHandler);
-    }
-
-    // @interface ZFPlayerLogManager : NSObject
+    // @interface IJKAVMoviePlayerController : NSObject <IJKMediaPlayback>
     [BaseType(typeof(NSObject))]
-    interface ZFPlayerLogManager
+    interface IJKAVMoviePlayerController : IJKMediaPlayback
     {
-        // +(void)setLogEnable:(BOOL)enable;
-        [Static]
-        [Export("setLogEnable:")]
-        void SetLogEnable(bool enable);
+        // -(id)initWithContentURL:(NSURL *)aUrl;
+        [Export("initWithContentURL:")]
+        IntPtr Constructor(NSUrl aUrl);
 
-        // +(BOOL)getLogEnable;
-        [Static]
-        [Export("getLogEnable")]
-        [Verify(MethodToProperty)]
-        bool LogEnable { get; }
+        // -(id)initWithContentURLString:(NSString *)aUrl;
+        [Export("initWithContentURLString:")]
+        IntPtr Constructor(string aUrl);
 
-        // +(NSString *)version;
-        [Static]
-        [Export("version")]
-        [Verify(MethodToProperty)]
-        string Version { get; }
+        // -(void)prepareToPlay;
+        [Export("prepareToPlay")]
+        new void PrepareToPlay();
 
-        // +(void)logWithFunction:(const char *)function lineNumber:(int)lineNumber formatString:(NSString *)formatString;
+        // -(void)play;
+        [Export("play")]
+        new void Play();
+
+        // -(void)pause;
+        [Export("pause")]
+        new void Pause();
+
+        // -(void)stop;
+        [Export("stop")]
+        new void Stop();
+
+        // -(BOOL)isPlaying;
+        [Export("isPlaying")]
+        new bool IsPlaying { get; }
+
+        // -(void)shutdown;
+        [Export("shutdown")]
+        new void Shutdown();
+
+        // -(void)setPauseInBackground:(BOOL)pause;
+        [Export("setPauseInBackground:")]
+        new void SetPauseInBackground(bool pause);
+
+        // @property (readonly, nonatomic) UIView * view;
+        [Export("view")]
+        new UIView View { get; }
+
+        // @required @property (nonatomic) NSTimeInterval currentPlaybackTime;
+        [Export("currentPlaybackTime")]
+        new double CurrentPlaybackTime { get; set; }
+
+        // @required @property (readonly, nonatomic) NSTimeInterval duration;
+        [Export("duration")]
+        new double Duration { get; }
+
+        // @required @property (readonly, nonatomic) NSTimeInterval playableDuration;
+        [Export("playableDuration")]
+        new double PlayableDuration { get; }
+
+        // @required @property (readonly, nonatomic) NSInteger bufferingProgress;
+        [Export("bufferingProgress")]
+        new nint BufferingProgress { get; }
+
+        // @required @property (readonly, nonatomic) BOOL isPreparedToPlay;
+        [Export("isPreparedToPlay")]
+        new bool IsPreparedToPlay { get; }
+
+        // @required @property (readonly, nonatomic) IJKMPMoviePlaybackState playbackState;
+        [Export("playbackState")]
+        new IJKMPMoviePlaybackState PlaybackState { get; }
+
+        // @required @property (readonly, nonatomic) IJKMPMovieLoadState loadState;
+        [Export("loadState")]
+        new IJKMPMovieLoadState LoadState { get; }
+
+        // @required @property (readonly, nonatomic) int isSeekBuffering;
+        [Export("isSeekBuffering")]
+        new int IsSeekBuffering { get; }
+
+        // @required @property (readonly, nonatomic) int isAudioSync;
+        [Export("isAudioSync")]
+        new int IsAudioSync { get; }
+
+        // @required @property (readonly, nonatomic) int isVideoSync;
+        [Export("isVideoSync")]
+        new int IsVideoSync { get; }
+
+        // @required @property (readonly, nonatomic) int64_t numberOfBytesTransferred;
+        [Export("numberOfBytesTransferred")]
+        new long NumberOfBytesTransferred { get; }
+
+        // @required @property (readonly, nonatomic) CGSize naturalSize;
+        [Export("naturalSize")]
+        new CGSize NaturalSize { get; }
+
+        // @required @property (nonatomic) IJKMPMovieScalingMode scalingMode;
+        [Export("scalingMode", ArgumentSemantic.Assign)]
+        new IJKMPMovieScalingMode ScalingMode { get; set; }
+
+        // @required @property (nonatomic) BOOL shouldAutoplay;
+        [Export("shouldAutoplay")]
+        new bool ShouldAutoplay { get; set; }
+
+        // @required @property (nonatomic) BOOL allowsMediaAirPlay;
+        [Export("allowsMediaAirPlay")]
+        new bool AllowsMediaAirPlay { get; set; }
+
+        // @required @property (nonatomic) BOOL isDanmakuMediaAirPlay;
+        [Export("isDanmakuMediaAirPlay")]
+        new bool IsDanmakuMediaAirPlay { get; set; }
+
+        // @required @property (readonly, nonatomic) BOOL airPlayMediaActive;
+        [Export("airPlayMediaActive")]
+        new bool AirPlayMediaActive { get; }
+
+        // @required @property (nonatomic) float playbackRate;
+        [Export("playbackRate")]
+        new float PlaybackRate { get; set; }
+
+        // @required @property (nonatomic) float playbackVolume;
+        [Export("playbackVolume")]
+        new float PlaybackVolume { get; set; }
+
+        // @required -(UIImage *)thumbnailImageAtCurrentTime;
+        [Export("thumbnailImageAtCurrentTime")]
+        new UIImage ThumbnailImageAtCurrentTime { get; }
+
+        // +(id)getInstance:(NSString *)aUrl;
         [Static]
-        [Export("logWithFunction:lineNumber:formatString:")]
-        unsafe void LogWithFunction(sbyte* function, int lineNumber, string formatString);
+        [Export("getInstance:")]
+        NSObject GetInstance(string aUrl);
+    }
+
+    // @interface IJKMediaModule : NSObject
+    [BaseType(typeof(NSObject))]
+    interface IJKMediaModule
+    {
+        // +(IJKMediaModule *)sharedModule;
+        [Static]
+        [Export("sharedModule")]
+        IJKMediaModule SharedModule { get; }
+
+        // @property (getter = isAppIdleTimerDisabled, atomic) BOOL appIdleTimerDisabled;
+        [Export("appIdleTimerDisabled")]
+        bool AppIdleTimerDisabled { [Bind("isAppIdleTimerDisabled")] get; set; }
+
+        // @property (getter = isMediaModuleIdleTimerDisabled, atomic) BOOL mediaModuleIdleTimerDisabled;
+        [Export("mediaModuleIdleTimerDisabled")]
+        bool MediaModuleIdleTimerDisabled { [Bind("isMediaModuleIdleTimerDisabled")] get; set; }
     }
 
 }
+
