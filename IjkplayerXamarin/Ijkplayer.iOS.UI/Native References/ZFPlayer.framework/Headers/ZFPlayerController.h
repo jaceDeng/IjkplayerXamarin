@@ -341,8 +341,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) CGFloat playerDisapperaPercent;
 
 /**
- The current player scroll to the screen percent.
- the property is only used when the `stopWhileNotVisible` is NO.
+ The current player scroll to the screen percent to play the video.
  The range is 0.0~1.0, defalut is 0.0.
  0.0 is the player will appear.
  1.0 is the player did appear.

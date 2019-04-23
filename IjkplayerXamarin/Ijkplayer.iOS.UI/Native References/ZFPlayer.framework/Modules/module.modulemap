@@ -1,5 +1,5 @@
 framework module ZFPlayer {
-  umbrella header "ZFPlayer-umbrella.h"
+  umbrella header "ZFPlayer.h"
 
   export *
   module * { export * }
