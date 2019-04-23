@@ -7,7 +7,7 @@ namespace Ijkplayer.iOS.UI
 {
 
     [Native]
-    public enum ZFPlayerPlaybackState : nuint
+    public enum ZFPlayerPlaybackState : ulong
     {
         Unknown,
         Playing,
@@ -17,7 +17,7 @@ namespace Ijkplayer.iOS.UI
     }
 
     [Native]
-    public enum ZFPlayerLoadState : nuint
+    public enum ZFPlayerLoadState : ulong
     {
         Unknown = 0,
         Prepare = 1 << 0,
@@ -27,7 +27,7 @@ namespace Ijkplayer.iOS.UI
     }
 
     [Native]
-    public enum ZFPlayerScalingMode : nint
+    public enum ZFPlayerScalingMode :long
     {
         None,
         AspectFit,
@@ -36,7 +36,7 @@ namespace Ijkplayer.iOS.UI
     }
 
     [Native]
-    public enum ZFFullScreenMode : nuint
+    public enum ZFFullScreenMode :ulong
     {
         Automatic,
         Landscape,
@@ -44,7 +44,7 @@ namespace Ijkplayer.iOS.UI
     }
 
     [Native]
-    public enum ZFRotateType : nuint
+    public enum ZFRotateType :ulong
     {
         Normal,
         Cell,
@@ -52,7 +52,7 @@ namespace Ijkplayer.iOS.UI
     }
 
     [Native]
-    public enum ZFInterfaceOrientationMask : nuint
+    public enum ZFInterfaceOrientationMask :ulong
     {
         Portrait = (1 << 0),
         LandscapeLeft = (1 << 1),
@@ -64,7 +64,7 @@ namespace Ijkplayer.iOS.UI
     }
 
     [Native]
-    public enum ZFReachabilityStatus : nint
+    public enum ZFReachabilityStatus :long
     {
         Unknown = -1,
         NotReachable = 0,
