@@ -199,6 +199,11 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)playerDisappearingInScrollView:(ZFPlayerController *)videoPlayer playerDisapperaPercent:(CGFloat)playerDisapperaPercent;
 
+/**
+ When the small float view show.
+ */
+- (void)videoPlayer:(ZFPlayerController *)videoPlayer floatViewShow:(BOOL)show;
+
 @end
 
 NS_ASSUME_NONNULL_END

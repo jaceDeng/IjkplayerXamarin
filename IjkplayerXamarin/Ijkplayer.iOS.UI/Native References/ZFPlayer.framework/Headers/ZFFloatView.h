@@ -1,5 +1,5 @@
 //
-//  ZFIJKPlayerManager.h
+//  ZFFloatView.h
 //  ZFPlayer
 //
 // Copyright (c) 2016年 任子丰 ( http://github.com/renzifeng )
@@ -22,19 +22,14 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import <Foundation/Foundation.h>
-#import "ZFPlayerMediaPlayback.h"
-#if __has_include(<IJKMediaFramework/IJKMediaFramework.h>)
-#import <IJKMediaFramework/IJKMediaFramework.h>
+#import <UIKit/UIKit.h>
 
-@interface ZFIJKPlayerManager : NSObject <ZFPlayerMediaPlayback>
+@interface ZFFloatView : UIView
 
-@property (nonatomic, strong, readonly) IJKFFMoviePlayerController *player;
+/// The parent View
+@property(nonatomic, weak) UIView *parentView;
 
-@property (nonatomic, strong, readonly) IJKFFOptions *options;
-
-@property (nonatomic, assign) NSTimeInterval timeRefreshInterval;
+/// Safe margins, mainly for those with Navbar and tabbar
+@property(nonatomic, assign) UIEdgeInsets safeInsets;
 
 @end
-
-#endif

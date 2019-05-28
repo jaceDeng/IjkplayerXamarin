@@ -1,5 +1,5 @@
 //
-//  ZFIJKPlayerManager.h
+//  UIScrollView+ZFPlayer.m
 //  ZFPlayer
 //
 // Copyright (c) 2016年 任子丰 ( http://github.com/renzifeng )
@@ -23,18 +23,18 @@
 // THE SOFTWARE.
 
 #import <Foundation/Foundation.h>
-#import "ZFPlayerMediaPlayback.h"
-#if __has_include(<IJKMediaFramework/IJKMediaFramework.h>)
-#import <IJKMediaFramework/IJKMediaFramework.h>
 
-@interface ZFIJKPlayerManager : NSObject <ZFPlayerMediaPlayback>
+@interface ZFKVOController : NSObject
 
-@property (nonatomic, strong, readonly) IJKFFMoviePlayerController *player;
+- (instancetype)initWithTarget:(NSObject *)target;
 
-@property (nonatomic, strong, readonly) IJKFFOptions *options;
+- (void)safelyAddObserver:(NSObject *)observer
+               forKeyPath:(NSString *)keyPath
+                  options:(NSKeyValueObservingOptions)options
+                  context:(void *)context;
+- (void)safelyRemoveObserver:(NSObject *)observer
+                  forKeyPath:(NSString *)keyPath;
 
-@property (nonatomic, assign) NSTimeInterval timeRefreshInterval;
+- (void)safelyRemoveAllObservers;
 
 @end
-
-#endif

@@ -1,5 +1,5 @@
 //
-//  ZFIJKPlayerManager.h
+//  ZFUtilities.m
 //  ZFPlayer
 //
 // Copyright (c) 2016年 任子丰 ( http://github.com/renzifeng )
@@ -23,18 +23,27 @@
 // THE SOFTWARE.
 
 #import <Foundation/Foundation.h>
-#import "ZFPlayerMediaPlayback.h"
-#if __has_include(<IJKMediaFramework/IJKMediaFramework.h>)
-#import <IJKMediaFramework/IJKMediaFramework.h>
+#import <UIKit/UIKit.h>
 
-@interface ZFIJKPlayerManager : NSObject <ZFPlayerMediaPlayback>
+/// iPhoneX  iPhoneXS  iPhoneXS Max  iPhoneXR 机型判断
+#define iPhoneX ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? ((NSInteger)(([[UIScreen mainScreen] currentMode].size.height/[[UIScreen mainScreen] currentMode].size.width)*100) == 216) : NO)
+// 图片路径
+#define ZFPlayer_SrcName(file)               [@"ZFPlayer.bundle" stringByAppendingPathComponent:file]
 
-@property (nonatomic, strong, readonly) IJKFFMoviePlayerController *player;
+#define ZFPlayer_FrameworkSrcName(file)      [@"Frameworks/ZFPlayer.framework/ZFPlayer.bundle" stringByAppendingPathComponent:file]
 
-@property (nonatomic, strong, readonly) IJKFFOptions *options;
+#define ZFPlayer_Image(file)                 [UIImage imageNamed:ZFPlayer_SrcName(file)] ? :[UIImage imageNamed:ZFPlayer_FrameworkSrcName(file)]
 
-@property (nonatomic, assign) NSTimeInterval timeRefreshInterval;
+// 屏幕的宽
+#define ZFPlayer_ScreenWidth                 [[UIScreen mainScreen] bounds].size.width
+// 屏幕的高
+#define ZFPlayer_ScreenHeight                [[UIScreen mainScreen] bounds].size.height
+
+@interface ZFUtilities : NSObject
+
++ (NSString *)convertTimeSecond:(NSInteger)timeSecond;
+
++ (UIImage *)imageWithColor:(UIColor *)color size:(CGSize)size;
 
 @end
 
-#endif

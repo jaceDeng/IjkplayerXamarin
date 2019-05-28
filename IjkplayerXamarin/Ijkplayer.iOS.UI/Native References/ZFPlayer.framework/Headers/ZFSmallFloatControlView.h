@@ -1,5 +1,5 @@
 //
-//  ZFIJKPlayerManager.h
+//  ZFSmallFloatControlView.h
 //  ZFPlayer
 //
 // Copyright (c) 2016年 任子丰 ( http://github.com/renzifeng )
@@ -22,19 +22,10 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import <Foundation/Foundation.h>
-#import "ZFPlayerMediaPlayback.h"
-#if __has_include(<IJKMediaFramework/IJKMediaFramework.h>)
-#import <IJKMediaFramework/IJKMediaFramework.h>
+#import <UIKit/UIKit.h>
 
-@interface ZFIJKPlayerManager : NSObject <ZFPlayerMediaPlayback>
+@interface ZFSmallFloatControlView : UIView
 
-@property (nonatomic, strong, readonly) IJKFFMoviePlayerController *player;
-
-@property (nonatomic, strong, readonly) IJKFFOptions *options;
-
-@property (nonatomic, assign) NSTimeInterval timeRefreshInterval;
+@property (nonatomic, copy, nullable) void(^closeClickCallback)(void);
 
 @end
-
-#endif

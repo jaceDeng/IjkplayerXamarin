@@ -1,5 +1,5 @@
 //
-//  ZFIJKPlayerManager.h
+//  UIView+ZFFrame.h
 //  ZFPlayer
 //
 // Copyright (c) 2016年 任子丰 ( http://github.com/renzifeng )
@@ -22,19 +22,24 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import <Foundation/Foundation.h>
-#import "ZFPlayerMediaPlayback.h"
-#if __has_include(<IJKMediaFramework/IJKMediaFramework.h>)
-#import <IJKMediaFramework/IJKMediaFramework.h>
+#import <UIKit/UIKit.h>
 
-@interface ZFIJKPlayerManager : NSObject <ZFPlayerMediaPlayback>
+@interface UIView (ZFFrame)
 
-@property (nonatomic, strong, readonly) IJKFFMoviePlayerController *player;
+@property (nonatomic) CGFloat zf_x;
+@property (nonatomic) CGFloat zf_y;
+@property (nonatomic) CGFloat zf_width;
+@property (nonatomic) CGFloat zf_height;
 
-@property (nonatomic, strong, readonly) IJKFFOptions *options;
+@property (nonatomic) CGFloat zf_top;
+@property (nonatomic) CGFloat zf_bottom;
+@property (nonatomic) CGFloat zf_left;
+@property (nonatomic) CGFloat zf_right;
 
-@property (nonatomic, assign) NSTimeInterval timeRefreshInterval;
+@property (nonatomic) CGFloat zf_centerX;
+@property (nonatomic) CGFloat zf_centerY;
+
+@property (nonatomic) CGPoint zf_origin;
+@property (nonatomic) CGSize  zf_size;
 
 @end
-
-#endif

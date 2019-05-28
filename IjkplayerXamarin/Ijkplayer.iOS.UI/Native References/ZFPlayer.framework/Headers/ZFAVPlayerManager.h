@@ -1,5 +1,5 @@
 //
-//  ZFIJKPlayerManager.h
+//  ZFAVPlayerManager.h
 //  ZFPlayer
 //
 // Copyright (c) 2016年 任子丰 ( http://github.com/renzifeng )
@@ -24,17 +24,15 @@
 
 #import <Foundation/Foundation.h>
 #import "ZFPlayerMediaPlayback.h"
-#if __has_include(<IJKMediaFramework/IJKMediaFramework.h>)
-#import <IJKMediaFramework/IJKMediaFramework.h>
+#import <AVFoundation/AVFoundation.h>
 
-@interface ZFIJKPlayerManager : NSObject <ZFPlayerMediaPlayback>
+@interface ZFAVPlayerManager : NSObject <ZFPlayerMediaPlayback>
 
-@property (nonatomic, strong, readonly) IJKFFMoviePlayerController *player;
-
-@property (nonatomic, strong, readonly) IJKFFOptions *options;
-
+@property (nonatomic, strong, readonly) AVURLAsset *asset;
+@property (nonatomic, strong, readonly) AVPlayerItem *playerItem;
+@property (nonatomic, strong, readonly) AVPlayer *player;
 @property (nonatomic, assign) NSTimeInterval timeRefreshInterval;
+/// 视频请求头
+@property (nonatomic, strong) NSDictionary *requestHeader;
 
 @end
-
-#endif

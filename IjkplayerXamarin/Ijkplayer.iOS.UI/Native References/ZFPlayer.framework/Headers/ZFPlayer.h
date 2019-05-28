@@ -32,7 +32,7 @@ FOUNDATION_EXPORT const unsigned char ZFPlayerVersionString[];
 
 /**
  Synthsize a weak or strong reference.
- 
+
  Example:
  @weakify(self)
  [self doSomething^{
@@ -40,7 +40,7 @@ FOUNDATION_EXPORT const unsigned char ZFPlayerVersionString[];
  if (!self) return;
  ...
  }];
- 
+
  */
 #ifndef weakify
 #if DEBUG
@@ -79,11 +79,23 @@ FOUNDATION_EXPORT const unsigned char ZFPlayerVersionString[];
 // Screen height
 #define ZFPlayerScreenHeight    [[UIScreen mainScreen] bounds].size.height
 
-#import "ZFPlayerController.h"
-#import "ZFPlayerGestureControl.h"
-#import "ZFPlayerMediaPlayback.h"
-#import "ZFPlayerMediaControl.h"
-#import "ZFOrientationObserver.h"
-#import "ZFKVOController.h"
-#import "UIScrollView+ZFPlayer.h"
-#import "ZFPlayerLogManager.h"
+//#import "ZFPlayerController.h"
+//#import "ZFPlayerGestureControl.h"
+//#import "ZFPlayerMediaPlayback.h"
+//#import "ZFPlayerMediaControl.h"
+//#import "ZFOrientationObserver.h"
+//#import "ZFKVOController.h"
+//#import "UIScrollView+ZFPlayer.h"
+//#import "ZFPlayerLogManager.h"
+//#import "UIView+ZFFrame.h"
+
+// #import <ZFPlayer/ZFPlayerController.h>
+// #import <ZFPlayer/ZFPlayerGestureControl.h>
+// #import <ZFPlayer/ZFPlayerMediaPlayback.h>
+// #import <ZFPlayer/ZFPlayerMediaControl.h>
+// #import <ZFPlayer/ZFOrientationObserver.h>
+// #import <ZFPlayer/ZFKVOController.h>
+// #import <ZFPlayer/UIScrollView+ZFPlayer.h>
+// #import <ZFPlayer/ZFPlayerLogManager.h>
+// #import <ZFPlayer/UIView+ZFFrame.h>
+// #import <ZFPlayer/ZFUtilities.h>

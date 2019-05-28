@@ -1,5 +1,5 @@
 //
-//  ZFIJKPlayerManager.h
+//  ZFNetworkSpeedMonitor.h
 //  ZFPlayer
 //
 // Copyright (c) 2016年 任子丰 ( http://github.com/renzifeng )
@@ -23,18 +23,17 @@
 // THE SOFTWARE.
 
 #import <Foundation/Foundation.h>
-#import "ZFPlayerMediaPlayback.h"
-#if __has_include(<IJKMediaFramework/IJKMediaFramework.h>)
-#import <IJKMediaFramework/IJKMediaFramework.h>
 
-@interface ZFIJKPlayerManager : NSObject <ZFPlayerMediaPlayback>
+extern NSString *const ZFDownloadNetworkSpeedNotificationKey;
+extern NSString *const ZFUploadNetworkSpeedNotificationKey;
+extern NSString *const ZFNetworkSpeedNotificationKey;
 
-@property (nonatomic, strong, readonly) IJKFFMoviePlayerController *player;
+@interface ZFNetworkSpeedMonitor : NSObject
 
-@property (nonatomic, strong, readonly) IJKFFOptions *options;
+@property (nonatomic, copy, readonly) NSString *downloadNetworkSpeed;
+@property (nonatomic, copy, readonly) NSString *uploadNetworkSpeed;
 
-@property (nonatomic, assign) NSTimeInterval timeRefreshInterval;
+- (void)startNetworkSpeedMonitor;
+- (void)stopNetworkSpeedMonitor;
 
 @end
-
-#endif

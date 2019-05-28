@@ -1,5 +1,5 @@
 //
-//  ZFIJKPlayerManager.h
+//  ZFVolumeBrightnessView.h
 //  ZFPlayer
 //
 // Copyright (c) 2016年 任子丰 ( http://github.com/renzifeng )
@@ -22,19 +22,25 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import <Foundation/Foundation.h>
-#import "ZFPlayerMediaPlayback.h"
-#if __has_include(<IJKMediaFramework/IJKMediaFramework.h>)
-#import <IJKMediaFramework/IJKMediaFramework.h>
+#import <UIKit/UIKit.h>
 
-@interface ZFIJKPlayerManager : NSObject <ZFPlayerMediaPlayback>
+typedef NS_ENUM(NSInteger, ZFVolumeBrightnessType) {
+    ZFVolumeBrightnessTypeVolume,       // volume
+    ZFVolumeBrightnessTypeumeBrightness // brightness
+};
 
-@property (nonatomic, strong, readonly) IJKFFMoviePlayerController *player;
+@interface ZFVolumeBrightnessView : UIView
 
-@property (nonatomic, strong, readonly) IJKFFOptions *options;
+@property (nonatomic, assign, readonly) ZFVolumeBrightnessType volumeBrightnessType;
+@property (nonatomic, strong, readonly) UIProgressView *progressView;
+@property (nonatomic, strong, readonly) UIImageView *iconImageView;
 
-@property (nonatomic, assign) NSTimeInterval timeRefreshInterval;
+- (void)updateProgress:(CGFloat)progress withVolumeBrightnessType:(ZFVolumeBrightnessType)volumeBrightnessType;
+
+/// 添加系统音量view
+- (void)addSystemVolumeView;
+
+/// 移除系统音量view
+- (void)removeSystemVolumeView;
 
 @end
-
-#endif

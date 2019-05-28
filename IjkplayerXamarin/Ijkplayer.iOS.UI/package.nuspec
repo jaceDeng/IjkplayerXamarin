@@ -1,0 +1,30 @@
+﻿<?xml version="1.0"?>
+<package>
+  <metadata>
+    <!--*-->
+    <id>IJKPlayer.iOS.UI</id>
+    <!--*-->
+    <version>3.2.11.1</version>
+    <title></title>
+    <!--*-->
+    <authors>jacedeng</authors>
+    <owners>jacedeng</owners>
+<!--
+    <licenseUrl></licenseUrl>
+    <projectUrl></projectUrl>
+    <iconUrl></iconUrl>
+-->
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <!--*-->
+    <description>https://github.com/renzifeng/ZFPlayer  绑定库   UI  IJKPlayer  </description>
+    <!--*-->
+    <releaseNotes> https://github.com/renzifeng/ZFPlayer  绑定库   UI  IJKPlayer </releaseNotes>
+    <copyright>MIT    </copyright>
+    <tags>xamarin ios Ijkplayer ZFPlayer </tags>
+    <dependencies>
+     
+      <dependency id="Ijkplayer.iOS" version="0.8.8.9" />
+ 
+    </dependencies>
+  </metadata>
+</package>

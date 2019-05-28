@@ -5,16 +5,15 @@ using Foundation;
 using ObjCRuntime;
 using SystemConfiguration;
 using UIKit;
+using ZFPlayer;
 
-namespace Ijkplayer.iOS.UI
+namespace ZFPlayer_iOS
 {
 	// @interface ZFPlayerView : UIView
 	[BaseType (typeof(UIView))]
 	interface ZFPlayerView
 	{
 	}
-
-    partial interface IZFPlayerMediaPlayback { }
 
 	// @protocol ZFPlayerMediaPlayback <NSObject>
 	[Protocol, Model]
@@ -66,7 +65,7 @@ namespace Ijkplayer.iOS.UI
 		[Export ("isPreparedToPlay")]
 		bool IsPreparedToPlay { get; }
 
-		// @optional @property (nonatomic) NSUrl * _Nonnull assetURL;
+		// @optional @property (nonatomic) NSURL * _Nonnull assetURL;
 		[Export ("assetURL", ArgumentSemantic.Assign)]
 		NSUrl AssetURL { get; set; }
 
@@ -82,41 +81,41 @@ namespace Ijkplayer.iOS.UI
 		[Export ("loadState")]
 		ZFPlayerLoadState LoadState { get; }
 
-		// @optional @property (copy, nonatomic) void (^ _Nullable)(id<ZFPlayerMediaPlayback> _Nonnull, NSUrl * _Nonnull) playerPrepareToPlay;
+		// @optional @property (copy, nonatomic) void (^ _Nullable)(id<ZFPlayerMediaPlayback> _Nonnull, NSURL * _Nonnull) playerPrepareToPlay;
 		[NullAllowed, Export ("playerPrepareToPlay", ArgumentSemantic.Copy)]
-		Action<IZFPlayerMediaPlayback, NSUrl> PlayerPrepareToPlay { get; set; }
+		Action<ZFPlayerMediaPlayback, NSURL> PlayerPrepareToPlay { get; set; }
 
-		// @optional @property (copy, nonatomic) void (^ _Nullable)(id<ZFPlayerMediaPlayback> _Nonnull, NSUrl * _Nonnull) playerReadyToPlay;
+		// @optional @property (copy, nonatomic) void (^ _Nullable)(id<ZFPlayerMediaPlayback> _Nonnull, NSURL * _Nonnull) playerReadyToPlay;
 		[NullAllowed, Export ("playerReadyToPlay", ArgumentSemantic.Copy)]
-		Action<IZFPlayerMediaPlayback, NSUrl> PlayerReadyToPlay { get; set; }
+		Action<ZFPlayerMediaPlayback, NSURL> PlayerReadyToPlay { get; set; }
 
 		// @optional @property (copy, nonatomic) void (^ _Nullable)(id<ZFPlayerMediaPlayback> _Nonnull, NSTimeInterval, NSTimeInterval) playerPlayTimeChanged;
 		[NullAllowed, Export ("playerPlayTimeChanged", ArgumentSemantic.Copy)]
-		Action<IZFPlayerMediaPlayback, double, double> PlayerPlayTimeChanged { get; set; }
+		Action<ZFPlayerMediaPlayback, double, double> PlayerPlayTimeChanged { get; set; }
 
 		// @optional @property (copy, nonatomic) void (^ _Nullable)(id<ZFPlayerMediaPlayback> _Nonnull, NSTimeInterval) playerBufferTimeChanged;
 		[NullAllowed, Export ("playerBufferTimeChanged", ArgumentSemantic.Copy)]
-		Action<IZFPlayerMediaPlayback, double> PlayerBufferTimeChanged { get; set; }
+		Action<ZFPlayerMediaPlayback, double> PlayerBufferTimeChanged { get; set; }
 
 		// @optional @property (copy, nonatomic) void (^ _Nullable)(id<ZFPlayerMediaPlayback> _Nonnull, ZFPlayerPlaybackState) playerPlayStateChanged;
 		[NullAllowed, Export ("playerPlayStateChanged", ArgumentSemantic.Copy)]
-		Action<IZFPlayerMediaPlayback, ZFPlayerPlaybackState> PlayerPlayStateChanged { get; set; }
+		Action<ZFPlayerMediaPlayback, ZFPlayerPlaybackState> PlayerPlayStateChanged { get; set; }
 
 		// @optional @property (copy, nonatomic) void (^ _Nullable)(id<ZFPlayerMediaPlayback> _Nonnull, ZFPlayerLoadState) playerLoadStateChanged;
 		[NullAllowed, Export ("playerLoadStateChanged", ArgumentSemantic.Copy)]
-		Action<IZFPlayerMediaPlayback, ZFPlayerLoadState> PlayerLoadStateChanged { get; set; }
+		Action<ZFPlayerMediaPlayback, ZFPlayerLoadState> PlayerLoadStateChanged { get; set; }
 
 		// @optional @property (copy, nonatomic) void (^ _Nullable)(id<ZFPlayerMediaPlayback> _Nonnull, id _Nonnull) playerPlayFailed;
 		[NullAllowed, Export ("playerPlayFailed", ArgumentSemantic.Copy)]
-		Action<IZFPlayerMediaPlayback, NSObject> PlayerPlayFailed { get; set; }
+		Action<ZFPlayerMediaPlayback, NSObject> PlayerPlayFailed { get; set; }
 
 		// @optional @property (copy, nonatomic) void (^ _Nullable)(id<ZFPlayerMediaPlayback> _Nonnull) playerDidToEnd;
 		[NullAllowed, Export ("playerDidToEnd", ArgumentSemantic.Copy)]
-		Action<IZFPlayerMediaPlayback> PlayerDidToEnd { get; set; }
+		Action<ZFPlayerMediaPlayback> PlayerDidToEnd { get; set; }
 
 		// @optional @property (copy, nonatomic) void (^ _Nullable)(id<ZFPlayerMediaPlayback> _Nonnull, CGSize) presentationSizeChanged;
 		[NullAllowed, Export ("presentationSizeChanged", ArgumentSemantic.Copy)]
-		Action<IZFPlayerMediaPlayback, CGSize> PresentationSizeChanged { get; set; }
+		Action<ZFPlayerMediaPlayback, CGSize> PresentationSizeChanged { get; set; }
 
 		// @optional -(void)prepareToPlay;
 		[Export ("prepareToPlay")]
@@ -144,7 +143,7 @@ namespace Ijkplayer.iOS.UI
 
 		// @optional -(UIImage * _Nonnull)thumbnailImageAtCurrentTime;
 		[Export ("thumbnailImageAtCurrentTime")]
-		//[Verify (MethodToProperty)]
+		[Verify (MethodToProperty)]
 		UIImage ThumbnailImageAtCurrentTime { get; }
 
 		// @optional -(void)seekToTime:(NSTimeInterval)time completionHandler:(void (^ _Nullable)(BOOL))completionHandler;
@@ -158,15 +157,15 @@ namespace Ijkplayer.iOS.UI
 	// typedef void (^ZFDownloadProgressBlock)(unsigned long long, unsigned long long);
 	delegate void ZFDownloadProgressBlock (ulong arg0, ulong arg1);
 
-	// @interface ZFImageDownloader : NSObject <NSUrlSessionDownloadDelegate>
+	// @interface ZFImageDownloader : NSObject <NSURLSessionDownloadDelegate>
 	[BaseType (typeof(NSObject))]
 	interface ZFImageDownloader : INSUrlSessionDownloadDelegate
 	{
-		// @property (nonatomic, strong) NSUrlSession * session;
+		// @property (nonatomic, strong) NSURLSession * session;
 		[Export ("session", ArgumentSemantic.Strong)]
 		NSUrlSession Session { get; set; }
 
-		// @property (nonatomic, strong) NSUrlSessionDownloadTask * task;
+		// @property (nonatomic, strong) NSURLSessionDownloadTask * task;
 		[Export ("task", ArgumentSemantic.Strong)]
 		NSUrlSessionDownloadTask Task { get; set; }
 
@@ -199,36 +198,24 @@ namespace Ijkplayer.iOS.UI
 	[BaseType (typeof(UIImageView))]
 	interface UIImageView_ZFCache
 	{
-        // @property (copy, nonatomic) ZFImageBlock completion;
-        [Export("completion")]
-        ZFImageBlock Completion();
+		// @property (copy, nonatomic) ZFImageBlock completion;
+		[Export ("completion", ArgumentSemantic.Copy)]
+		ZFImageBlock Completion { get; set; }
 
-        [Export("setCompletion:")]
-        void SetCompletion(ZFImageBlock block);
+		// @property (nonatomic, strong) ZFImageDownloader * imageDownloader;
+		[Export ("imageDownloader", ArgumentSemantic.Strong)]
+		ZFImageDownloader ImageDownloader { get; set; }
 
-        // @property (nonatomic, strong) ZFImageDownloader * imageDownloader;
-        [Export("imageDownloader")]
-        ZFImageDownloader ImageDownloader();
+		// @property (assign, nonatomic) NSUInteger attemptToReloadTimesForFailedURL;
+		[Export ("attemptToReloadTimesForFailedURL")]
+		nuint AttemptToReloadTimesForFailedURL { get; set; }
 
-        [Export("setImageDownloader:")]
-        void SetImageDownloader(ZFImageDownloader n);
+		// @property (assign, nonatomic) BOOL shouldAutoClipImageToViewSize;
+		[Export ("shouldAutoClipImageToViewSize")]
+		bool ShouldAutoClipImageToViewSize { get; set; }
 
-        // @property (assign, nonatomic) NSUInteger attemptToReloadTimesForFailedURL;
-        [Export("attemptToReloadTimesForFailedURL")]
-        nuint AttemptToReloadTimesForFailedURL();
-
-        [Export("setAttemptToReloadTimesForFailedURL:")]
-        void SetAttemptToReloadTimesForFailedURL(nuint n);
-
-        // @property (assign, nonatomic) BOOL shouldAutoClipImageToViewSize;
-        [Export("shouldAutoClipImageToViewSize")]
-        bool ShouldAutoClipImageToViewSize();
-
-        [Export("setShouldAutoClipImageToViewSize:")]
-        void SetShouldAutoClipImageToViewSize(bool n);
-
-        // -(void)setImageWithURLString:(NSString *)url placeholderImageName:(NSString *)placeholderImageName;
-        [Export ("setImageWithURLString:placeholderImageName:")]
+		// -(void)setImageWithURLString:(NSString *)url placeholderImageName:(NSString *)placeholderImageName;
+		[Export ("setImageWithURLString:placeholderImageName:")]
 		void SetImageWithURLString (string url, string placeholderImageName);
 
 		// -(void)setImageWithURLString:(NSString *)url placeholder:(UIImage *)placeholderImage;
@@ -249,106 +236,68 @@ namespace Ijkplayer.iOS.UI
 	[BaseType (typeof(UIScrollView))]
 	interface UIScrollView_ZFPlayer
 	{
-        // @property (readonly, nonatomic) CGFloat zf_lastOffsetY;
-        [Export("zf_lastOffsetY")]
-        nfloat Zf_lastOffsetY();
+		// @property (readonly, nonatomic) CGFloat zf_lastOffsetY;
+		[Export ("zf_lastOffsetY")]
+		nfloat Zf_lastOffsetY { get; }
 
-        // @property (readonly, nonatomic) CGFloat zf_lastOffsetX;
-        [Export("zf_lastOffsetX")]
-        nfloat Zf_lastOffsetX();
+		// @property (readonly, nonatomic) CGFloat zf_lastOffsetX;
+		[Export ("zf_lastOffsetX")]
+		nfloat Zf_lastOffsetX { get; }
 
-        // @property (nonatomic) NSIndexPath * _Nullable zf_playingIndexPath;
-        [NullAllowed, Export("zf_playingIndexPath")]
-        NSIndexPath Zf_playingIndexPath();
+		// @property (nonatomic) NSIndexPath * _Nullable zf_playingIndexPath;
+		[NullAllowed, Export ("zf_playingIndexPath", ArgumentSemantic.Assign)]
+		NSIndexPath Zf_playingIndexPath { get; set; }
 
-        [Export("setZf_playingIndexPath:")]
-        void SetZf_playingIndexPath([NullAllowed]NSIndexPath n);
+		// @property (nonatomic) NSIndexPath * _Nullable zf_shouldPlayIndexPath;
+		[NullAllowed, Export ("zf_shouldPlayIndexPath", ArgumentSemantic.Assign)]
+		NSIndexPath Zf_shouldPlayIndexPath { get; set; }
 
-        // @property (nonatomic) NSIndexPath * _Nullable zf_shouldPlayIndexPath;
-        [NullAllowed, Export("zf_shouldPlayIndexPath")]
-        NSIndexPath Zf_shouldPlayIndexPath();
+		// @property (getter = zf_isWWANAutoPlay, nonatomic) BOOL zf_WWANAutoPlay;
+		[Export ("zf_WWANAutoPlay")]
+		bool Zf_WWANAutoPlay { [Bind ("zf_isWWANAutoPlay")] get; set; }
 
-        [Export("setZf_shouldPlayIndexPath:")]
-        void SetZf_shouldPlayIndexPath([NullAllowed]NSIndexPath n);
+		// @property (nonatomic) BOOL zf_shouldAutoPlay;
+		[Export ("zf_shouldAutoPlay")]
+		bool Zf_shouldAutoPlay { get; set; }
 
-        // @property (getter = zf_isWWANAutoPlay, nonatomic) BOOL zf_WWANAutoPlay;
-        [Export("zf_WWANAutoPlay")]
-        bool Zf_WWANAutoPlay();
-        // TODO:::::::
-        //bool Zf_WWANAutoPlay { [Bind ("zf_isWWANAutoPlay")] get; set; }
+		// @property (nonatomic) NSInteger zf_containerViewTag;
+		[Export ("zf_containerViewTag")]
+		nint Zf_containerViewTag { get; set; }
 
-        [Export("setZf_isWWANAutoPlay:")]
-        void SetZf_isWWANAutoPlay(bool n);
+		// @property (nonatomic) ZFPlayerScrollViewDirection zf_scrollViewDirection;
+		[Export ("zf_scrollViewDirection", ArgumentSemantic.Assign)]
+		ZFPlayerScrollViewDirection Zf_scrollViewDirection { get; set; }
 
-        // @property (nonatomic) BOOL zf_shouldAutoPlay;
-        [Export ("zf_shouldAutoPlay")]
-		bool Zf_shouldAutoPlay();
+		// @property (readonly, nonatomic) ZFPlayerScrollDirection zf_scrollDirection;
+		[Export ("zf_scrollDirection")]
+		ZFPlayerScrollDirection Zf_scrollDirection { get; }
 
-        [Export("setZf_shouldAutoPlay:")]
-        void SetZf_shouldAutoPlay(bool n);
+		// @property (assign, nonatomic) ZFPlayerContainerType zf_containerType;
+		[Export ("zf_containerType", ArgumentSemantic.Assign)]
+		ZFPlayerContainerType Zf_containerType { get; set; }
 
-        // @property (nonatomic) NSInteger zf_containerViewTag;
-        [Export("zf_containerViewTag")]
-        nint Zf_containerViewTag();
+		// @property (nonatomic, strong) UIView * _Nonnull zf_containerView;
+		[Export ("zf_containerView", ArgumentSemantic.Strong)]
+		UIView Zf_containerView { get; set; }
 
-        [Export("setZf_containerViewTag:")]
-        void SetZf_containerViewTag(nint n);
+		// @property (assign, nonatomic) BOOL zf_stopWhileNotVisible;
+		[Export ("zf_stopWhileNotVisible")]
+		bool Zf_stopWhileNotVisible { get; set; }
 
-        // @property (nonatomic) ZFPlayerScrollViewDirection zf_scrollViewDirection;
-        [Export("zf_scrollViewDirection")]
-        ZFPlayerScrollViewDirection Zf_scrollViewDirection();
+		// @property (assign, nonatomic) BOOL zf_stopPlay;
+		[Export ("zf_stopPlay")]
+		bool Zf_stopPlay { get; set; }
 
-        [Export("setZf_scrollViewDirection:")]
-        void SetZf_scrollViewDirection(ZFPlayerScrollViewDirection n);
+		// @property (copy, nonatomic) void (^ _Nullable)(NSIndexPath * _Nonnull) zf_scrollViewDidStopScrollCallback;
+		[NullAllowed, Export ("zf_scrollViewDidStopScrollCallback", ArgumentSemantic.Copy)]
+		Action<NSIndexPath> Zf_scrollViewDidStopScrollCallback { get; set; }
 
-        // @property (readonly, nonatomic) ZFPlayerScrollDirection zf_scrollDirection;
-        [Export("zf_scrollDirection")]
-        ZFPlayerScrollDirection Zf_scrollDirection();
+		// @property (copy, nonatomic) void (^ _Nullable)(NSIndexPath * _Nonnull) zf_shouldPlayIndexPathCallback;
+		[NullAllowed, Export ("zf_shouldPlayIndexPathCallback", ArgumentSemantic.Copy)]
+		Action<NSIndexPath> Zf_shouldPlayIndexPathCallback { get; set; }
 
-        // @property (assign, nonatomic) ZFPlayerContainerType zf_containerType;
-        [Export("zf_containerType")]
-        ZFPlayerContainerType Zf_containerType();
-
-        [Export("setZf_containerType:")]
-        void SetZf_containerType(ZFPlayerContainerType n);
-
-        // @property (nonatomic, strong) UIView * _Nonnull zf_containerView;
-        [Export("zf_containerView")]
-        UIView Zf_containerView();
-
-        [Export("setZf_containerView:")]
-        void SetZf_containerView(UIView n);
-
-        // @property (assign, nonatomic) BOOL zf_stopWhileNotVisible;
-        [Export("zf_stopWhileNotVisible")]
-        bool Zf_stopWhileNotVisible();
-
-        [Export("setZf_stopWhileNotVisible:")]
-        void SetZf_stopWhileNotVisible(bool n);
-
-        // @property (assign, nonatomic) BOOL zf_stopPlay;
-        [Export("zf_stopPlay")]
-        bool Zf_stopPlay();
-
-        [Export("setZf_stopPlay:")]
-        void SetZf_stopPlay(bool n);
-
-        // @property (copy, nonatomic) void (^ _Nullable)(NSIndexPath * _Nonnull) zf_scrollViewDidStopScrollCallback;
-        [NullAllowed, Export("zf_scrollViewDidStopScrollCallback")]
-        Action<NSIndexPath> Zf_scrollViewDidStopScrollCallback();
-
-        [Export("setZf_scrollViewDidStopScrollCallback:")]
-        void SetZf_scrollViewDidStopScrollCallback([NullAllowed]Action<NSIndexPath> n);
-
-        // @property (copy, nonatomic) void (^ _Nullable)(NSIndexPath * _Nonnull) zf_shouldPlayIndexPathCallback;
-        [NullAllowed, Export("zf_shouldPlayIndexPathCallback")]
-        Action<NSIndexPath> Zf_shouldPlayIndexPathCallback();
-
-        [Export("setZf_shouldPlayIndexPathCallback:")]
-        void SetZf_shouldPlayIndexPathCallback([NullAllowed]Action<NSIndexPath> n);
-
-        // -(void)zf_filterShouldPlayCellWhileScrolled:(void (^ _Nullable)(NSIndexPath * _Nonnull))handler;
-        [Export ("zf_filterShouldPlayCellWhileScrolled:")]
+		// -(void)zf_filterShouldPlayCellWhileScrolled:(void (^ _Nullable)(NSIndexPath * _Nonnull))handler;
+		[Export ("zf_filterShouldPlayCellWhileScrolled:")]
 		void Zf_filterShouldPlayCellWhileScrolled ([NullAllowed] Action<NSIndexPath> handler);
 
 		// -(void)zf_filterShouldPlayCellWhileScrolling:(void (^ _Nullable)(NSIndexPath * _Nonnull))handler;
@@ -397,163 +346,100 @@ namespace Ijkplayer.iOS.UI
 	[BaseType (typeof(UIScrollView))]
 	interface UIScrollView_ZFPlayerCannotCalled
 	{
-        // @property (copy, nonatomic) void (^ _Nullable)(NSIndexPath * _Nonnull, CGFloat) zf_playerAppearingInScrollView;
-        [NullAllowed, Export("zf_playerAppearingInScrollView")]
-        Action<NSIndexPath, nfloat> Zf_playerAppearingInScrollView();
+		// @property (copy, nonatomic) void (^ _Nullable)(NSIndexPath * _Nonnull, CGFloat) zf_playerAppearingInScrollView;
+		[NullAllowed, Export ("zf_playerAppearingInScrollView", ArgumentSemantic.Copy)]
+		Action<NSIndexPath, nfloat> Zf_playerAppearingInScrollView { get; set; }
 
-        [Export("setZf_playerAppearingInScrollView:")]
-        void SetZf_playerAppearingInScrollView([NullAllowed]Action<NSIndexPath, nfloat> n);
+		// @property (copy, nonatomic) void (^ _Nullable)(NSIndexPath * _Nonnull, CGFloat) zf_playerDisappearingInScrollView;
+		[NullAllowed, Export ("zf_playerDisappearingInScrollView", ArgumentSemantic.Copy)]
+		Action<NSIndexPath, nfloat> Zf_playerDisappearingInScrollView { get; set; }
 
-        // @property (copy, nonatomic) void (^ _Nullable)(NSIndexPath * _Nonnull, CGFloat) zf_playerDisappearingInScrollView;
-        [NullAllowed, Export("zf_playerDisappearingInScrollView")]
-        Action<NSIndexPath, nfloat> Zf_playerDisappearingInScrollView();
+		// @property (copy, nonatomic) void (^ _Nullable)(NSIndexPath * _Nonnull) zf_playerWillAppearInScrollView;
+		[NullAllowed, Export ("zf_playerWillAppearInScrollView", ArgumentSemantic.Copy)]
+		Action<NSIndexPath> Zf_playerWillAppearInScrollView { get; set; }
 
-        [Export("setZf_playerDisappearingInScrollView:")]
-        void SetZf_playerDisappearingInScrollView([NullAllowed]Action<NSIndexPath, nfloat> n);
+		// @property (copy, nonatomic) void (^ _Nullable)(NSIndexPath * _Nonnull) zf_playerDidAppearInScrollView;
+		[NullAllowed, Export ("zf_playerDidAppearInScrollView", ArgumentSemantic.Copy)]
+		Action<NSIndexPath> Zf_playerDidAppearInScrollView { get; set; }
 
-        // @property (copy, nonatomic) void (^ _Nullable)(NSIndexPath * _Nonnull) zf_playerWillAppearInScrollView;
-        [NullAllowed, Export("zf_playerWillAppearInScrollView")]
-        Action<NSIndexPath> Zf_playerWillAppearInScrollView();
+		// @property (copy, nonatomic) void (^ _Nullable)(NSIndexPath * _Nonnull) zf_playerWillDisappearInScrollView;
+		[NullAllowed, Export ("zf_playerWillDisappearInScrollView", ArgumentSemantic.Copy)]
+		Action<NSIndexPath> Zf_playerWillDisappearInScrollView { get; set; }
 
-        [Export("setZf_playerWillAppearInScrollView:")]
-        void SetZf_playerWillAppearInScrollView([NullAllowed]Action<NSIndexPath> n);
+		// @property (copy, nonatomic) void (^ _Nullable)(NSIndexPath * _Nonnull) zf_playerDidDisappearInScrollView;
+		[NullAllowed, Export ("zf_playerDidDisappearInScrollView", ArgumentSemantic.Copy)]
+		Action<NSIndexPath> Zf_playerDidDisappearInScrollView { get; set; }
 
-        // @property (copy, nonatomic) void (^ _Nullable)(NSIndexPath * _Nonnull) zf_playerDidAppearInScrollView;
-        [NullAllowed, Export("zf_playerDidAppearInScrollView")]
-        Action<NSIndexPath> Zf_playerDidAppearInScrollView();
+		// @property (nonatomic) CGFloat zf_playerDisapperaPercent;
+		[Export ("zf_playerDisapperaPercent")]
+		nfloat Zf_playerDisapperaPercent { get; set; }
 
-        [Export("setZf_playerDidAppearInScrollView:")]
-        void SetZf_playerDidAppearInScrollView([NullAllowed]Action<NSIndexPath> n);
+		// @property (nonatomic) CGFloat zf_playerApperaPercent;
+		[Export ("zf_playerApperaPercent")]
+		nfloat Zf_playerApperaPercent { get; set; }
 
-        // @property (copy, nonatomic) void (^ _Nullable)(NSIndexPath * _Nonnull) zf_playerWillDisappearInScrollView;
-        [NullAllowed, Export("zf_playerWillDisappearInScrollView")]
-        Action<NSIndexPath> Zf_playerWillDisappearInScrollView();
-
-        [Export("setZf_playerWillDisappearInScrollView:")]
-        void SetZf_playerWillDisappearInScrollView([NullAllowed]Action<NSIndexPath> n);
-
-        // @property (copy, nonatomic) void (^ _Nullable)(NSIndexPath * _Nonnull) zf_playerDidDisappearInScrollView;
-        [NullAllowed, Export("zf_playerDidDisappearInScrollView")]
-        Action<NSIndexPath> Zf_playerDidDisappearInScrollView();
-
-        [Export("setZf_playerDidDisappearInScrollView:")]
-        void SetZf_playerDidDisappearInScrollView([NullAllowed]Action<NSIndexPath> n);
-
-        // @property (nonatomic) CGFloat zf_playerDisapperaPercent;
-        [Export("zf_playerDisapperaPercent")]
-        nfloat Zf_playerDisapperaPercent();
-
-        [Export("setZf_playerDisapperaPercent:")]
-        void SetZf_playerDisapperaPercent(nfloat n);
-
-        // @property (nonatomic) CGFloat zf_playerApperaPercent;
-        [Export("zf_playerApperaPercent")]
-        nfloat Zf_playerApperaPercent();
-
-        [Export("setZf_playerApperaPercent:")]
-        void SetZf_playerApperaPercent(nfloat n);
-
-        // @property (nonatomic) BOOL zf_viewControllerDisappear;
-        [Export("zf_viewControllerDisappear")]
-        bool Zf_viewControllerDisappear();
-
-        [Export("setZf_viewControllerDisappear:")]
-        void SetZf_viewControllerDisappear(bool n);
-    }
+		// @property (nonatomic) BOOL zf_viewControllerDisappear;
+		[Export ("zf_viewControllerDisappear")]
+		bool Zf_viewControllerDisappear { get; set; }
+	}
 
 	// @interface ZFFrame (UIView)
 	[Category]
 	[BaseType (typeof(UIView))]
-    interface UIView_ZFFrame
-    {
-        // @property (nonatomic) CGFloat zf_x;
-        [Export("zf_x")]
-        nfloat Zf_x();
+	interface UIView_ZFFrame
+	{
+		// @property (nonatomic) CGFloat zf_x;
+		[Export ("zf_x")]
+		nfloat Zf_x { get; set; }
 
-        [Export("setZf_x:")]
-        void SetZf_x(nfloat n);
+		// @property (nonatomic) CGFloat zf_y;
+		[Export ("zf_y")]
+		nfloat Zf_y { get; set; }
 
-        // @property (nonatomic) CGFloat zf_y;
-        [Export("zf_y")]
-        nfloat Zf_y();
+		// @property (nonatomic) CGFloat zf_width;
+		[Export ("zf_width")]
+		nfloat Zf_width { get; set; }
 
-        [Export("setZf_y:")]
-        void SetZf_y(nfloat n);
+		// @property (nonatomic) CGFloat zf_height;
+		[Export ("zf_height")]
+		nfloat Zf_height { get; set; }
 
-        // @property (nonatomic) CGFloat zf_width;
-        [Export("zf_width")]
-        nfloat Zf_width();
+		// @property (nonatomic) CGFloat zf_top;
+		[Export ("zf_top")]
+		nfloat Zf_top { get; set; }
 
-        [Export("setZf_width:")]
-        void SetZf_width(nfloat n);
+		// @property (nonatomic) CGFloat zf_bottom;
+		[Export ("zf_bottom")]
+		nfloat Zf_bottom { get; set; }
 
-        // @property (nonatomic) CGFloat zf_height;
-        [Export("zf_height")]
-        nfloat Zf_height();
+		// @property (nonatomic) CGFloat zf_left;
+		[Export ("zf_left")]
+		nfloat Zf_left { get; set; }
 
-        [Export("setZf_height:")]
-        void SetZf_height(nfloat n);
+		// @property (nonatomic) CGFloat zf_right;
+		[Export ("zf_right")]
+		nfloat Zf_right { get; set; }
 
-        // @property (nonatomic) CGFloat zf_top;
-        [Export("zf_top")]
-        nfloat Zf_top();
+		// @property (nonatomic) CGFloat zf_centerX;
+		[Export ("zf_centerX")]
+		nfloat Zf_centerX { get; set; }
 
-        [Export("setZf_top:")]
-        void SetZf_top(nfloat n);
+		// @property (nonatomic) CGFloat zf_centerY;
+		[Export ("zf_centerY")]
+		nfloat Zf_centerY { get; set; }
 
-        // @property (nonatomic) CGFloat zf_bottom;
-        [Export("zf_bottom")]
-        nfloat Zf_bottom();
+		// @property (nonatomic) CGPoint zf_origin;
+		[Export ("zf_origin", ArgumentSemantic.Assign)]
+		CGPoint Zf_origin { get; set; }
 
-        [Export("setZf_bottom:")]
-        void SetZf_bottom(nfloat n);
+		// @property (nonatomic) CGSize zf_size;
+		[Export ("zf_size", ArgumentSemantic.Assign)]
+		CGSize Zf_size { get; set; }
+	}
 
-        // @property (nonatomic) CGFloat zf_left;
-        [Export("zf_left")]
-        nfloat Zf_left();
-
-        [Export("setZf_left:")]
-        void SetZf_left(nfloat n);
-
-        // @property (nonatomic) CGFloat zf_right;
-        [Export("zf_right")]
-        nfloat Zf_right();
-
-        [Export("setZf_right:")]
-        void SetZf_right(nfloat n);
-
-        // @property (nonatomic) CGFloat zf_centerX;
-        [Export("zf_centerX")]
-        nfloat Zf_centerX();
-
-        [Export("setZf_centerX:")]
-        void SetZf_centerX(nfloat n);
-
-        // @property (nonatomic) CGFloat zf_centerY;
-        [Export("zf_centerY")]
-        nfloat Zf_centerY();
-
-        [Export("setZf_centerY:")]
-        void SetZf_centerY(nfloat n);
-
-        // @property (nonatomic) CGPoint zf_origin;
-        [Export("zf_origin")]
-        CGPoint Zf_origin();
-
-        [Export("setZf_origin:")]
-        void SetZf_origin(CGPoint n);
-
-        // @property (nonatomic) CGSize zf_size;
-        [Export("zf_size")]
-        CGSize Zf_size();
-
-        [Export("setZf_size:")]
-        void SetZf_size(CGSize n);
-    }
-
-    // @interface ZFAVPlayerManager : NSObject <ZFPlayerMediaPlayback>
-    [BaseType (typeof(NSObject))]
-	interface ZFAVPlayerManager : ZFPlayerMediaPlayback
+	// @interface ZFAVPlayerManager : NSObject <ZFPlayerMediaPlayback>
+	[BaseType (typeof(NSObject))]
+	interface ZFAVPlayerManager : IZFPlayerMediaPlayback
 	{
 		// @property (readonly, nonatomic, strong) AVURLAsset * asset;
 		[Export ("asset", ArgumentSemantic.Strong)]
@@ -599,7 +485,7 @@ namespace Ijkplayer.iOS.UI
 
 		// -(void)safelyAddObserver:(NSObject *)observer forKeyPath:(NSString *)keyPath options:(NSKeyValueObservingOptions)options context:(void *)context;
 		[Export ("safelyAddObserver:forKeyPath:options:context:")]
-	    unsafe void SafelyAddObserver (NSObject observer, string keyPath, NSKeyValueObservingOptions options, IntPtr context);
+		unsafe void SafelyAddObserver (NSObject observer, string keyPath, NSKeyValueObservingOptions options, void* context);
 
 		// -(void)safelyRemoveObserver:(NSObject *)observer forKeyPath:(NSString *)keyPath;
 		[Export ("safelyRemoveObserver:forKeyPath:")]
@@ -814,15 +700,15 @@ namespace Ijkplayer.iOS.UI
 		// +(instancetype _Nonnull)managerForAddress:(const void * _Nonnull)address;
 		[Static]
 		[Export ("managerForAddress:")]
-		unsafe ZFReachabilityManager ManagerForAddress (IntPtr address);
+		unsafe ZFReachabilityManager ManagerForAddress (void* address);
 
 		// -(instancetype _Nonnull)initWithReachability:(SCNetworkReachabilityRef _Nonnull)reachability __attribute__((objc_designated_initializer));
-		//[Export ("initWithReachability:")]
-		//[DesignatedInitializer]
-		//unsafe IntPtr Constructor (SCNetworkReachabilityRef reachability);
+		[Export ("initWithReachability:")]
+		[DesignatedInitializer]
+		unsafe IntPtr Constructor (SCNetworkReachabilityRef* reachability);
 
-        // -(void)startMonitoring;
-        [Export ("startMonitoring")]
+		// -(void)startMonitoring;
+		[Export ("startMonitoring")]
 		void StartMonitoring ();
 
 		// -(void)stopMonitoring;
@@ -831,7 +717,7 @@ namespace Ijkplayer.iOS.UI
 
 		// -(NSString * _Nonnull)localizedNetworkReachabilityStatusString;
 		[Export ("localizedNetworkReachabilityStatusString")]
-		//[Verify (MethodToProperty)]
+		[Verify (MethodToProperty)]
 		string LocalizedNetworkReachabilityStatusString { get; }
 
 		// -(void)setReachabilityStatusChangeBlock:(void (^ _Nullable)(ZFReachabilityStatus))block;
@@ -840,7 +726,7 @@ namespace Ijkplayer.iOS.UI
 	}
 
 	[Static]
-	//[Verify (ConstantsInterfaceAssociation)]
+	[Verify (ConstantsInterfaceAssociation)]
 	partial interface Constants
 	{
 		// extern NSString *const _Nonnull ZFReachabilityDidChangeNotification;
@@ -852,9 +738,8 @@ namespace Ijkplayer.iOS.UI
 		NSString ZFReachabilityNotificationStatusItem { get; }
 	}
 
-    partial interface IZFPlayerMediaControl { }
-    // @protocol ZFPlayerMediaControl <NSObject>
-    [Protocol, Model]
+	// @protocol ZFPlayerMediaControl <NSObject>
+	[Protocol, Model]
 	[BaseType (typeof(NSObject))]
 	interface ZFPlayerMediaControl
 	{
@@ -863,7 +748,7 @@ namespace Ijkplayer.iOS.UI
 		[NullAllowed, Export ("player", ArgumentSemantic.Weak)]
 		ZFPlayerController Player { get; set; }
 
-		// @optional -(void)videoPlayer:(ZFPlayerController * _Nonnull)videoPlayer prepareToPlay:(NSUrl * _Nonnull)assetURL;
+		// @optional -(void)videoPlayer:(ZFPlayerController * _Nonnull)videoPlayer prepareToPlay:(NSURL * _Nonnull)assetURL;
 		[Export ("videoPlayer:prepareToPlay:")]
 		void VideoPlayer (ZFPlayerController videoPlayer, NSUrl assetURL);
 
@@ -885,7 +770,7 @@ namespace Ijkplayer.iOS.UI
 
 		// @optional -(void)videoPlayer:(ZFPlayerController * _Nonnull)videoPlayer draggingTime:(NSTimeInterval)seekTime totalTime:(NSTimeInterval)totalTime;
 		[Export ("videoPlayer:draggingTime:totalTime:")]
-		void VideoPlayer_draggingTime_totalTime(ZFPlayerController videoPlayer, double seekTime, double totalTime);
+		void VideoPlayer (ZFPlayerController videoPlayer, double seekTime, double totalTime);
 
 		// @optional -(void)videoPlayerPlayEnd:(ZFPlayerController * _Nonnull)videoPlayer;
 		[Export ("videoPlayerPlayEnd:")]
@@ -901,19 +786,19 @@ namespace Ijkplayer.iOS.UI
 
 		// @optional -(void)videoPlayer:(ZFPlayerController * _Nonnull)videoPlayer orientationWillChange:(ZFOrientationObserver * _Nonnull)observer;
 		[Export ("videoPlayer:orientationWillChange:")]
-		void VideoPlayer_orientationWillChange(ZFPlayerController videoPlayer, ZFOrientationObserver observer);
+		void VideoPlayer (ZFPlayerController videoPlayer, ZFOrientationObserver observer);
 
 		// @optional -(void)videoPlayer:(ZFPlayerController * _Nonnull)videoPlayer orientationDidChanged:(ZFOrientationObserver * _Nonnull)observer;
 		[Export ("videoPlayer:orientationDidChanged:")]
-		void VideoPlayer_orientationDidChanged(ZFPlayerController videoPlayer, ZFOrientationObserver observer);
+		void VideoPlayer (ZFPlayerController videoPlayer, ZFOrientationObserver observer);
 
 		// @optional -(void)videoPlayer:(ZFPlayerController * _Nonnull)videoPlayer reachabilityChanged:(ZFReachabilityStatus)status;
 		[Export ("videoPlayer:reachabilityChanged:")]
-		void VideoPlayer_reachabilityChanged(ZFPlayerController videoPlayer, ZFReachabilityStatus status);
+		void VideoPlayer (ZFPlayerController videoPlayer, ZFReachabilityStatus status);
 
 		// @optional -(void)videoPlayer:(ZFPlayerController * _Nonnull)videoPlayer presentationSizeChanged:(CGSize)size;
 		[Export ("videoPlayer:presentationSizeChanged:")]
-		void VideoPlayer_presentationSizeChanged(ZFPlayerController videoPlayer, CGSize size);
+		void VideoPlayer (ZFPlayerController videoPlayer, CGSize size);
 
 		// @optional -(BOOL)gestureTriggerCondition:(ZFPlayerGestureControl * _Nonnull)gestureControl gestureType:(ZFPlayerGestureType)gestureType gestureRecognizer:(UIGestureRecognizer * _Nonnull)gestureRecognizer touch:(UITouch * _Nonnull)touch;
 		[Export ("gestureTriggerCondition:gestureType:gestureRecognizer:touch:")]
@@ -1019,7 +904,7 @@ namespace Ijkplayer.iOS.UI
 
 	// @interface ZFPlayerController : NSObject
 	[BaseType (typeof(NSObject))]
-	partial interface ZFPlayerController
+	interface ZFPlayerController
 	{
 		// @property (nonatomic, strong) UIView * _Nonnull containerView;
 		[Export ("containerView", ArgumentSemantic.Strong)]
@@ -1027,11 +912,11 @@ namespace Ijkplayer.iOS.UI
 
 		// @property (nonatomic, strong) id<ZFPlayerMediaPlayback> _Nonnull currentPlayerManager;
 		[Export ("currentPlayerManager", ArgumentSemantic.Strong)]
-		IZFPlayerMediaPlayback CurrentPlayerManager { get; set; }
+		ZFPlayerMediaPlayback CurrentPlayerManager { get; set; }
 
 		// @property (nonatomic, strong) UIView<ZFPlayerMediaControl> * _Nonnull controlView;
 		[Export ("controlView", ArgumentSemantic.Strong)]
-		IZFPlayerMediaControl ControlView { get; set; }
+		ZFPlayerMediaControl ControlView { get; set; }
 
 		// @property (readonly, nonatomic, strong) ZFPlayerNotification * _Nonnull notification;
 		[Export ("notification", ArgumentSemantic.Strong)]
@@ -1052,36 +937,36 @@ namespace Ijkplayer.iOS.UI
 		// +(instancetype _Nonnull)playerWithPlayerManager:(id<ZFPlayerMediaPlayback> _Nonnull)playerManager containerView:(UIView * _Nonnull)containerView;
 		[Static]
 		[Export ("playerWithPlayerManager:containerView:")]
-		ZFPlayerController PlayerWithPlayerManager (IZFPlayerMediaPlayback playerManager, UIView containerView);
+		ZFPlayerController PlayerWithPlayerManager (ZFPlayerMediaPlayback playerManager, UIView containerView);
 
 		// -(instancetype _Nonnull)initWithPlayerManager:(id<ZFPlayerMediaPlayback> _Nonnull)playerManager containerView:(UIView * _Nonnull)containerView;
 		[Export ("initWithPlayerManager:containerView:")]
-		IntPtr Constructor (IZFPlayerMediaPlayback playerManager, UIView containerView);
+		IntPtr Constructor (ZFPlayerMediaPlayback playerManager, UIView containerView);
 
 		// +(instancetype _Nonnull)playerWithScrollView:(UIScrollView * _Nonnull)scrollView playerManager:(id<ZFPlayerMediaPlayback> _Nonnull)playerManager containerViewTag:(NSInteger)containerViewTag;
 		[Static]
 		[Export ("playerWithScrollView:playerManager:containerViewTag:")]
-		ZFPlayerController PlayerWithScrollView (UIScrollView scrollView, IZFPlayerMediaPlayback playerManager, nint containerViewTag);
+		ZFPlayerController PlayerWithScrollView (UIScrollView scrollView, ZFPlayerMediaPlayback playerManager, nint containerViewTag);
 
-		// -(instancetype _Nonnull)initWithScrollView:(UIScrollView * _Nonnull)scrollView playerManager:(id<IZFPlayerMediaPlayback> _Nonnull)playerManager containerViewTag:(NSInteger)containerViewTag;
+		// -(instancetype _Nonnull)initWithScrollView:(UIScrollView * _Nonnull)scrollView playerManager:(id<ZFPlayerMediaPlayback> _Nonnull)playerManager containerViewTag:(NSInteger)containerViewTag;
 		[Export ("initWithScrollView:playerManager:containerViewTag:")]
-		IntPtr Constructor (UIScrollView scrollView, IZFPlayerMediaPlayback playerManager, nint containerViewTag);
+		IntPtr Constructor (UIScrollView scrollView, ZFPlayerMediaPlayback playerManager, nint containerViewTag);
 
-		// +(instancetype _Nonnull)playerWithScrollView:(UIScrollView * _Nonnull)scrollView playerManager:(id<IZFPlayerMediaPlayback> _Nonnull)playerManager containerView:(UIView * _Nonnull)containerView;
+		// +(instancetype _Nonnull)playerWithScrollView:(UIScrollView * _Nonnull)scrollView playerManager:(id<ZFPlayerMediaPlayback> _Nonnull)playerManager containerView:(UIView * _Nonnull)containerView;
 		[Static]
 		[Export ("playerWithScrollView:playerManager:containerView:")]
-		ZFPlayerController PlayerWithScrollView (UIScrollView scrollView, IZFPlayerMediaPlayback playerManager, UIView containerView);
+		ZFPlayerController PlayerWithScrollView (UIScrollView scrollView, ZFPlayerMediaPlayback playerManager, UIView containerView);
 
-		// -(instancetype _Nonnull)initWithScrollView:(UIScrollView * _Nonnull)scrollView playerManager:(id<IZFPlayerMediaPlayback> _Nonnull)playerManager containerView:(UIView * _Nonnull)containerView;
+		// -(instancetype _Nonnull)initWithScrollView:(UIScrollView * _Nonnull)scrollView playerManager:(id<ZFPlayerMediaPlayback> _Nonnull)playerManager containerView:(UIView * _Nonnull)containerView;
 		[Export ("initWithScrollView:playerManager:containerView:")]
-		IntPtr Constructor (UIScrollView scrollView, IZFPlayerMediaPlayback playerManager, UIView containerView);
+		IntPtr Constructor (UIScrollView scrollView, ZFPlayerMediaPlayback playerManager, UIView containerView);
 	}
 
 	// @interface ZFPlayerTimeControl (ZFPlayerController)
-	//[Category]
-	//[BaseType (typeof(ZFPlayerController))]
-    partial interface ZFPlayerController
-    {
+	[Category]
+	[BaseType (typeof(ZFPlayerController))]
+	interface ZFPlayerController_ZFPlayerTimeControl
+	{
 		// @property (readonly, nonatomic) NSTimeInterval currentTime;
 		[Export ("currentTime")]
 		double CurrentTime { get; }
@@ -1108,9 +993,9 @@ namespace Ijkplayer.iOS.UI
 	}
 
 	// @interface ZFPlayerPlaybackControl (ZFPlayerController)
-	//[Category]
-	//[BaseType (typeof(ZFPlayerController))]
-	partial interface ZFPlayerController
+	[Category]
+	[BaseType (typeof(ZFPlayerController))]
+	interface ZFPlayerController_ZFPlayerPlaybackControl
 	{
 		// @property (nonatomic) float volume;
 		[Export ("volume")]
@@ -1124,11 +1009,11 @@ namespace Ijkplayer.iOS.UI
 		[Export ("brightness")]
 		float Brightness { get; set; }
 
-		// @property (nonatomic) NSUrl * _Nonnull assetURL;
+		// @property (nonatomic) NSURL * _Nonnull assetURL;
 		[Export ("assetURL", ArgumentSemantic.Assign)]
 		NSUrl AssetURL { get; set; }
 
-		// @property (copy, nonatomic) NSArray<NSUrl *> * _Nullable assetURLs;
+		// @property (copy, nonatomic) NSArray<NSURL *> * _Nullable assetURLs;
 		[NullAllowed, Export ("assetURLs", ArgumentSemantic.Copy)]
 		NSUrl[] AssetURLs { get; set; }
 
@@ -1160,41 +1045,41 @@ namespace Ijkplayer.iOS.UI
 		[Export ("customAudioSession")]
 		bool CustomAudioSession { get; set; }
 
-		// @property (copy, nonatomic) void (^ _Nullable)(id<ZFPlayerMediaPlayback> _Nonnull, NSUrl * _Nonnull) playerPrepareToPlay;
+		// @property (copy, nonatomic) void (^ _Nullable)(id<ZFPlayerMediaPlayback> _Nonnull, NSURL * _Nonnull) playerPrepareToPlay;
 		[NullAllowed, Export ("playerPrepareToPlay", ArgumentSemantic.Copy)]
-		Action<IZFPlayerMediaPlayback, NSUrl> PlayerPrepareToPlay { get; set; }
+		Action<ZFPlayerMediaPlayback, NSURL> PlayerPrepareToPlay { get; set; }
 
-		// @property (copy, nonatomic) void (^ _Nullable)(id<ZFPlayerMediaPlayback> _Nonnull, NSUrl * _Nonnull) playerReadyToPlay;
+		// @property (copy, nonatomic) void (^ _Nullable)(id<ZFPlayerMediaPlayback> _Nonnull, NSURL * _Nonnull) playerReadyToPlay;
 		[NullAllowed, Export ("playerReadyToPlay", ArgumentSemantic.Copy)]
-		Action<IZFPlayerMediaPlayback, NSUrl> PlayerReadyToPlay { get; set; }
+		Action<ZFPlayerMediaPlayback, NSURL> PlayerReadyToPlay { get; set; }
 
 		// @property (copy, nonatomic) void (^ _Nullable)(id<ZFPlayerMediaPlayback> _Nonnull, NSTimeInterval, NSTimeInterval) playerPlayTimeChanged;
 		[NullAllowed, Export ("playerPlayTimeChanged", ArgumentSemantic.Copy)]
-		Action<IZFPlayerMediaPlayback, double, double> PlayerPlayTimeChanged { get; set; }
+		Action<ZFPlayerMediaPlayback, double, double> PlayerPlayTimeChanged { get; set; }
 
 		// @property (copy, nonatomic) void (^ _Nullable)(id<ZFPlayerMediaPlayback> _Nonnull, NSTimeInterval) playerBufferTimeChanged;
 		[NullAllowed, Export ("playerBufferTimeChanged", ArgumentSemantic.Copy)]
-		Action<IZFPlayerMediaPlayback, double> PlayerBufferTimeChanged { get; set; }
+		Action<ZFPlayerMediaPlayback, double> PlayerBufferTimeChanged { get; set; }
 
 		// @property (copy, nonatomic) void (^ _Nullable)(id<ZFPlayerMediaPlayback> _Nonnull, ZFPlayerPlaybackState) playerPlayStateChanged;
 		[NullAllowed, Export ("playerPlayStateChanged", ArgumentSemantic.Copy)]
-		Action<IZFPlayerMediaPlayback, ZFPlayerPlaybackState> PlayerPlayStateChanged { get; set; }
+		Action<ZFPlayerMediaPlayback, ZFPlayerPlaybackState> PlayerPlayStateChanged { get; set; }
 
 		// @property (copy, nonatomic) void (^ _Nullable)(id<ZFPlayerMediaPlayback> _Nonnull, ZFPlayerLoadState) playerLoadStateChanged;
 		[NullAllowed, Export ("playerLoadStateChanged", ArgumentSemantic.Copy)]
-		Action<IZFPlayerMediaPlayback, ZFPlayerLoadState> PlayerLoadStateChanged { get; set; }
+		Action<ZFPlayerMediaPlayback, ZFPlayerLoadState> PlayerLoadStateChanged { get; set; }
 
 		// @property (copy, nonatomic) void (^ _Nullable)(id<ZFPlayerMediaPlayback> _Nonnull, id _Nonnull) playerPlayFailed;
 		[NullAllowed, Export ("playerPlayFailed", ArgumentSemantic.Copy)]
-		Action<IZFPlayerMediaPlayback, NSObject> PlayerPlayFailed { get; set; }
+		Action<ZFPlayerMediaPlayback, NSObject> PlayerPlayFailed { get; set; }
 
 		// @property (copy, nonatomic) void (^ _Nullable)(id<ZFPlayerMediaPlayback> _Nonnull) playerDidToEnd;
 		[NullAllowed, Export ("playerDidToEnd", ArgumentSemantic.Copy)]
-		Action<IZFPlayerMediaPlayback> PlayerDidToEnd { get; set; }
+		Action<ZFPlayerMediaPlayback> PlayerDidToEnd { get; set; }
 
 		// @property (copy, nonatomic) void (^ _Nullable)(id<ZFPlayerMediaPlayback> _Nonnull, CGSize) presentationSizeChanged;
 		[NullAllowed, Export ("presentationSizeChanged", ArgumentSemantic.Copy)]
-		Action<IZFPlayerMediaPlayback, CGSize> PresentationSizeChanged { get; set; }
+		Action<ZFPlayerMediaPlayback, CGSize> PresentationSizeChanged { get; set; }
 
 		// -(void)playTheNext;
 		[Export ("playTheNext")]
@@ -1237,10 +1122,10 @@ namespace Ijkplayer.iOS.UI
 		void StopCurrentPlayingCell ();
 	}
 
-    // @interface ZFPlayerOrientationRotation (ZFPlayerController)
-    //[Category]
-    //[BaseType (typeof(ZFPlayerController))]
-    partial interface ZFPlayerController//_ZFPlayerOrientationRotation
+	// @interface ZFPlayerOrientationRotation (ZFPlayerController)
+	[Category]
+	[BaseType (typeof(ZFPlayerController))]
+	interface ZFPlayerController_ZFPlayerOrientationRotation
 	{
 		// @property (readonly, nonatomic) ZFOrientationObserver * _Nonnull orientationObserver;
 		[Export ("orientationObserver")]
@@ -1303,10 +1188,10 @@ namespace Ijkplayer.iOS.UI
 		void EnterFullScreen (bool fullScreen, bool animated);
 	}
 
-    // @interface ZFPlayerViewGesture (ZFPlayerController)
-    //[Category]
-    //[BaseType (typeof(ZFPlayerController))]
-    partial interface ZFPlayerController//_ZFPlayerViewGesture
+	// @interface ZFPlayerViewGesture (ZFPlayerController)
+	[Category]
+	[BaseType (typeof(ZFPlayerController))]
+	interface ZFPlayerController_ZFPlayerViewGesture
 	{
 		// @property (readonly, nonatomic) ZFPlayerGestureControl * _Nonnull gestureControl;
 		[Export ("gestureControl")]
@@ -1321,10 +1206,10 @@ namespace Ijkplayer.iOS.UI
 		ZFPlayerDisablePanMovingDirection DisablePanMovingDirection { get; set; }
 	}
 
-    // @interface ZFPlayerScrollView (ZFPlayerController)
-    //[Category]
-    //[BaseType (typeof(ZFPlayerController))]
-    partial interface ZFPlayerController//_ZFPlayerScrollView
+	// @interface ZFPlayerScrollView (ZFPlayerController)
+	[Category]
+	[BaseType (typeof(ZFPlayerController))]
+	interface ZFPlayerController_ZFPlayerScrollView
 	{
 		// @property (readonly, nonatomic) UIScrollView * _Nullable scrollView;
 		[NullAllowed, Export ("scrollView")]
@@ -1358,9 +1243,9 @@ namespace Ijkplayer.iOS.UI
 		[Export ("playerApperaPercent")]
 		nfloat PlayerApperaPercent { get; set; }
 
-		// @property (copy, nonatomic) NSArray<NSArray<NSUrl *> *> * _Nullable sectionAssetURLs;
+		// @property (copy, nonatomic) NSArray<NSArray<NSURL *> *> * _Nullable sectionAssetURLs;
 		[NullAllowed, Export ("sectionAssetURLs", ArgumentSemantic.Copy)]
-		NSArray<NSUrl>[] SectionAssetURLs { get; set; }
+		NSArray<NSURL>[] SectionAssetURLs { get; set; }
 
 		// @property (copy, nonatomic) void (^ _Nullable)(NSIndexPath * _Nonnull, CGFloat) zf_playerAppearingInScrollView;
 		[NullAllowed, Export ("zf_playerAppearingInScrollView", ArgumentSemantic.Copy)]
@@ -1394,7 +1279,7 @@ namespace Ijkplayer.iOS.UI
 		[Export ("playTheIndexPath:scrollToTop:")]
 		void PlayTheIndexPath (NSIndexPath indexPath, bool scrollToTop);
 
-		// -(void)playTheIndexPath:(NSIndexPath * _Nonnull)indexPath assetURL:(NSUrl * _Nonnull)assetURL scrollToTop:(BOOL)scrollToTop;
+		// -(void)playTheIndexPath:(NSIndexPath * _Nonnull)indexPath assetURL:(NSURL * _Nonnull)assetURL scrollToTop:(BOOL)scrollToTop;
 		[Export ("playTheIndexPath:assetURL:scrollToTop:")]
 		void PlayTheIndexPath (NSIndexPath indexPath, NSUrl assetURL, bool scrollToTop);
 
@@ -1404,9 +1289,9 @@ namespace Ijkplayer.iOS.UI
 	}
 
 	// @interface ZFPlayerDeprecated (ZFPlayerController)
-	//[Category]
-	//[BaseType (typeof(ZFPlayerController))]
-    partial interface ZFPlayerController//_ZFPlayerDeprecated
+	[Category]
+	[BaseType (typeof(ZFPlayerController))]
+	interface ZFPlayerController_ZFPlayerDeprecated
 	{
 		// -(void)updateScrollViewPlayerToCell __attribute__((deprecated("use `addPlayerViewToCell:` instead.")));
 		[Export ("updateScrollViewPlayerToCell")]
@@ -1417,9 +1302,8 @@ namespace Ijkplayer.iOS.UI
 		void UpdateNoramlPlayerWithContainerView (UIView containerView);
 	}
 
-    partial interface IZFSliderViewDelegate { }
-    // @protocol ZFSliderViewDelegate <NSObject>
-    [Protocol, Model]
+	// @protocol ZFSliderViewDelegate <NSObject>
+	[Protocol, Model]
 	[BaseType (typeof(NSObject))]
 	interface ZFSliderViewDelegate
 	{
@@ -1644,7 +1528,7 @@ namespace Ijkplayer.iOS.UI
 
 		// -(void)sliderValueChanged:(CGFloat)value currentTimeString:(NSString * _Nonnull)timeString;
 		[Export ("sliderValueChanged:currentTimeString:")]
-		void SliderValueChanged_currentTimeString(nfloat value, string timeString);
+		void SliderValueChanged (nfloat value, string timeString);
 
 		// -(void)sliderChangeEnded;
 		[Export ("sliderChangeEnded")]
@@ -1688,8 +1572,8 @@ namespace Ijkplayer.iOS.UI
 		void StopAnimating ();
 	}
 
-	//[Static]
-	//[Verify (ConstantsInterfaceAssociation)]
+	[Static]
+	[Verify (ConstantsInterfaceAssociation)]
 	partial interface Constants
 	{
 		// extern NSString *const ZFDownloadNetworkSpeedNotificationKey;
@@ -1726,18 +1610,18 @@ namespace Ijkplayer.iOS.UI
 		void StopNetworkSpeedMonitor ();
 	}
 
-	//[Static]
-	//[Verify (ConstantsInterfaceAssociation)]
-	//partial interface Constants
-	//{
-	//	// extern double ZFPlayerVersionNumber;
-	//	[Field ("ZFPlayerVersionNumber", "__Internal")]
-	//	double ZFPlayerVersionNumber { get; }
+	[Static]
+	[Verify (ConstantsInterfaceAssociation)]
+	partial interface Constants
+	{
+		// extern double ZFPlayerVersionNumber;
+		[Field ("ZFPlayerVersionNumber", "__Internal")]
+		double ZFPlayerVersionNumber { get; }
 
-	//	// extern const unsigned char [] ZFPlayerVersionString;
-	//	[Field ("ZFPlayerVersionString", "__Internal")]
-	//	byte[] ZFPlayerVersionString { get; }
-	//}
+		// extern const unsigned char [] ZFPlayerVersionString;
+		[Field ("ZFPlayerVersionString", "__Internal")]
+		byte[] ZFPlayerVersionString { get; }
+	}
 
 	// @interface ZFPortraitControlView : UIView
 	[BaseType (typeof(UIView))]
@@ -1829,7 +1713,7 @@ namespace Ijkplayer.iOS.UI
 
 		// -(void)sliderValueChanged:(CGFloat)value currentTimeString:(NSString * _Nonnull)timeString;
 		[Export ("sliderValueChanged:currentTimeString:")]
-		void SliderValueChanged_currentTimeString(nfloat value, string timeString);
+		void SliderValueChanged (nfloat value, string timeString);
 
 		// -(void)sliderChangeEnded;
 		[Export ("sliderChangeEnded")]
@@ -1859,7 +1743,7 @@ namespace Ijkplayer.iOS.UI
 
 	// @interface ZFPlayerControlView : UIView <ZFPlayerMediaControl>
 	[BaseType (typeof(UIView))]
-	interface ZFPlayerControlView : ZFPlayerMediaControl
+	interface ZFPlayerControlView : IZFPlayerMediaControl
 	{
 		// @property (readonly, nonatomic, strong) ZFPortraitControlView * portraitControlView;
 		[Export ("portraitControlView", ArgumentSemantic.Strong)]
@@ -1986,19 +1870,19 @@ namespace Ijkplayer.iOS.UI
 		// +(BOOL)getLogEnable;
 		[Static]
 		[Export ("getLogEnable")]
-		//[Verify (MethodToProperty)]
+		[Verify (MethodToProperty)]
 		bool LogEnable { get; }
 
 		// +(NSString *)version;
 		[Static]
 		[Export ("version")]
-		//[Verify (MethodToProperty)]
+		[Verify (MethodToProperty)]
 		string Version { get; }
 
 		// +(void)logWithFunction:(const char *)function lineNumber:(int)lineNumber formatString:(NSString *)formatString;
 		[Static]
 		[Export ("logWithFunction:lineNumber:formatString:")]
-		unsafe void LogWithFunction (string function, int lineNumber, string formatString);
+		unsafe void LogWithFunction (sbyte* function, int lineNumber, string formatString);
 	}
 
 	// @interface ZFSmallFloatControlView : UIView
@@ -2053,19 +1937,4 @@ namespace Ijkplayer.iOS.UI
 		[Export ("removeSystemVolumeView")]
 		void RemoveSystemVolumeView ();
 	}
-
-    // TODO: Cannot build when use ZFIJKPlayerManager. Why???
-    // @interface ZFIJKPlayerManager : NSObject <ZFPlayerMediaPlayback>
-    // [BaseType(typeof(NSObject))]
-    // interface ZFIJKPlayerManager : ZFPlayerMediaPlayback
-    // {
-    //     [Export("player")]
-    //     Ijkplayer.iOS.IJKFFMoviePlayerController Player { get; }
-    //
-    //     [Export("options")]
-    //     Ijkplayer.iOS.IJKFFOptions Options { get; }
-    //
-    //     [Export("timeRefreshInterval")]
-    //     double TimeRefreshInterval { get; set; }
-    // }
 }
