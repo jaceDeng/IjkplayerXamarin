@@ -4,7 +4,7 @@
     <!--*-->
     <id>Ijkplayer.Droid.UI</id>
     <!--*-->
-    <version>0.8.8.2</version>
+    <version>0.8.8.3</version>
     <title>Ijkplayer.Droid.UI</title>
     <!--*-->
     <authors>Shuyu Guo</authors>
@@ -16,9 +16,9 @@
 -->
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <!--*-->
-    <description>https://github.com/CarGuo/GSYVideoPlayer xamarin android 绑定Ijkplayer </description>
+    <description>https://github.com/CarGuo/GSYVideoPlayer xamarin android 绑定Ijkplayer  </description>
     <!--*-->
-    <releaseNotes> https://github.com/CarGuo/GSYVideoPlayer xamarin android 绑定Ijkplayer </releaseNotes>
+    <releaseNotes> https://github.com/CarGuo/GSYVideoPlayer xamarin android 绑定Ijkplayer 升级8.1.6</releaseNotes>
     <copyright>
     </copyright>
     <tags>

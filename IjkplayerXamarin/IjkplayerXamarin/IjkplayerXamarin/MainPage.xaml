@@ -6,7 +6,7 @@
 
     <StackLayout>
         <!-- Place new controls here -->
-        <local:MediaPlayer  HeightRequest="300" VerticalOptions="Fill" HorizontalOptions="Fill"   VideoURI=""></local:MediaPlayer>
+        <local:MediaPlayer  HeightRequest="300" VerticalOptions="Fill" HorizontalOptions="Fill"   VideoURI="https://alivc-demo-cms.alicdn.com/video/videoAD.mp4"></local:MediaPlayer>
     </StackLayout>
 
 </ContentPage>
