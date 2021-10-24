@@ -14,7 +14,7 @@
     <AssemblyName>Ijkplayer.Droid.UI</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <AndroidUseLatestPlatformSdk>false</AndroidUseLatestPlatformSdk>
-    <TargetFrameworkVersion>v8.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v11.0.99</TargetFrameworkVersion>
     <AndroidClassParser>class-parse</AndroidClassParser>
     <AndroidCodegenTarget>XAJavaInterop1</AndroidCodegenTarget>
   </PropertyGroup>
@@ -54,6 +54,12 @@
   <ItemGroup>
     <PackageReference Include="Ijkplayer.Droid">
       <Version>0.8.8</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.AndroidX.Annotation">
+      <Version>1.2.0.3</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.AndroidX.AppCompat">
+      <Version>1.3.1.3</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
