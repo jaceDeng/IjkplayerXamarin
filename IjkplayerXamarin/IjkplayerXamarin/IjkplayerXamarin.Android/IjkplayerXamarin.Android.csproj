@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -16,7 +16,7 @@
     <MonoAndroidResourcePrefix>Resources</MonoAndroidResourcePrefix>
     <MonoAndroidAssetsPrefix>Assets</MonoAndroidAssetsPrefix>
     <AndroidUseLatestPlatformSdk>false</AndroidUseLatestPlatformSdk>
-    <TargetFrameworkVersion>v8.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v11.0</TargetFrameworkVersion>
     <AndroidHttpClientHandlerType>Xamarin.Android.Net.AndroidClientHandler</AndroidHttpClientHandlerType>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -49,16 +49,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Ijkplayer.Droid">
-      <Version>0.8.8</Version>
-    </PackageReference>
     <PackageReference Include="Xamarin.Forms" Version="3.4.0.1008975" />
-    <PackageReference Include="Xamarin.Android.Support.Design" Version="27.0.2.1" />
-    <PackageReference Include="Xamarin.Android.Support.v7.AppCompat" Version="27.0.2.1" />
-    <PackageReference Include="Xamarin.Android.Support.v4" Version="27.0.2.1" />
-    <PackageReference Include="Xamarin.Android.Support.v7.CardView" Version="27.0.2.1" />
-    <PackageReference Include="Xamarin.Android.Support.v7.MediaRouter" Version="27.0.2.1" />
-  </ItemGroup>
+    <PackageReference Include="Xamarin.Google.Android.Material" Version="1.0.0-preview01" />
+    <PackageReference Include="Xamarin.AndroidX.AppCompat" Version="1.0.2-preview01" />
+    <PackageReference Include="Xamarin.AndroidX.Legacy.Support.V4" Version="1.0.0-preview01" />
+    <PackageReference Include="Xamarin.AndroidX.CardView" Version="1.0.0-preview01" />
+    <PackageReference Include="Xamarin.AndroidX.MediaRouter" Version="1.0.0-preview01" />
+  <PackageReference Include="Xamarin.AndroidX.Migration" Version="1.0.0-preview03" /></ItemGroup>
   <ItemGroup>
     <Compile Include="MainActivity.cs" />
     <Compile Include="MediaPlayerRender.cs" />
@@ -96,9 +93,9 @@
     <Folder Include="Resources\drawable\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Ijkplayer.Droid.UI\Ijkplayer.Droid.UI.csproj">
-      <Project>{6edd7fbc-9554-46c9-a566-3406d6843baf}</Project>
-      <Name>Ijkplayer.Droid.UI</Name>
+    <ProjectReference Include="..\..\Xamarin.Android.GSYVideoPlayer\Xamarin.Android.GSYVideoPlayer.csproj">
+      <Project>{66605c21-aaa3-447d-81de-143e9599da8a}</Project>
+      <Name>Xamarin.Android.GSYVideoPlayer</Name>
     </ProjectReference>
     <ProjectReference Include="..\IjkplayerXamarin\IjkplayerXamarin.csproj">
       <Project>{5DD7BC67-6D6A-4570-B431-ABB784B2FB8A}</Project>

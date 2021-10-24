@@ -47,7 +47,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Jars\AboutJars.txt" />
     <LibraryProjectZip Include="Jars\gsyVideoPlayer-java-v8.1.6-jitpack.aar" />
     <EmbeddedNativeLibrary Include="libs\arm64-v8a\libijkffmpeg.so" />
     <EmbeddedNativeLibrary Include="libs\arm64-v8a\libijkplayer.so" />
@@ -70,6 +69,17 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedReferenceJar Include="Jars\gsyVideoPlayer-base-v8.1.6-jitpack.jar" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Xamarin.AndroidX.Annotation">
+      <Version>1.2.0.3</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.AndroidX.AppCompat">
+      <Version>1.3.1.3</Version>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedReferenceJar Include="Jars\ijkplayer-java-0.8.8.jar" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.Bindings.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

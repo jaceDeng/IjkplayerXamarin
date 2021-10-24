@@ -36,7 +36,7 @@ namespace IjkplayerXamarin.Droid
                 }
                 if (e.NewElement != null)
                 {
-                    player.SetUp(Element.VideoURI, true, "");
+                    player.SetUp(Element.VideoURI, true, "测试文档");
                   //  player.StartPlayLogic();
 
                     // frameLayout.LayoutParameters = new FrameLayout.LayoutParams( , (int)e.NewElement.Height);

@@ -157,4 +157,9 @@
       <Name>IjkplayerXamarin</Name>
     </ProjectReference>
   </ItemGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties XamarinHotReloadXFormsNugetUpgradeInfoBarIjkplayerXamariniOSHideInfoBar="True" />
+    </VisualStudio>
+  </ProjectExtensions>
 </Project>
