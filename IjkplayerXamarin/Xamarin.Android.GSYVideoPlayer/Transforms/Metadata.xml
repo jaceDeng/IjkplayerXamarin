@@ -1,0 +1,44 @@
+﻿<metadata>
+  <!--
+  This sample removes the class: android.support.v4.content.AsyncTaskLoader.LoadTask:
+  <remove-node path="/api/package[@name='android.support.v4.content']/class[@name='AsyncTaskLoader.LoadTask']" />
+  
+  This sample removes the method: android.support.v4.content.CursorLoader.loadInBackground:
+  <remove-node path="/api/package[@name='android.support.v4.content']/class[@name='CursorLoader']/method[@name='loadInBackground']" />
+  -->
+  <attr path="/api/package[@name='com.shuyu.gsyvideoplayer.listener']/interface[@name='GSYMediaPlayerListener']/method[@name='onVideoResume' and count(parameter)=1 and parameter[1][@type='boolean']]"
+        name="managedName"
+        >OnVideoResumeBoolean</attr>
+  <attr path="/api/package[@name='com.shuyu.gsyvideoplayer.video.base']/class[@name='GSYVideoView']/method[@name='isShowPauseCover' and count(parameter)=0]"
+        
+        name="propertyName"></attr>
+
+  <attr path="/api/package[@name='com.shuyu.gsyvideoplayer.video.base']/class[@name='GSYVideoView']/method[@name='onVideoResume' and count(parameter)=1 and parameter[1][@type='boolean']]"
+        name="managedName" >OnVideoResumeBoolean</attr>
+  <attr path="/api/package[@name='com.shuyu.gsyvideoplayer.render.view.listener']/interface[@name='GSYVideoGLRenderErrorListener']/method[@name='onError']/parameter[2]"
+      name="name"  >error</attr>
+  <remove-node path="/api/package[@name='moe.codeest.enviews']/class[@name='ENPlayView']"></remove-node>
+  <remove-node path="/api/package[@name='moe.codeest.enviews']/class[@name='ENDownloadView']"></remove-node>
+  <!--<add-node  path="/api/package[@name='com.shuyu.gsyvideoplayer']">
+    <class abstract="true" deprecated="not deprecated" extends="java.lang.Object" extends-generic-aware="java.lang.Object" jni-extends="Ljava/lang/Object;" final="false" name="GSYVideoBaseManager" static="false" visibility="public" jni-signature="Lcom/shuyu/gsyvideoplayer/GSYVideoBaseManager;">
+
+    </class>
+
+  </add-node>
+  <add-node  path="/api/package[@name='com.shuyu.gsyvideoplayer']">
+
+    <class abstract="false" deprecated="not deprecated"  name="GSYVideoManager" extends="com.shuyu.gsyvideoplayer.GSYVideoBaseManager" jni-extends="Lcom/shuyu/gsyvideoplayer/GSYVideoBaseManager;" final="false"  static="false" visibility="public" jni-signature="Lcom/shuyu/gsyvideoplayer/GSYVideoManager;" >
+      <method name="instance" static="true" visibility="public"  return="com.shuyu.gsyvideoplayer.GSYVideoManager"  >
+        
+      </method>
+      <field deprecated="not deprecated" final="true" name="SMALL_ID" jni-signature="Ljava/lang/String;" static="true" transient="false" type="java.lang.String" type-generic-aware="java.lang.String"    visibility="public" volatile="false">
+      </field>
+    </class>
+  </add-node>
+  <add-node  path="/api/package[@name='com.shuyu.gsyvideoplayer']">
+
+    <class abstract="false" deprecated="not deprecated"  name="GSYVideoADManager" extends="com.shuyu.gsyvideoplayer.GSYVideoBaseManager" jni-extends="Lcom/shuyu/gsyvideoplayer/GSYVideoBaseManager;" final="false"  static="false" visibility="public" jni-signature="Lcom/shuyu/gsyvideoplayer/GSYVideoADManager;" >
+
+    </class>
+  </add-node>-->
+</metadata>
