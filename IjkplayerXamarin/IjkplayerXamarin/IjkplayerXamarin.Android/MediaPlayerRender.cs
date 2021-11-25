@@ -16,6 +16,7 @@ namespace IjkplayerXamarin.Droid
 {
     public class MediaPlayerRender : ViewRenderer<MediaPlayer, StandardGSYVideoPlayer>
     {
+        Com.Shuyu.Gsyvideoplayer.Utils.OrientationUtils orientationUtils;
         public MediaPlayerRender(Context context) : base(context)
         {
 
@@ -26,7 +27,7 @@ namespace IjkplayerXamarin.Droid
             if (Control == null)
             {
                 var player = new StandardGSYVideoPlayer(Context);
-
+                orientationUtils = new Com.Shuyu.Gsyvideoplayer.Utils.OrientationUtils(Context as Activity, player);
                 //设置返回按键功能
 
                 if (e.OldElement != null)
@@ -36,6 +37,19 @@ namespace IjkplayerXamarin.Droid
                 }
                 if (e.NewElement != null)
                 {
+                    player.FullscreenButton.Click += (sender, ee) =>
+                    {
+                       
+                        orientationUtils.ResolveByClick();
+                        player.StartWindowFullscreen(Context as Activity, true, true);
+                    };
+
+                    player.BackButton.Click += (sender, ee) =>
+                    {
+                        player.GSYVideoManager.Stop();
+                        
+                    };
+
                     player.SetUp(Element.VideoURI, true, "测试文档");
                   //  player.StartPlayLogic();
 

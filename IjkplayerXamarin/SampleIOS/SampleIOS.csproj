@@ -139,6 +139,8 @@
       <Project>{e40b1664-ff73-43de-91d3-41cf4957a2e9}</Project>
       <Name>Ijkplayer.iOS.UI</Name>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <IsAppExtension>false</IsAppExtension>
+      <IsWatchApp>false</IsWatchApp>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />

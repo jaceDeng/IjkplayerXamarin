@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -55,7 +55,8 @@
     <PackageReference Include="Xamarin.AndroidX.Legacy.Support.V4" Version="1.0.0-preview01" />
     <PackageReference Include="Xamarin.AndroidX.CardView" Version="1.0.0-preview01" />
     <PackageReference Include="Xamarin.AndroidX.MediaRouter" Version="1.0.0-preview01" />
-  <PackageReference Include="Xamarin.AndroidX.Migration" Version="1.0.0-preview03" /></ItemGroup>
+    <PackageReference Include="Xamarin.AndroidX.Migration" Version="1.0.0-preview03" />
+  </ItemGroup>
   <ItemGroup>
     <Compile Include="MainActivity.cs" />
     <Compile Include="MediaPlayerRender.cs" />
@@ -93,9 +94,13 @@
     <Folder Include="Resources\drawable\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Xamarin.Android.GSYVideoPlayer\Xamarin.Android.GSYVideoPlayer.csproj">
-      <Project>{66605c21-aaa3-447d-81de-143e9599da8a}</Project>
-      <Name>Xamarin.Android.GSYVideoPlayer</Name>
+    <ProjectReference Include="..\..\Ijkplayer.Droid.UI\Ijkplayer.Droid.UI.csproj">
+      <Project>{6edd7fbc-9554-46c9-a566-3406d6843baf}</Project>
+      <Name>Ijkplayer.Droid.UI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Ijkplayer.Droid\Ijkplayer.Droid.csproj">
+      <Project>{852c5fb3-6f25-4b5b-9ce5-110021ed70c2}</Project>
+      <Name>Ijkplayer.Droid</Name>
     </ProjectReference>
     <ProjectReference Include="..\IjkplayerXamarin\IjkplayerXamarin.csproj">
       <Project>{5DD7BC67-6D6A-4570-B431-ABB784B2FB8A}</Project>
