@@ -11,5 +11,13 @@ namespace IjkplayerXamarin
     public class MediaPlayer : View
     {
         public string VideoURI { get; set; }
+
+
+        public Action PlayAction { get; set; }
+
+        public void Play()
+        {
+            PlayAction?.Invoke(); 
+        }
     }
 }

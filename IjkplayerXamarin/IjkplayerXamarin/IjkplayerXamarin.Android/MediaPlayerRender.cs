@@ -37,9 +37,14 @@ namespace IjkplayerXamarin.Droid
                 }
                 if (e.NewElement != null)
                 {
+                    Element.PlayAction = () =>
+                    {
+                        player.StartPlayLogic();
+
+                    };
                     player.FullscreenButton.Click += (sender, ee) =>
                     {
-                       
+
                         orientationUtils.ResolveByClick();
                         player.StartWindowFullscreen(Context as Activity, true, true);
                     };
@@ -47,11 +52,11 @@ namespace IjkplayerXamarin.Droid
                     player.BackButton.Click += (sender, ee) =>
                     {
                         player.GSYVideoManager.Stop();
-                        
+
                     };
 
                     player.SetUp(Element.VideoURI, true, "测试文档");
-                  //  player.StartPlayLogic();
+                    //  player.StartPlayLogic();
 
                     // frameLayout.LayoutParameters = new FrameLayout.LayoutParams( , (int)e.NewElement.Height);
                     // frameLayout.Click += FrameLayout_Touch;
